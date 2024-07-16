@@ -1,0 +1,8 @@
+    Flask
+    Flask-Bcrypt
+    Flask-JWT-Extended
+    PyMySQL    
+    boto3
+    python-dotenv
+
+# pip install -r requirements.txt
