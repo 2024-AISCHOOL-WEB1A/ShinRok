@@ -7,7 +7,7 @@ const file_Path = path.join(__dirname, "")
 
 // 메인
 router.get('/', (req,res) => {
-    res.render('index')
+    res.render('main')
 })
 
 //           
