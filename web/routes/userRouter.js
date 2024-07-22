@@ -6,9 +6,7 @@ const conn = require('../config/db')
 
 
 
-router.get('/login',(req,res)=> {
-    res.render('login')
-})
+
 
 
 module.exports = router
