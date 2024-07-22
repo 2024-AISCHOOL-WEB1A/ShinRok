@@ -9,6 +9,12 @@ const mainRouter = require('./routes/mainRouter')
 const userRouter = require('./routes/userRouter')
 const boardRouter = require('./routes/boardRouter')
 
+// 암튼 필요함
+app.use('/public', express.static('public'));
+app.use('/config', express.static('config'));
+app.use('/images', express.static('images'));
+app.use('/assets', express.static('assets'));
+
 // body-parser 미들웨어 설정(POST허용)
 app.use(express.urlencoded({extended:true}))
 // app.use(bodyParser.json())

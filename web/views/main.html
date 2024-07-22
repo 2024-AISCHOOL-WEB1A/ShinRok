@@ -1,24 +1,133 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+<!DOCTYPE HTML>
 
-    <h1>테스트</h1>
-    <h1>테스트</h1>
-    <h1>테스트</h1>
-    <h1>테스트</h1>
-    <h1>테스트</h1>
-    <h1>테스트</h1>
-    <h1>테스트</h1>
-    <h1>테스트</h1>
-    <h1>테스트</h1>
-    <h1>테스트</h1>
-    <h1>테스트</h1>
-    <h1>테스트</h1>
+<html>
+	<head>
+		<title>🌱Murok무럭🐛 -ShinRok</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="../public/main.css" />
+	</head>
+	<body class="is-preload">
 
-</body>
+		<!-- 페이지 전체묶음 -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+
+							<!-- Header -->
+								<header id="header">
+									<a href="index.html" class="logo"><img src="/images/plant.png" alt="무럭이"><strong>MURUK</strong> by ShinRok</a>
+									<ul class="icons">
+										<li><a href="#"> 알림 or 공지사항 </a></li>
+										<li><a href="#">마이페이지</a></li>
+										<li><a href="#"><img src="/images/kakaotalk.png" alt="kakaoicon"></a></li>
+									</ul>
+								</header>
+							
+							
+							<!-- 가장 상단의 배너 -->
+								<section id="banner">
+									<div class="content">
+										<header>
+											<h1>Hi, everyone, <br/></h1>
+											<h3>Here's best Posting</h3>
+											<p>여기는 인기글 or 무럭이 소개</p>
+										</header>
+										<!-- <p>안에 글 넣고 싶으면 여기에 작성</p> -->
+										<ul class="actions">
+											<li><a href="#" class="button big">게시글 보러가기 →→</a></li>
+										</ul>
+									</div>
+									<span class="image object">
+										<img src="images/logo_muruk.png" alt="" />
+									</span>
+								</section>
+
+							<!-- 게시글 작성 폼  -->
+							<section>
+								<form>
+									<input type="text" placeholder="회원님, 커뮤니티에 글을 작성하고 함께 소통해보세요!">
+									<button>글쓰기</button>
+								</form>
+							</section>
+
+							<section>
+								<header class="major">
+									<a href="/freePost"><h3>자유게시판</h3></a>
+									<a href="/bragPost"><h3>자랑게시판</h3></a>
+								</header>
+								{% block content %}
+    							{% endblock %}
+							</section>
+
+						</div>
+					</div> 
+
+				<!-- 사이드바 부분 -->
+					<div id="sidebar">
+						<div class="inner">
+
+							<!-- Search -->
+								<section id="search" class="alt">
+									<form method="post" action="#">
+										<input type="text" name="query" id="query" placeholder="Content Search" />
+									</form>
+								</section>
+
+							<!-- Menu -->
+								<nav id="menu">
+									<header class="major">
+										<h2>Menu</h2>
+									</header>
+									<ul>
+										<li><a href="index.html">Mainpage</a></li>
+										<li>
+											<span class="opener">게시판</span>
+											<ul>
+												<li><a href="#">질문게시판</a></li>
+												<li><a href="#">자랑게시판</a></li>
+												<li><a href="#">자유게시판</a></li>
+											</ul>
+										</li>
+										<li><a href="#">Diary</a></li>
+										<li><a href="#">Plant BOOK</a></li>
+										<li><a href="#">병충해 진단🦠</a></li>
+										<li><a href="#">Another Site</a></li>
+									</ul>
+								</nav>
+
+
+							 	<!-- Footer 부분 (메뉴바 안에 설명?) -->
+								<section>
+									<header class="major">
+										<h2>ShinRok</h2>
+									</header>
+									<p>초보 식집사들을 위해 어려운 병충해 작업의 지식을 전달하고 그들의 식물을 자랑할 수 있는 커뮤니티 사이트를 개발</p>
+									<ul class="contact">
+										<li class="icon solid fa-envelope"><a href="#">ShinRok@gmail.com</a></li>
+										<li class="icon solid fa-phone">(062) 201-0413</li>
+										<li class="icon solid fa-home">광주광역시 동구 제봉로 92<br />
+										인공지능사관학교, <br>상담시간: 10~17시 (월~금)</li>
+									</ul>
+								</section>
+
+							<!-- Footer -->
+								<footer id="footer">
+									<p class="copyright">&copy; Untitled. All rights reserved. </p>
+								</footer>
+
+						</div>
+					</div>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="../assets/js/jquery.min.js"></script>
+			<script src="../assets/js/browser.min.js"></script>
+			<script src="../assets/js/breakpoints.min.js"></script>
+			<script src="../assets/js/main.js"></script>
+
+	</body>
 </html>
