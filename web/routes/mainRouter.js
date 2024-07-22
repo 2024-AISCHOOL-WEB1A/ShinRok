@@ -19,5 +19,7 @@ router.get('/freePost',(req,res)=> {
 router.get('/bragPost',(req,res)=> {
     res.render('bragPost')
 })
-
+router.get('/login',(req,res)=> {
+    res.render('login')
+})
 module.exports = router
