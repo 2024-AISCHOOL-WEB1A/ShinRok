@@ -10,18 +10,5 @@ router.get('/', (req,res) => {
     res.render('main')
 })
 
-// 메인페이지에 자유게시판을 불러옴
-router.get('/freePost',(req,res)=> {
-    res.render('freePost')
-})
-
-// 메인페이지에 자랑게시판을 불러옴
-router.get('/bragPost',(req,res)=> {
-    res.render('bragPost')
-})
-
-router.get('/login',(req,res)=> {
-    res.render('login')
-})
 
 module.exports = router
