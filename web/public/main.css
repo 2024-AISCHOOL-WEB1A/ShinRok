@@ -1,12 +1,23 @@
 @import url(fontawesome-all.min.css);
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600,400italic,600italic|Roboto+Slab:400,700");
+/* @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600,400italic,600italic|Roboto+Slab:400,700"); */
+@import url('http://fonts.googleapis.com/earlyaccess/nanumgothic.css');
 
+@font-face {
+  font-family: 'GmarketSansMedium';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  font-family: 'nanumgothic';
+}
 /* Basic */
 @-ms-viewport {
   width: device-width; }
 
 body {
-  -ms-overflow-style: scrollbar; }
+  -ms-overflow-style: 'scrollbar'; }
 
 @media screen and (max-width: 480px) {
   html, body {
@@ -33,7 +44,6 @@ body {
 /* Type */
 body, input, select, textarea {
   color: #7f888f;
-  font-family: "Open Sans", sans-serif;
   font-size: 13pt;
   font-weight: 400;
   line-height: 1.65; }
@@ -52,7 +62,8 @@ a {
   -webkit-transition: color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
   -ms-transition: color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
   transition: color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
-  border-bottom: dotted 1px;
+  /* border-bottom: dotted 1px; */
+
   color: #f56a6a;
   text-decoration: none; }
   a:hover {
@@ -74,7 +85,7 @@ p {
 
 h1, h2, h3, h4, h5, h6 {
   color: #3d4449;
-  font-family: "Roboto Slab", serif;
+  text-align: center;
   font-weight: 700;
   line-height: 1.5;
   margin: 0 0 1em 0; }
@@ -113,9 +124,17 @@ section.special, article.special {
 header.major > :last-child {
   border-bottom: solid 3px #f56a6a;
   display: inline-block;
-  margin: 0 0 2em 0;
+  margin: 10% 0 2em 0;
   padding: 0 0.75em 0.5em 0; }
 
+.sideList li a {
+  font-family: 'GmarketSansMedium';
+  color: rgba(210, 215, 217, 0.75); 
+}
+.sideList li span.opener{
+  font-family: 'GmarketSansMedium';
+  color: rgba(210, 215, 217, 0.75); 
+}
 
 /* input 받을 폼 디자인 */
 input[type="text"],
@@ -250,6 +269,7 @@ ul.actions {
   display: -webkit-flex;
   display: -ms-flex;
   display: flex;
+  justify-content: flex-end;
   cursor: default;
   list-style: none;
   margin-left: -1em;
@@ -295,6 +315,8 @@ ul.actions {
 
 /* Icons */
 ul.icons {
+  display: flex;
+  justify-content: right;
   cursor: default;
   list-style: none;
   padding-left: 0; }
@@ -308,13 +330,14 @@ ul.icons {
       ul.icons li .icon:before {
         font-size: 1.25em; }
 
+
 /* Contact */
 ul.contact {
   list-style: none;
   padding: 0; }
   ul.contact li {
     text-decoration: none;
-    border-top: solid 1px rgba(210, 215, 217, 0.75);
+    /* border-top: solid 1px rgba(210, 215, 217, 0.75); */
     margin: 1.5em 0 0 0;
     padding: 1.5em 0 0 3em;
     position: relative; }
@@ -325,11 +348,11 @@ ul.contact {
       font-style: normal;
       font-variant: normal;
       text-rendering: auto;
-      line-height: 1;
+      /* line-height: 1; */
       text-transform: none !important;
-      font-family: 'Font Awesome 5 Free';
+      font-family: 'nanumgothic';
       font-weight: 400; }
-    ul.contact li:before {
+    /* ul.contact li:before {
       color: #f56a6a;
       display: inline-block;
       font-size: 1.5em;
@@ -339,7 +362,7 @@ ul.contact {
       position: absolute;
       text-align: center;
       top: 1em;
-      width: 1.5em; }
+      width: 1.5em; } */
     ul.contact li:first-child {
       border-top: 0;
       margin-top: 0;
@@ -349,6 +372,9 @@ ul.contact {
     ul.contact li a {
       color: inherit; }
 
+.contact p {
+  display: flex;
+}
 
 /* Button */
 input[type="submit"],
@@ -371,7 +397,6 @@ button,
   color: #f56a6a !important;
   cursor: pointer;
   display: inline-block;
-  font-family: "Roboto Slab", serif;
   font-size: 0.8em;
   font-weight: 700;
   height: 3.5em;
@@ -380,6 +405,7 @@ button,
   padding: 0 2.25em;
   text-align: center;
   text-decoration: none;
+  font-family: 'GmarketSansMedium';
   text-transform: uppercase;
   white-space: nowrap; }
   input[type="submit"]:hover,
@@ -492,6 +518,18 @@ button,
       .posts article .image img {
         display: block;
         width: 100%; }
+
+/* 게시판 목록 */
+.postList{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  /* border-bottom: solid 5px #f56a6a; */
+  /* border-bottom-color: #f56a6a */
+}
+.postList a {
+  border-bottom: solid 5px #f56a6a;
+}
 
 
 /* Wrapper */
@@ -681,10 +719,17 @@ button,
   #header .logo {
     border-bottom: 0;
     color: inherit;
-    font-family: "Roboto Slab", serif;
+    font-family: 'GmarketSansMedium';
     font-size: 1.125em; }
   #header .icons {
     text-align: right; }
+  
+  #header ul.icons a{
+    font-family: 'GmarketSansMedium';
+  }
+
+ 
+
   @media screen and (max-width: 1680px) {
     #header {
       padding-top: 5em; } }
@@ -745,6 +790,20 @@ button,
       object-position: center; 
     }
 
+#banner .content .murukLogo{
+  width: 100%;
+  height: auto;
+  /* 이미지 최대 너비 지정 */
+  max-width: 1200px;
+  padding-bottom: 1%;
+}
+@media (max-width: 786px){
+  .murukLogo{
+    /* 화면 너비가 768px 이하인 경우 이미지 최대 너비를 500px로 조정 */
+    max-width: 500px;
+  }
+}
+
 
 /* Footer */
 #footer .copyright {
@@ -760,7 +819,7 @@ button,
   -ms-user-select: none;
   user-select: none;
   color: #3d4449;
-  font-family: "Roboto Slab", serif;
+  font-family: 'Cafe24Ssurround';
   font-weight: 400;
   letter-spacing: 0.075em;
   list-style: none;
@@ -819,6 +878,7 @@ button,
   margin: 0.5em 0 0 0;
   padding: 0.5em 0 0 0; }
   #menu > ul > li > ul {
+    font-family: 'Cafe24Ssurround';
     color: #9fa3a6;
     display: none;
     margin: 0.5em 0 1.5em 0;

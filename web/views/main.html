@@ -5,6 +5,9 @@
 		<title>🌱Murok무럭🐛 -ShinRok</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<script src="https://kit.fontawesome.com/71a327e855.js" crossorigin="anonymous"></script>
+		<!-- font awesome 오류 났을때 fas / fab (brand 이미지일 경우) 앞에 추가하여 해결 _버전 오류 -->
+
 		<link rel="stylesheet" href="../public/main.css" />
 	</head>
 	<body class="is-preload">
@@ -20,9 +23,11 @@
 								<header id="header">
 									<a href="index.html" class="logo"><img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/test/KakaoTalk_20240722_163631321_07.png" alt="무럭이"><strong>MURUK</strong> by ShinRok</a>
 									<ul class="icons">
-										<li><a href="#"> 알림 or 공지사항 </a></li>
+										<li><a href="#">공지사항 </a></li>
 										<li><a href="#">마이페이지</a></li>
-										<li><a href="/user/login"><img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/test/KakaoTalk_20240722_163631321_05.png" alt="kakaoicon"></a></li>
+										<div class="kakaoLogin">
+											<a href="/user/login"><img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/test/kakao_login_small.png"></a>
+										</div>
 									</ul>
 								</header>
 							
@@ -31,32 +36,22 @@
 								<section id="banner">
 									<div class="content">
 										<header>
-											<h1>Hi, everyone, <br/></h1>
-											<h3>Here's best Posting</h3>
-											<p>여기는 인기글 or 무럭이 소개</p>
+											<!-- <h2>오늘의 식물 <br/></h2> -->
+											<img class="murukLogo" src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/test/Muruklogo.png" alt="">
 										</header>
-										<!-- <p>안에 글 넣고 싶으면 여기에 작성</p> -->
 										<ul class="actions">
-											<li><a href="#" class="button big">게시글 보러가기 →→</a></li>
+											<li><a href="#" class="button big">자세히 보러가기 <i class="fa-solid fa-right-long"></i></a></li>
 										</ul>
 									</div>
-									<span class="image object">
-										<img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/test/KakaoTalk_20240722_111546767_01.png" alt="" />
-									</span>
 								</section>
 
-							<!-- 게시글 작성 폼  -->
 							<section>
-								<form>
-									<input type="text" placeholder="회원님, 커뮤니티에 글을 작성하고 함께 소통해보세요!">
-									<button>글쓰기</button>
-								</form>
-							</section>
-
-							<section>
-								<header class="major">
-									<a href="/board/freePost"><h3>자유게시판</h3></a>
-									<a href="/board/bragPost"><h3>자랑게시판</h3></a>
+								<header class="major, postList">
+									<a href="/board/bragPost"><i class="fa-regular fa-face-smile"></i><h3>자랑하기</h3></a>
+									<a href="/board/freePost"><i class="fa-regular fa-pen-to-square"></i><h3>자유게시판</h3></a>
+									<a href="#"><i class="fa-regular fa-heart"></i> <h3>인기글</h3></a>
+									<a href="#"><i class="fa-regular fa-bell"></i> <h3>공지사항</h3></a>
+									<a href="#"><i class="fa-regular fa-comments"></i> <h3>질문게시판</h3></a>
 								</header>
 								{% block content %}
     							{% endblock %}
@@ -70,25 +65,25 @@
 						<div class="inner">
 
 							<!-- Search -->
-								<section id="search" class="alt">
+								<!-- <section id="search" class="alt">
 									<form method="post" action="#">
 										<input type="text" name="query" id="query" placeholder="Content Search" />
 									</form>
-								</section>
+								</section> -->
 
 							<!-- Menu -->
 								<nav id="menu">
 									<header class="major">
 										<h2>Menu</h2>
 									</header>
-									<ul>
-										<li><a href="index.html">Mainpage</a></li>
+									<ul class="sideList">
+										<li><a href="./main.html">Mainpage</a></li>
 										<li>
 											<span class="opener">게시판</span>
 											<ul>
+												<li><a href="./freePost.html">자유게시판</a></li>
+												<li><a href="./bragPost.html">자랑게시판</a></li>
 												<li><a href="#">질문게시판</a></li>
-												<li><a href="#">자랑게시판</a></li>
-												<li><a href="#">자유게시판</a></li>
 											</ul>
 										</li>
 										<li><a href="#">Diary</a></li>
@@ -104,13 +99,13 @@
 									<header class="major">
 										<h2>ShinRok</h2>
 									</header>
-									<p>초보 식집사들을 위해 어려운 병충해 작업의 지식을 전달하고 그들의 식물을 자랑할 수 있는 커뮤니티 사이트를 개발</p>
-									<ul class="contact">
-										<li class="icon solid fa-envelope"><a href="#">ShinRok@gmail.com</a></li>
-										<li class="icon solid fa-phone">(062) 201-0413</li>
-										<li class="icon solid fa-home">광주광역시 동구 제봉로 92<br />
-										인공지능사관학교, <br>상담시간: 10~17시 (월~금)</li>
-									</ul>
+									<p>초보 식집사들을 위해 어려운 병충해 작업의 지식을 전달하고 우리들의 식물을 자랑할 수 있는 커뮤니티 사이트를 개발</p>
+									<div class="contact">
+										<i class="fa-solid fa-envelope"></i> <p>ShinRok@gmail.com</p>
+										<i class="fa-solid fa-phone"></i><p>(062) 201-0413</p>
+										<i class="fa-solid fa-house"></i><p>광주광역시 동구 제봉로 92<br />
+										인공지능사관학교, <br>상담시간: 10~17시 (월~금)</p>
+									</div>
 								</section>
 
 							<!-- Footer -->
