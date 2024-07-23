@@ -45,3 +45,26 @@ function loadFile(input) {
     let container = document.getElementById('image-show');
     container.appendChild(newImage);
 }
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth'
+    });
+    calendar.render();
+
+    // 다이어리 이름 저장 및 로드
+    var diaryNameInput = document.getElementById('diaryName');
+
+    // 페이지 로드 시 저장된 다이어리 이름을 불러옴
+    var savedDiaryName = localStorage.getItem('diaryName');
+    if (savedDiaryName) {
+      diaryNameInput.value = savedDiaryName;
+    }
+
+    // 다이어리 이름 변경 시 저장
+    diaryNameInput.addEventListener('input', function() {
+      localStorage.setItem('diaryName', diaryNameInput.value);
+    });
+  });

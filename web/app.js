@@ -10,6 +10,7 @@ const fielStore = require('session-file-store')(session) // 세션 저장소
 const mainRouter = require('./routes/mainRouter')
 const userRouter = require('./routes/userRouter')
 const boardRouter = require('./routes/boardRouter')
+const diaryRouter = require('./routes/diaryRouter')
 
 // 암튼 필요함
 app.use('/public', express.static('public'));
@@ -43,6 +44,7 @@ app.use('/', mainRouter)
 // 라우터 설정
 app.use('/user', userRouter)
 app.use('/board', boardRouter)
+app.use('/diary', diaryRouter)
 
     
 // 서버 시작
