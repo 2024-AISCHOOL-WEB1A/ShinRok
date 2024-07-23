@@ -11,7 +11,7 @@ router.get('/freePost',(req,res)=> {
     let sql = `SELECT * FROM SR_BOARD WHERE BOARD_CATE = 1`
     conn.query(sql, (e, r) => {
         console.log(r)
-        res.render('freePost', r)
+        res.render('freePost', {boardFree : r})
     })
 
 })

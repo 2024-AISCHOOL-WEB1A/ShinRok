@@ -1,21 +1,36 @@
 {% extends 'main.html' %}
 
 {% block content %}
-<div class="features">
-    <article>
-        <span class="icon fa-gem"></span>
-        <div class="content">
-            <a href="#"><h3>화분에 발가락 찧었다. 질문 받는다. (5)</h3></a>
-            <p>작성자 : 화순군 시라소니 / 게시날짜 : 07/18 / 조회수 : 59 / 추천 : -2</p>
-        </div>
-    </article>
-    <article>
-        <span class="icon solid fa-paper-plane"></span>
-        <div class="content">
-            <a href="#"><h3>직접 키운 당근으로 비빔밥했어용~ (8)</h3></a>
-            <p>작성자 : 롱다리 피카츄 / 게시날짜 : 07/18 / 조회수 : 113 / 추천 : 11</p>
-        </div>
-    </article>
-    
-</div>
-{% endblock%}
+<section>
+    <table class="table">
+        <tr>
+            <td colspan="7">
+                <h2>자유게시판</h2>
+            </td>
+        </tr>
+
+        <tr class="postHead">
+            <th>번호</th>
+            <th class="postTitle">게시물 제목</th>
+            <th>작성자</th>
+            <th>작성날짜</th>
+            <th>조회수</th>
+            <th>댓글수</th>
+            <th>-</th>
+        </tr>
+
+        {% for i in boardFree %}
+            <tr class="contentBody">
+                <td>{{index}}</td>
+                <td class="content">{{ i.BOARD_TITLE }}</td>
+                <td>{{ i.USER_IDX }}</td>
+                <td>{{ i.BOARD_DATE }}</td>
+                <td>{{ i.BOARD_COUNT }}</td>
+                <td>0</td> <!-- 댓글 수는 데이터를 포함하지 않으므로 임시로 0을 표시 -->
+                <td></td>
+                <td><input type="hidden" value="{{ i.BOARD_IDX }}"></td>
+            </tr>
+        {% endfor %}
+    </table>
+</section>
+{% endblock %}
