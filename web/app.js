@@ -3,6 +3,8 @@ const app = express()
 const path = require('path')
 const nunjucks = require('nunjucks')
 const PORT = process.env.PORT || 3000;
+const session = require('express-session')// 세션기능
+const fielStore = require('session-file-store')(session) // 세션 저장소
 
 // 라우터 설정
 const mainRouter = require('./routes/mainRouter')
@@ -15,12 +17,14 @@ app.use('/config', express.static('config'));
 app.use('/images', express.static('images'));
 app.use('/assets', express.static('assets'));
 
-// body-parser 미들웨어 설정(POST허용)
-app.use(express.urlencoded({extended:true}))
-// app.use(bodyParser.json())
-
-// 메인라우터 설정
-app.use('/', mainRouter)
+// 세션 미들웨어
+app.use(session({
+    httpOnly : true, 
+    resave : false, 
+    secret : "secret", 
+    store : new fielStore(), 
+    saveUninitialized : false 
+}))
 
 // 넌적스 세팅
 app.set('view engine', 'html')
@@ -29,6 +33,12 @@ nunjucks.configure('views', {
     watch : true
 })
 
+// body-parser 미들웨어 설정(POST허용)
+app.use(express.urlencoded({extended:true}))
+// app.use(bodyParser.json())
+
+// 메인라우터 설정
+app.use('/', mainRouter)
 
 // 라우터 설정
 app.use('/user', userRouter)
