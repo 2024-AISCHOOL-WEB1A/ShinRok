@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset='utf-8' />
+    <script src=""></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script> <!-- 드래그 앤 드롭 -->
+
+    <link rel="stylesheet" href="../public/diary.css">
+    <link rel="stylesheet" href="../public/main.css">
+
+<script>
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth'
+      });
+    calendar.render();
+    });
+
+    </script>
+
+  </head>
+
+  <body>
+
+<!-- ----------------------헤더----------------------------------- -->
+
+    <header>
+      <a href="#" id="logo"><img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/test/KakaoTalk_20240722_111546767_01.png" alt=""></a>
+
+        <input name="query" id="diaryName" type="text" placeholder="다이어리 이름을 설정하세요.">
+
+    </header>
+
+<!-- ----------------------컨테이너----------------------------------- -->  
+    
+    <div id="container">
+
+<!-- ----------------------사이드메뉴----------------------------------- -->
+
+      <div id="side">
+        <a href="" class="button big">게시판</a> <br>
+        <a href="" class="button big">병충해진단</a> <br>
+        <a href="" class="button big">식물 도감</a> <br>
+        <a href="" class="button big">마이 페이지</a> <br>
+      </div>
+
+<!-- ----------------------달력----------------------------------- -->
+
+      <section class="calendarForm">
+        <div id='calendar'></div>
+  
+        <div id="myModal" class="modal">
+
+          <div class="modal-content">
+            <span class="close">&times;</span> <!-- x버튼 -->
+
+            <p id="modal-text"></p>
+
+            <p><input type="text" placeholder="제목"  id="title" size="100%"></p>
+            <textarea name="content" id="content" placeholder="내용"></textarea>
+
+
+
+            <div id="modal_bottom">
+              <div id="sticker_container">
+
+                <div class="weather">
+                  날씨<br>
+                  <img src="https://url.kr/ovusa3" alt="" class="sticker">
+                  <img src="https://url.kr/qjvl4s" alt="" class="sticker">
+                  <img src="https://url.kr/qelhx4" alt="" class="sticker">
+                  <img src="https://url.kr/5wsmzp" alt="" class="sticker">
+                  <img src="https://url.kr/jjyn7y" alt="" class="sticker">
+                </div>
+
+                <div id="do">행동 <br>
+                  <img src="https://url.kr/x5zahb" alt="" class="sticker">
+                  <img src="https://url.kr/ndtb2h" alt="" class="sticker">
+                  <img src="https://url.kr/p7w879" alt="" class="sticker">
+                  <img src="https://url.kr/iywgjg" alt="" class="sticker">
+                  <img src="https://url.kr/5wi911" alt="" class="sticker">
+                </div>
+
+                <div id="change">식물변화<br>
+                  <img src="https://url.kr/pvzbge" alt="" class="sticker">
+                  <img src="https://url.kr/h74t55" alt="" class="sticker">
+                  <img src="https://url.kr/mrtje5" alt="" class="sticker">
+                  <img src="https://url.kr/itnj8f" alt="" class="sticker">
+                  <img src="https://url.kr/6m93r9" alt="" class="sticker">
+                </div>
+              </div>
+
+
+              <form class="inputImg" method="post" enctype="multipart/form-data"> <!-- 이미지 파일 데이터에 알맞는 enctype 설정 -->
+                <div class="addImage" id="image-show"> <!-- 이미지 띄울 공간 -->
+                </div>
+                <input type="file" accept="image/*" onchange="loadFile(this)">
+              </form>
+
+            </div>
+
+
+            <div id="commit">
+              <input type="submit" value="취소">
+              <input type="submit" value="등록">
+            </div>
+
+          </div>
+        </div>
+      </section>
+    
+    </div>
+  
+
+    <script src="../assets/js/diary.js"></script>
+
+  </body>
+</html>
