@@ -237,3 +237,15 @@
 			});
 
 })(jQuery);
+
+
+document.addEventListener('DOMContentLoaded', function() {
+	var links = document.querySelectorAll('.postList a');
+	var currentUrl = window.location.pathname;
+
+	links.forEach(function(link) {
+		if (link.getAttribute('href') === currentUrl) {
+			link.classList.add('active');
+		}
+	});
+});
