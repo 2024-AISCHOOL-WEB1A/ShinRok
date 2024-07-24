@@ -43,51 +43,69 @@ router.get('/oauth', async (req, res, next) => {
     const nickname = userResponse.data.properties.nickname;
     const profileImage = userResponse.data.properties.profile_image;
 
-    // 사용자 정보를 데이터베이스에 저장
+    // 데이터베이스 쿼리
     const db = require('../config/db');
-    const insertUserQuery = `
-      INSERT INTO SR_USER (USER_NICK, USER_NAME, AUTH_ID, SNS_PROVIDER, USER_PICTURE)
-      VALUES (?, ?, ?, 'kakao', ?)
-      ON DUPLICATE KEY UPDATE
-      USER_NICK = VALUES(USER_NICK),
-      USER_PICTURE = VALUES(USER_PICTURE)
+
+    // 사용자 정보가 데이터베이스에 존재하는지 확인
+    const selectUserQuery = `
+      SELECT USER_IDX, USER_STATUS, USER_CATE
+      FROM SR_USER
+      WHERE AUTH_ID = ?
     `;
-    db.query(insertUserQuery, [nickname, nickname, kakaoId, profileImage], (error, results) => {
-      if (error) {
-        console.error('Error inserting user into database:', error);
-        return next(error);
+    db.query(selectUserQuery, [kakaoId], (err, userResults) => {
+      if (err) {
+        console.error('Error fetching user from database:', err);
+        return next(err);
       }
 
-      // 사용자 추가 정보를 DB에서 가져오기
-      const selectUserQuery = `
-        SELECT USER_IDX, USER_STATUS, USER_CATE
-        FROM SR_USER
-        WHERE AUTH_ID = ?
-      `;
-      db.query(selectUserQuery, [kakaoId], (err, userResults) => {
-        if (err) {
-          console.error('Error fetching user from database:', err);
-          return next(err);
-        }
+      if (userResults.length > 0) {
+        // 사용자가 이미 데이터베이스에 존재하는 경우, 세션에 사용자 정보 저장
+        const user = userResults[0];
+        req.session.user = {
+          idx: user.USER_IDX,
+          status: user.USER_STATUS,
+          category: user.USER_CATE
+        };
+        req.session.accessToken = accessToken; // Access Token 저장
+        res.redirect('/'); // 메인 페이지로 이동
+      } else {
+        // 사용자가 데이터베이스에 존재하지 않는 경우, 사용자 정보 삽입
+        const insertUserQuery = `
+          INSERT INTO SR_USER (USER_NICK, USER_NAME, AUTH_ID, SNS_PROVIDER, USER_PICTURE)
+          VALUES (?, ?, ?, 'kakao', ?)
+        `;
+        db.query(insertUserQuery, [nickname, nickname, kakaoId, profileImage], (error, results) => {
+          if (error) {
+            console.error('Error inserting user into database:', error);
+            return next(error);
+          }
 
-        if (userResults.length > 0) {
-          const user = userResults[0];
+          // 사용자 추가 정보를 DB에서 가져오기
+          db.query(selectUserQuery, [kakaoId], (err, userResults) => {
+            if (err) {
+              console.error('Error fetching user from database after insertion:', err);
+              return next(err);
+            }
 
-          // 세션에 사용자 정보 저장
-         
-          req.session.user = {
-            idx: user.USER_IDX,
-            status: user.USER_STATUS,
-            category: user.USER_CATE
-          };
-          req.session.accessToken = accessToken; // Access Token 저장
+            if (userResults.length > 0) {
+              const user = userResults[0];
 
-          res.redirect('/'); // 메인 페이지로 이동
-        } else {
-          console.error('User not found after insertion.');
-          res.status(500).send('Internal Server Error'); // 사용자에게 에러 메시지 전달
-        }
-      });
+              // 세션에 사용자 정보 저장
+              req.session.user = {
+                idx: user.USER_IDX,
+                status: user.USER_STATUS,
+                category: user.USER_CATE
+              };
+              req.session.accessToken = accessToken; // Access Token 저장
+
+              res.redirect('/'); // 메인 페이지로 이동
+            } else {
+              console.error('User not found after insertion.');
+              res.status(500).send('Internal Server Error'); // 사용자에게 에러 메시지 전달
+            }
+          });
+        });
+      }
     });
 
   } catch (error) {
@@ -114,7 +132,7 @@ router.get('/logout', (req, res, next) => {
 
 // 로그인 여부 확인 미들웨어
 function isLoggedIn(req, res, next) {
-  if (req.session.userId) {
+  if (req.session.user) {
     next();
   } else {
     res.redirect('/user/login');

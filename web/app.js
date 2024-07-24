@@ -4,15 +4,15 @@ const nunjucks = require('nunjucks');
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
 require('dotenv').config();
+const moment = require('moment');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // 라우터 설정
-const mainRouter = require('./routes/mainRouter')
-const userRouter = require('./routes/userRouter')
-const boardRouter = require('./routes/boardRouter')
-const diaryRouter = require('./routes/diaryRouter')
-
+const mainRouter = require('./routes/mainRouter');
+const userRouter = require('./routes/userRouter');
+const boardRouter = require('./routes/boardRouter');
+const diaryRouter = require('./routes/diaryRouter');
 
 app.use('/public', express.static('public'));
 app.use('/config', express.static('config'));
@@ -30,12 +30,16 @@ app.use(session({
     touch: false, // 로그아웃 시 세션 파일 갱신 방지
 }));
 
-
 // 넌적스 세팅
 app.set('view engine', 'html');
-nunjucks.configure('views', {
+const env = nunjucks.configure('views', {
     express: app,
     watch: true
+});
+
+// 날짜 필터 추가
+env.addFilter('date', (date, format) => {
+  return moment(date).format(format);
 });
 
 // body-parser 미들웨어 설정(POST 허용)
