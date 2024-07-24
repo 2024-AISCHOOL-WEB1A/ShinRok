@@ -11,8 +11,11 @@
 </head>
 <body>
     <form action="/board/upload" method="post" enctype="multipart/form-data">
+
         <section class="table"> 
-            <input type="hidden" name="idx" value="{{user_id}}">
+            {% if user %}
+            <input type="hidden" name="idx" value={{user.idx}}>
+            {% endif %}
             <div>
                 <h2>글쓰기</h2>
                 <p>식물에 관한 정보를 다른사람과 공유해보세요.</p>
@@ -49,7 +52,7 @@
                     <div class="addImage" id="image-show">
                         <!-- 이미지 띄울 공간 -->
                     </div>
-                <input type="submit" value="등록">
+                    <input type="submit" value="등록">
                 </dd>
             </div>
         </section>
