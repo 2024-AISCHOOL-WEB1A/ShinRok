@@ -153,4 +153,11 @@ router.get('/bragPost',(req,res)=> {
 //     })
 // })
 
+// 임시
+router.get('/detailPost', (req, res) => {
+    res.render('detailPost')
+})
+
+
+
 module.exports = router
