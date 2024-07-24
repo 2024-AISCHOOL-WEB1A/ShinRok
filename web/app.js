@@ -7,15 +7,11 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-
 // 라우터 설정
 const mainRouter = require('./routes/mainRouter')
 const userRouter = require('./routes/userRouter')
 const boardRouter = require('./routes/boardRouter')
 const diaryRouter = require('./routes/diaryRouter')
-
-
-
 
 
 app.use('/public', express.static('public'));

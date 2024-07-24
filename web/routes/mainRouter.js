@@ -7,7 +7,12 @@ const file_Path = path.join(__dirname, "")
 
 // 메인
 router.get('/', (req,res) => {
-    res.render('main', { user: req.session.user });
+    res.render('main', { user: req.session.user = {
+        idx: user.USER_IDX,
+        status: user.USER_STATUS,
+        category: user.USER_CATE
+      } });
+      
     
 })
 
