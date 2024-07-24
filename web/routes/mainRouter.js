@@ -7,8 +7,12 @@ const file_Path = path.join(__dirname, "")
 
 // 메인
 router.get('/', (req,res) => {
-    res.render('main', { user: req.session.user });
-    
+    if(req.session){
+        console.log(req.session.user)
+        res.render('main', {user : req.session.user})
+    } else {
+        res.render('main')
+    }
 })
 
 // 글쓰기 페이지 이동
@@ -16,6 +20,11 @@ router.get('/plusPost', (req, res) => {
     res.render('plusPost')
  })
  
+// 다이어리 페이지 이동
+router.get('/diary', (req, res) => {
+    res.render('diary')
+})
+
 
 
 module.exports = router
