@@ -13,6 +13,19 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 
+// 라우터 설정
+const mainRouter = require('./routes/mainRouter')
+const userRouter = require('./routes/userRouter')
+const boardRouter = require('./routes/boardRouter')
+const diaryRouter = require('./routes/diaryRouter')
+
+// 암튼 필요함
+app.use('/public', express.static('public'));
+app.use('/config', express.static('config'));
+app.use('/images', express.static('images'));
+app.use('/assets', express.static('assets'));
+
+
 // 세션 미들웨어
 app.use(session({
     httpOnly: true, 
@@ -40,6 +53,7 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
 // 라우터 설정
+
 app.use('/', mainRouter);
 app.use('/user', userRouter);
 app.use('/board', boardRouter);
@@ -49,6 +63,11 @@ app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Something broke!');
 });
+
+app.use('/user', userRouter)
+app.use('/board', boardRouter)
+app.use('/diary', diaryRouter)
+
 
 // 서버 시작
 app.listen(PORT, () => {
