@@ -7,7 +7,8 @@ const file_Path = path.join(__dirname, "")
 
 // 메인
 router.get('/', (req,res) => {
-    res.render('main')
+    res.render('main', { userId: req.session.userId });
+    
 })
 
 

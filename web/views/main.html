@@ -25,9 +25,15 @@
 									<ul class="icons">
 										<li><a href="#">공지사항 </a></li>
 										<li><a href="#">마이페이지</a></li>
+										{% if userId %}
+										<div class="kakaoLogout">
+											<a href="/user/logout">로그아웃<img src=""></a>
+										</div>
+										{% else %}
 										<div class="kakaoLogin">
 											<a href="/user/login"><img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/test/kakao_login_small.png"></a>
 										</div>
+										{% endif %}
 									</ul>
 								</header>
 							
