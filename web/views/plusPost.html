@@ -3,54 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>게시글 작성 📝</title>
+    <script src="https://kit.fontawesome.com/71a327e855.js" crossorigin="anonymous"></script>
+		<!-- font awesome 오류 났을때 fas / fab (brand 이미지일 경우) 앞에 추가하여 해결 _버전 오류 -->
+
     <link rel="stylesheet" href="../public/plusPost.css">
 </head>
 <body>
     <form action="/board/upload" method="post" enctype="multipart/form-data">
-        <table> 
+        <section class="table"> 
             <input type="hidden" name="idx" value="{{user_id}}">
-            <tr>
-                <td>
-                    <h2>글쓰기</h2>
-                </td>
-            </tr>
-            <tr>
-                <td class="header">Title</td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="text" placeholder="제목을 입력하세요" name="title">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <select name="category">
-                        <option value="">카테고리 선택</option>
-                        <option value="1">자유게시판</option>
-                        <option value="2">자랑하기</option>
-                        <option value="3">질문게시판</option>
-                    </select>
-            </td>
-            </tr>
-            <tr>
-                <td class="header">Comment</td>
-            </tr>
-            <tr>
-                <td>
-                    <textarea placeholder="내용을 입력하세요" name="content"></textarea>
-                </td>
-            </tr>
-            <tr>
-                <td>
+            <div>
+                <h2>글쓰기</h2>
+                <p>식물에 관한 정보를 다른사람과 공유해보세요.</p>
+            </div>
+
+            <!-- ---------- 글 제목 입력란 ------------ -->
+            <div class="boardTitle">
+                <dl>
+                    <dt>글 제목</dt>
+                    <dd><input type="text" placeholder="제목을 입력하세요" name="title" autofocus></dd>
+                </dl>
+            </div>
+
+            <!-- ------------- 카테고리 ----------------- -->
+            <div class="categoty">
+                <select name="category">
+                    <option value="">카테고리 선택</option>
+                    <option value="1">자유게시판</option>
+                    <option value="2">자랑하기</option>
+                    <option value="3">질문게시판</option>
+                </select>
+            </div>
+
+            <!-- ------------- 내용 작성 ----------------- -->
+            <div>
+                <dt class="header">Comment</dt>
+                <dd><textarea placeholder="내용을 입력하세요" name="content"></textarea></dd>
+            </div>
+
+            <!-- ----------- 이미지 파일 업로드 ------------ -->
+            <div>
+                <dd>
                     <input type="file" name="image" accept="image/*" onchange="loadFile(this)">
                     <div class="addImage" id="image-show">
                         <!-- 이미지 띄울 공간 -->
                     </div>
                 <input type="submit" value="등록">
-                </td>
-            </tr>
-        </table>
+                </dd>
+            </div>
+        </section>
     </form>
 
     <script src="../assets/js/post.js"></script>
