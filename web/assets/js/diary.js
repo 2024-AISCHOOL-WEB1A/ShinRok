@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
     var span = document.getElementsByClassName("close")[0];
     var modalText = document.getElementById("modal-text");
     var diaryNameInput = document.getElementById('diaryName');
+    var cancel = document.getElementById('cancel');
 
     // FullCalendar 초기화
     var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -42,11 +43,16 @@ document.addEventListener("DOMContentLoaded", function() {
     diaryNameInput.addEventListener('input', function() {
         localStorage.setItem('diaryName', diaryNameInput.value);
     });
+
+
+    // 걍 취소버튼 클릭 시 모달 닫기
+    cancel.onclick = function() {
+        modal.style.display = "none";
+    }
 });
 
 
 // =================================================================================================
-
 
 
 
@@ -66,6 +72,12 @@ function loadFile(input) {
     let container = document.getElementById('image-show');
     container.appendChild(newImage);
 }
+
+
+// =================================================================================================
+
+
+
 
 
 
