@@ -4,13 +4,6 @@ const nunjucks = require('nunjucks');
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
 require('dotenv').config();
-
-// 라우터 설정
-const mainRouter = require('./routes/mainRouter');
-const userRouter = require('./routes/userRouter');
-const boardRouter = require('./routes/boardRouter');
-const diaryRouter = require('./routes/diaryRouter');
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 
