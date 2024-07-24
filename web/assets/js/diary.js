@@ -33,6 +33,9 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
+
+
+    
     // 페이지 로드 시 저장된 다이어리 이름을 불러옴
     var savedDiaryName = localStorage.getItem('diaryName');
     if (savedDiaryName) {
@@ -43,6 +46,8 @@ document.addEventListener("DOMContentLoaded", function() {
     diaryNameInput.addEventListener('input', function() {
         localStorage.setItem('diaryName', diaryNameInput.value);
     });
+
+
 
 
     // 걍 취소버튼 클릭 시 모달 닫기
