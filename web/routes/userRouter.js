@@ -99,18 +99,17 @@ router.get('/oauth', async (req, res, next) => {
 
 // 로그아웃
 router.get('/logout', (req, res, next) => {
-  if (req.session.user) {
-    // 세션 파기
-    req.session.destroy((err) => {
-      if (err) {
-        console.error('Error destroying session:', err);
-        return next(err);
-      }
+  req.session.destroy((err) => {
+    if (err) {
+        console.error('세션 삭제 중 에러 발생:', err);
+        return res.status(500).send('세션 삭제 중 에러가 발생했습니다.');
+    } else {
+      res.clearCookie('connect.sid');
       res.redirect('/');
-    });
-  } else {
-    res.redirect('/');
-  }
+      console.log('로그아웃')
+    }
+    // res.send("<script>window.location.href='/'</script>");
+})
 });
 
 // 로그인 여부 확인 미들웨어
