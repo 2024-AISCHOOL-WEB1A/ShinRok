@@ -9,7 +9,7 @@ const conn = mysql.createConnection({
   database: process.env.DB_NAME,
   port: process.env.DB_PORT
 });
-console.log('host : ',process.env.DB_HOST)
+// console.log('host : ',process.env.DB_HOST)
 
 conn.connect((err) => {
   if (err) {
