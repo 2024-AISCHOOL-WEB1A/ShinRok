@@ -11,7 +11,8 @@
 
         <tr class="postHead">
             <th>번호</th>
-            <th class="postTitle">게시물 제목</th>
+            <th>구분</th>
+            <th class="postTitle">제목</th>
             <th>작성자</th>
             <th>작성날짜</th>
             <th>조회수</th>
@@ -21,14 +22,16 @@
 
         {% for i in boardFree %}
             <tr class="contentBody">
-                <td>{{index}}</td>
+                <td>{{ loop.index }}</td>
+                <td>{{i.BOARD_CATE}}</td>
                 <td class="content">{{ i.BOARD_TITLE }}</td>
-                <td>{{ i.USER_IDX }}</td>
-                <td>{{ i.BOARD_DATE }}</td>
+                <td>{{ i.USER_NICK }}</td>
+                <td>{{ i.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}</td>
                 <td>{{ i.BOARD_COUNT }}</td>
-                <td>0</td> <!-- 댓글 수는 데이터를 포함하지 않으므로 임시로 0을 표시 -->
-                <td></td>
-                <td><input type="hidden" value="{{ i.BOARD_IDX }}"></td>
+                <td>{{ i.COMMENT_COUNT }}</td> 
+                <td>
+                    <input type="hidden" value="{{ i.BOARD_IDX }}">
+                </td>
             </tr>
         {% endfor %}
     </table>
