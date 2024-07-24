@@ -10,22 +10,29 @@
     <link rel="stylesheet" href="../public/plusPost.css">
 </head>
 <body>
-    <form action="/board/upload" method="post" enctype="multipart/form-data">
+    <form action="/board/upload" method="post" enctype="multipart/form-data" class="plusPostForm">
 
         <section class="table"> 
             {% if user %}
             <input type="hidden" name="idx" value={{user.idx}}>
             {% endif %}
-            <div>
-                <h2>글쓰기</h2>
+            <div id="writeTitle">
+                <h2>📝 글쓰기</h2>
                 <p>식물에 관한 정보를 다른사람과 공유해보세요.</p>
             </div>
 
             <!-- ---------- 글 제목 입력란 ------------ -->
+            <!-- <div class="boardTitle">
+                <dl><dt id="postT"> 제목</dt></dl>
+                <dl id="inputTitle">
+                    <input type="text" placeholder="제목을 입력하세요" name="title" autofocus>
+                </dl>
+            </div> -->
             <div class="boardTitle">
-                <dl>
-                    <dt>글 제목</dt>
-                    <dd><input type="text" placeholder="제목을 입력하세요" name="title" autofocus></dd>
+                <dl><dt id="postT"> 제목</dt></dl>
+                <dl id="inputTitle" class="input-container">
+                    <input type="text" id="title" name="title" placeholder=" ">
+                    <label for="title" class="placeholder">제목을 입력하세요</label>
                 </dl>
             </div>
 
@@ -33,16 +40,16 @@
             <div class="categoty">
                 <select name="category">
                     <option value="">카테고리 선택</option>
-                    <option value="1">자유게시판</option>
-                    <option value="2">자랑하기</option>
-                    <option value="3">질문게시판</option>
+                    <option value="자유">자유게시판</option>
+                    <option value="자랑">자랑하기</option>
+                    <option value="질문">질문게시판</option>
                 </select>
             </div>
 
             <!-- ------------- 내용 작성 ----------------- -->
-            <div>
+            <div class="plusContent">
                 <dt class="header">Comment</dt>
-                <dd><textarea placeholder="내용을 입력하세요" name="content"></textarea></dd>
+                <textarea placeholder="내용을 입력하세요" name="content"></textarea>
             </div>
 
             <!-- ----------- 이미지 파일 업로드 ------------ -->
