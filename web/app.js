@@ -14,7 +14,19 @@ const diaryRouter = require('./routes/diaryRouter');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+<<<<<<< HEAD
 // 필요함
+=======
+
+// 라우터 설정
+const mainRouter = require('./routes/mainRouter')
+const userRouter = require('./routes/userRouter')
+const boardRouter = require('./routes/boardRouter')
+const diaryRouter = require('./routes/diaryRouter')
+
+
+// 암튼 필요함
+>>>>>>> 33ff53e10735c7431d581f54bc7b094dbe225ac8
 app.use('/public', express.static('public'));
 app.use('/config', express.static('config'));
 app.use('/images', express.static('images'));

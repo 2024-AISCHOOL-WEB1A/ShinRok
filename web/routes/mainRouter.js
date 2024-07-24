@@ -11,5 +11,11 @@ router.get('/', (req,res) => {
     
 })
 
+// 글쓰기 페이지 이동
+router.get('/plusPost', (req, res) => {
+    res.render('plusPost')
+ })
+ 
+
 
 module.exports = router
