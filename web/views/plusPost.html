@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../public/plusPost.css">
+</head>
+<body>
+    <form action="" method="post">
+        <table> 
+            <tr>
+                <td><h2>글쓰기</h2></td>
+            </tr>
+            <tr>
+                <td class="header">Title</td>
+            </tr>
+            <tr>
+                <td><input type="text" placeholder="제목을 입력하세요" name="title"></td>
+            </tr>
+            <tr>
+                <td class="header">Comment</td>
+            </tr>
+            <tr>
+                <td><textarea placeholder="내용을 입력하세요" name="detail"></textarea></td>
+            </tr>
+            <tr>
+                <td>
+                <!-- 이미지 업로드 -->
+                <form class="inputImg" method="post" enctype="multipart/form-data">
+                    <input type="file" accept="image/*" onchange="loadFile(this)">
+                    <div class="addImage" id="image-show">
+                        <!-- 이미지 띄울 공간 -->
+                    </div>
+                </form>
+                <input type="submit" value="등록" onclick="alert('작성 완료!')">
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <script src="../assets/js/post.js"></script>
+    </body>
+</html>

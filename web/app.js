@@ -5,9 +5,9 @@ const session = require('express-session');
 const fileStore = require('session-file-store')(session);
 require('dotenv').config();
 
-const mainRouter = require('./routes/mainRouter');
-const userRouter = require('./routes/userRouter');
-const boardRouter = require('./routes/boardRouter');
+// const mainRouter = require('./routes/mainRouter');
+// const userRouter = require('./routes/userRouter');
+// const boardRouter = require('./routes/boardRouter');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
