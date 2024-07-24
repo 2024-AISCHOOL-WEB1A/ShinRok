@@ -1,3 +1,4 @@
+require('dotenv').config({ path: '.env' });
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
@@ -43,65 +44,62 @@ router.get('/oauth', async (req, res, next) => {
     const profileImage = userResponse.data.properties.profile_image;
 
     // 사용자 정보를 데이터베이스에 저장
-    const db = require('../config/db'); // db 모듈을 불러옵니다.
-
-    // 기존 사용자 조회 쿼리
-    const findUserQuery = 'SELECT * FROM SR_USER WHERE AUTH_ID = ?';
-    db.query(findUserQuery, [kakaoId], (error, results) => {
+    const db = require('../config/db');
+    const insertUserQuery = `
+      INSERT INTO SR_USER (USER_NICK, USER_NAME, AUTH_ID, SNS_PROVIDER, USER_PICTURE)
+      VALUES (?, ?, ?, 'kakao', ?)
+      ON DUPLICATE KEY UPDATE
+      USER_NICK = VALUES(USER_NICK),
+      USER_PICTURE = VALUES(USER_PICTURE)
+    `;
+    db.query(insertUserQuery, [nickname, nickname, kakaoId, profileImage], (error, results) => {
       if (error) {
-        console.error('Error finding user in database:', error);
+        console.error('Error inserting user into database:', error);
         return next(error);
       }
 
-      if (results.length > 0) {
-        // 사용자가 이미 존재함
-        console.log('User already exists:', results[0]);
-      } else {
-        // 사용자가 존재하지 않음, 새 사용자 추가
-        const insertUserQuery = `
-          INSERT INTO SR_USER (USER_NICK, USER_NAME, AUTH_ID, SNS_PROVIDER, USER_PICTURE)
-          VALUES (?, ?, ?, 'kakao', ?)
-          ON DUPLICATE KEY UPDATE
-          USER_NICK = VALUES(USER_NICK),
-          USER_PICTURE = VALUES(USER_PICTURE)
-        `;
-        db.query(insertUserQuery, [nickname, nickname, kakaoId, profileImage], (error, results) => {
-          if (error) {
-            console.error('Error inserting user into database:', error);
-            return next(error);
-          }
-        });
-      }
+      // 사용자 추가 정보를 DB에서 가져오기
+      const selectUserQuery = `
+        SELECT USER_IDX, USER_STATUS, USER_CATE
+        FROM SR_USER
+        WHERE AUTH_ID = ?
+      `;
+      db.query(selectUserQuery, [kakaoId], (err, userResults) => {
+        if (err) {
+          console.error('Error fetching user from database:', err);
+          return next(err);
+        }
 
-      // 세션에 사용자 ID 및 액세스 토큰 저장
-      req.session.userId = kakaoId;
-      req.session.accessToken = accessToken;
+        if (userResults.length > 0) {
+          const user = userResults[0];
 
-      res.redirect('/'); // 메인 페이지로 이동
+          // 세션에 사용자 정보 저장
+         
+          req.session.user = {
+            idx: user.USER_IDX,
+            status: user.USER_STATUS,
+            category: user.USER_CATE
+          };
+          req.session.accessToken = accessToken; // Access Token 저장
+
+          res.redirect('/'); // 메인 페이지로 이동
+        } else {
+          console.error('User not found after insertion.');
+          res.status(500).send('Internal Server Error'); // 사용자에게 에러 메시지 전달
+        }
+      });
     });
 
   } catch (error) {
     console.error('Error during Kakao login:', error);
-    next(error);  // 에러 핸들링 미들웨어로 전달
+    res.status(500).send('Internal Server Error'); // 사용자에게 에러 메시지 전달
+    next(error);
   }
 });
 
 // 로그아웃
-router.get('/logout', async (req, res, next) => {
-  try {
-    // 카카오 로그아웃 요청
-    if (req.session.accessToken) {
-      await axios.post(
-        'https://kapi.kakao.com/v1/user/logout',
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${req.session.accessToken}`, // 액세스 토큰 사용
-          },
-        }
-      );
-    }
-
+router.get('/logout', (req, res, next) => {
+  if (req.session.user) {
     // 세션 파기
     req.session.destroy((err) => {
       if (err) {
@@ -110,9 +108,8 @@ router.get('/logout', async (req, res, next) => {
       }
       res.redirect('/');
     });
-  } catch (error) {
-    console.error('Error during Kakao logout:', error);
-    next(error);
+  } else {
+    res.redirect('/');
   }
 });
 
@@ -128,7 +125,7 @@ function isLoggedIn(req, res, next) {
 // 로그인 후 페이지 (예시)
 router.get('/mypage', isLoggedIn, (req, res) => {
   // 사용자 정보를 가져와서 페이지 렌더링
-  res.render('mypage', { userId: req.session.user }); // 실제 사용자 정보를 가져오는 로직 필요
+  res.render('mypage', { user: req.session.user });
 });
 
 module.exports = router;

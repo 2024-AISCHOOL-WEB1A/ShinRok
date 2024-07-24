@@ -7,30 +7,43 @@
     <link rel="stylesheet" href="../public/plusPost.css">
 </head>
 <body>
-    <form action="/board/upload" method="post">
-        
+    <form action="/board/upload" method="post" enctype="multipart/form-data">
         <table> 
-            <input type="hidden" name="idx" value={{user_id}}>
-            <tr><td><h2>글쓰기</h2></td></tr>
-            <tr><td class="header">Title</td></tr>
+            <input type="hidden" name="idx" value="{{user_id}}">
             <tr>
-                <td><input type="text" placeholder="제목을 입력하세요" name="title"></td>
+                <td>
+                    <h2>글쓰기</h2>
+                </td>
             </tr>
             <tr>
-                <td><select>
-                    <option value="">카테고리 선택</option>
-                    <option value="">자유게시판</option>
-                    <option value="">자랑하기</option>
-                    <option value="">질문게시판</option>
-                </select></td>
-            </tr>
-            <tr><td class="header">Comment</td></tr>
-            <tr>
-                <td><textarea placeholder="내용을 입력하세요" name="detail"></textarea></td>
+                <td class="header">Title</td>
             </tr>
             <tr>
                 <td>
-                    <input type="file" accept="image/*" onchange="loadFile(this)">
+                    <input type="text" placeholder="제목을 입력하세요" name="title">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <select name="category">
+                        <option value="">카테고리 선택</option>
+                        <option value="1">자유게시판</option>
+                        <option value="2">자랑하기</option>
+                        <option value="3">질문게시판</option>
+                    </select>
+            </td>
+            </tr>
+            <tr>
+                <td class="header">Comment</td>
+            </tr>
+            <tr>
+                <td>
+                    <textarea placeholder="내용을 입력하세요" name="content"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="file" name="image" accept="image/*" onchange="loadFile(this)">
                     <div class="addImage" id="image-show">
                         <!-- 이미지 띄울 공간 -->
                     </div>
@@ -41,5 +54,5 @@
     </form>
 
     <script src="../assets/js/post.js"></script>
-    </body>
+</body>
 </html>
