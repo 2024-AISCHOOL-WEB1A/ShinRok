@@ -20,5 +20,8 @@ router.get('/freePost',(req,res)=> {
 router.get('/bragPost',(req,res)=> {
     res.render('bragPost')
 })
+// 게시판 검색기능 
+
+router.get
 
 module.exports = router

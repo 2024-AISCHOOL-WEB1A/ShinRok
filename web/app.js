@@ -5,9 +5,11 @@ const session = require('express-session');
 const fileStore = require('session-file-store')(session);
 require('dotenv').config();
 
+
 // const mainRouter = require('./routes/mainRouter');
 // const userRouter = require('./routes/userRouter');
 // const boardRouter = require('./routes/boardRouter');
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -33,7 +35,7 @@ app.use(session({
     secret: 'secret', 
     store: new fileStore(), 
     saveUninitialized: false,
-    cookie : { maxAge : 1000} // 1000 = 1 sec, 60000 = 1min
+    cookie : { maxAge : 60000} // 1000 = 1 sec, 60000 = 1min
 }));
 
 // 넌적스 세팅
