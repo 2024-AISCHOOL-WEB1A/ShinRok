@@ -1,24 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시글 작성 📝</title>
     <script src="https://kit.fontawesome.com/71a327e855.js" crossorigin="anonymous"></script>
-    <!-- font awesome 오류 났을때 fas / fab (brand 이미지일 경우) 앞에 추가하여 해결 _버전 오류 -->
+		<!-- font awesome 오류 났을때 fas / fab (brand 이미지일 경우) 앞에 추가하여 해결 _버전 오류 -->
 
     <link rel="stylesheet" href="../public/plusPost.css">
-    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
-
-
 </head>
-
 <body>
-
     <form action="/board/upload" method="post" enctype="multipart/form-data">
 
-        <section class="table">
+        <section class="table"> 
             {% if user %}
             <input type="hidden" name="idx" value={{user.idx}}>
             {% endif %}
@@ -46,22 +40,11 @@
             </div>
 
             <!-- ------------- 내용 작성 ----------------- -->
-            <!-- Create the editor container -->
-            <div id="editor">
-                <p>Hello World!</p>
-                <p>Some initial <strong>bold</strong> text</p>
-                <p><br /></p>
+            <div>
+                <dt class="header">Comment</dt>
+                <dd><textarea placeholder="내용을 입력하세요" name="content"></textarea></dd>
             </div>
 
-            <!-- Include the Quill library -->
-            <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
-
-            <!-- Initialize Quill editor -->
-            <script>
-                const quill = new Quill('#editor', {
-                    theme: 'bubble'
-                });
-            </script>
             <!-- ----------- 이미지 파일 업로드 ------------ -->
             <div>
                 <dd>
@@ -77,5 +60,4 @@
 
     <script src="../assets/js/post.js"></script>
 </body>
-
 </html>
