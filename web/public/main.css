@@ -468,6 +468,18 @@ button,
     .button.primary:active {
       background-color: #f45c5c; }
 
+#postingBtn{
+  border-radius: 0.375em;
+  color: #f3f3f3 !important; /* 글자 색 */
+  background-color: #f56a6a;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 13px;
+  letter-spacing: 3.5px;
+  text-align: center;
+  font-family: 'GmarketSansMedium';
+  width: 100%;
+}
 
 /* Posts */
 .posts {
@@ -653,9 +665,8 @@ button,
     position: relative;
     width: 26em; }
     #sidebar > .inner > * {
-      border-bottom: solid 2px rgba(210, 215, 217, 0.75);
-      margin: 0 0 3.5em 0;
-      padding: 0 0 3.5em 0; }
+      /* border-bottom: solid 2px rgba(210, 215, 217, 0.75); */
+      margin: 0 0 3.5em 0;}
       #sidebar > .inner > * > :last-child {
         margin-bottom: 0; }
       #sidebar > .inner > *:last-child {
