@@ -6,34 +6,35 @@ const upload = multer({ dest: 'uploads/' });
 const uploadImage = require('../config/uploadImage'); // S3 업로드 함수
 const fs = require('fs');
 
-
 // 게시판 관련 기능
 
 // 게시글 작성 기능
-router.post('/board/upload',  upload.single('image'), async(req, res) => {
-    const { title, content, category } = req.body
-    const filePath = req.file.path
+router.post('/upload', upload.single('image'), async (req, res) => {
+    const { title, content, category, idx } = req.body;
+    const filePath = req.file.path;
+
     try {
-        const imageUrl = await uploadImage(filePath);
+        const imageUrl = await uploadImage(filePath, 'board'); // 폴더명을 'board'로 지정
 
         // 데이터베이스에 게시물 정보와 이미지 URL 저장
-        const sql = 'INSERT INTO SR_BOARD (title, content, category, image_url) VALUES (?, ?, ?, ?)';
-        const values = [title, content, category, imageUrl]
+        const sql = `INSERT INTO SR_BOARD (USER_IDX, BOARD_TITLE, BOARD_CONTENT, BOARD_COUNT, BOARD_IMG) 
+                    VALUES (?, ?, ?, ?, ?)`;
+        const values = [idx, title, content, category, imageUrl];
         conn.query(sql, values, (err, result) => {
             if (err) {
                 console.error('DB Insert Error: ', err);
-                return res.status(500).json({ error: 'DB Insert Error' })
+                return res.status(500).json({ error: 'DB Insert Error' });
             }
-            res.status(200).json({ message: 'Post created successfully', imageUrl })
+            console.log('게시글 작성 완료')
+            res.redirect('/');
         });
     } catch (err) {
-        res.status(500).json({ error: err.message })
+        res.status(500).json({ error: err.message });
     } finally {
         // 임시 파일 삭제
-        fs.unlinkSync(filePath)
+        fs.unlinkSync(filePath);
     }
-})
-
+});
 
 // 메인페이지에 자유게시판을 불러옴
 router.get('/freePost',(req,res)=> {

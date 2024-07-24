@@ -9,7 +9,9 @@
 <body>
     <form action="/board/upload" method="post" enctype="multipart/form-data">
         <table> 
-            <input type="hidden" name="idx" value="{{user_id}}">
+            {% if user %}
+            <input type="hidden" name="idx" value={{user.idx}}>
+            {% endif %}
             <tr>
                 <td>
                     <h2>글쓰기</h2>
