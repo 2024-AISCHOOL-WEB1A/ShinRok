@@ -21,6 +21,7 @@ const userRouter = require('./routes/userRouter')
 const boardRouter = require('./routes/boardRouter')
 const diaryRouter = require('./routes/diaryRouter')
 
+
 // 암튼 필요함
 app.use('/public', express.static('public'));
 app.use('/config', express.static('config'));
