@@ -1,10 +1,15 @@
 // script.js
+
+
+
 document.addEventListener("DOMContentLoaded", function() {
     var calendarEl = document.getElementById('calendar');
     var modal = document.getElementById("myModal");
     var span = document.getElementsByClassName("close")[0];
     var modalText = document.getElementById("modal-text");
+    var diaryNameInput = document.getElementById('diaryName');
 
+    // FullCalendar 초기화
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         dateClick: function(info) {
@@ -13,19 +18,35 @@ document.addEventListener("DOMContentLoaded", function() {
             modal.style.display = "block";
         }
     });
-
     calendar.render();
 
+    // 모달 닫기 버튼 클릭 시 모달 닫기
     span.onclick = function() {
         modal.style.display = "none";
     }
 
+    // 모달 외부 클릭 시 모달 닫기
     window.onclick = function(event) {
         if (event.target == modal) {
             modal.style.display = "none";
         }
     }
+
+    // 페이지 로드 시 저장된 다이어리 이름을 불러옴
+    var savedDiaryName = localStorage.getItem('diaryName');
+    if (savedDiaryName) {
+        diaryNameInput.value = savedDiaryName;
+    }
+
+    // 다이어리 이름 변경 시 저장
+    diaryNameInput.addEventListener('input', function() {
+        localStorage.setItem('diaryName', diaryNameInput.value);
+    });
 });
+
+
+// =================================================================================================
+
 
 
 
@@ -47,24 +68,4 @@ function loadFile(input) {
 }
 
 
-document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      initialView: 'dayGridMonth'
-    });
-    calendar.render();
 
-    // 다이어리 이름 저장 및 로드
-    var diaryNameInput = document.getElementById('diaryName');
-
-    // 페이지 로드 시 저장된 다이어리 이름을 불러옴
-    var savedDiaryName = localStorage.getItem('diaryName');
-    if (savedDiaryName) {
-      diaryNameInput.value = savedDiaryName;
-    }
-
-    // 다이어리 이름 변경 시 저장
-    diaryNameInput.addEventListener('input', function() {
-      localStorage.setItem('diaryName', diaryNameInput.value);
-    });
-  });
