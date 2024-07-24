@@ -6,10 +6,9 @@ const s3 = require('../config/aws')
 // 게시판 관련 기능
 
 // 게시글 작성 기능
-router.post('/plusPost', (req, res) => {
-    let { nick, title, } = req.body
+router.post('/board/upload', (req, res) => {
+    let {title, } = req.body
 })
-
 
 
 // 메인페이지에 자유게시판을 불러옴
