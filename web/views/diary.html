@@ -25,64 +25,67 @@
   </head>
 
   <body>
-
+    <form action="/diary/submit" method="post" enctype="multipart/form-data" class="diaryForm" id="diaryForm">
 <!-- ----------------------헤더(로고/다이어리이름)----------------------------------- -->
 
-
-    <header>
-      <a href="/" id="logo"><img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/test/KakaoTalk_20240722_111546767_01.png" alt=""></a>
-
-        <input name="query" id="diaryName" type="text" placeholder="다이어리 이름을 설정하세요.">
-
-    </header>
-
-
-<!-- ----------------------컨테이너----------------------------------- -->  
-
-
-    <div id="container">
-
-
-<!-- ----------------------사이드메뉴----------------------------------- -->
-
-      <div id="side">
-        <a href="" class="button big">게시판</a> <br>
-        <a href="" class="button big">병충해진단</a> <br>
-        <a href="" class="button big">식물 도감</a> <br>
-        <a href="" class="button big">마이 페이지</a> <br>
-      </div>
-
-<!-- ----------------------달력----------------------------------- -->
-
-      <section class="calendarForm">
-        <div id='calendar'></div>
-
-
-<!-- ----------------------모달 상단----------------------------------- -->
-
-
-        <div id="myModal" class="modal">
-
-          <div class="modal-content">
-            <span class="close">&times;</span> <!-- x버튼 -->
-
-            <p id="modal-text"></p>
-
-            <p><input type="text" placeholder="제목"  id="title" size="100%"></p>
-            <textarea name="content" id="content" placeholder="내용"></textarea>
-
-
-<!-- ----------------------모달 하단(아이콘, 사진업로드, 등록/취소)----------------------------------- -->
-
-
-            <div id="modal_bottom">
-
-
-<!-- ----------------------아이콘----------------------------------- -->
-
-
-              <form id="sticker_container">
-
+      
+      <header>
+        <a href="/" id="logo"><img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/test/KakaoTalk_20240722_111546767_01.png" alt=""></a>
+      
+          <input name="query" id="diaryName" type="text" placeholder="다이어리 이름을 설정하세요.">
+      
+      </header>
+    
+    
+<!--   ----------------------컨테이너----------------------------------- -->  
+    
+    
+      <div id="container">
+      {% if user %}
+      <input type="hidden" name="idx" value={{user.idx}}>
+      {% endif %}
+      
+      
+<!--   ----------------------사이드메뉴----------------------------------- -->
+      
+        <div id="side">
+          <a href="" class="button big">게시판</a> <br>
+          <a href="" class="button big">병충해진단</a> <br>
+          <a href="" class="button big">식물 도감</a> <br>
+          <a href="" class="button big">마이 페이지</a> <br>
+        </div>
+      
+<!--   ----------------------달력----------------------------------- -->
+      
+        <section class="calendarForm">
+          <div id='calendar'></div>
+        
+        
+<!--   ----------------------모달 상단----------------------------------- -->
+        
+        
+          <div id="myModal" class="modal">
+          
+            <div class="modal-content">
+              <span class="close">&times;</span> <!-- x버튼 -->
+            
+              <p id="modal-text"></p>
+              <input type="hidden" name="modalText" id="modalText">
+              <p><input type="text" placeholder="제목" name="title" id="title" size="100%"></p>
+              <textarea name="content" id="content" placeholder="내용"></textarea>
+            
+            
+<!--   ----------------------모달 하단(아이콘, 사진업로드, 등록/취소)----------------------------------- -->
+            
+            
+              <div id="modal_bottom">
+              
+              
+<!--   ----------------------아이콘----------------------------------- -->
+              
+              
+              <div>
+                
                 <div class="weather"> 날씨<br>
                   <img src="https://url.kr/ovusa3" alt="해" id="sun" class="sticker">
                   <img src="https://url.kr/qjvl4s" alt="비" id="rain" class="sticker">
@@ -90,7 +93,7 @@
                   <img src="https://url.kr/5wsmzp" alt="구름" id="cloud" class="sticker">
                   <img src="https://url.kr/jjyn7y" alt="눈" id="snow" class="sticker">
                 </div>
-
+              
                 <div id="do">행동 <br>
                   <img src="https://url.kr/x5zahb" alt="물주기" id="water" class="sticker">
                   <img src="https://url.kr/ndtb2h" alt="심기" id="seed" class="sticker">
@@ -98,7 +101,7 @@
                   <img src="https://url.kr/iywgjg" alt="분갈이" id="repot" class="sticker">
                   <img src="https://url.kr/5wi911" alt="해충관리" id="debug" class="sticker">
                 </div>
-
+              
                 <div id="change">식물변화<br>
                   <img src="https://url.kr/pvzbge" alt="발아" id="balah" class="sticker">
                   <img src="https://url.kr/h74t55" alt="싹" id="ssak" class="sticker">
@@ -106,41 +109,41 @@
                   <img src="https://url.kr/itnj8f" alt="풀" id="leaf" class="sticker">
                   <img src="https://url.kr/6m93r9" alt="꽃" id="flower" class="sticker">
                 </div>
-              </form>
-
-
-<!-- ----------------------사진업로드----------------------------------- -->
-
-
-                <form class="inputImg" method="post" enctype="multipart/form-data"> <!-- 이미지 파일 데이터에 알맞는 enctype 설정 -->
-                  <div class="addImage" id="image-show"></div> <!-- 이미지 띄울 공간 --> 
-                  <input type="file" accept="image/*" onchange="loadFile(this)">
-                </form>
-
-
-            </div> <!-- 모달 하단(아이콘, 사진업로드, 등록/취소) -->
-
-
-<!-- ----------------------버튼----------------------------------- -->
-
-
-            <div id="commitButton">
-              <input type="submit" value="취소" id="cancel">
-              <input type="submit" value="등록">
-            </div>
-
-
-          </div> <!-- 모달상단(modal-content) -->
-          
-        </div> <!-- 모달상단 -->
-
-      </section> <!-- 달력 -->
+              </div>  
+              
+              
+<!--   ----------------------사진업로드----------------------------------- -->
+              
+              
+              <div>    
+                <div class="addImage" id="image-show"></div> <!-- 이미지 띄울 공간 --> 
+                <input type="file" accept="image/*" onchange="loadFile(this)">
+              </div>   
+                
+                
+              </div> <!-- 모달 하단(아이콘, 사진업로드, 등록/취소) -->
+            
+            
+<!--   ----------------------버튼----------------------------------- -->
+            
+            
+              <div id="commitButton">
+                <input type="submit" value="취소" id="cancel">
+                <input type="submit" value="등록" id="reg">
+              </div>
+            
+            
+            </div> <!-- 모달상단(modal-content) -->
+            
+          </div> <!-- 모달상단 -->
+        
+        </section> <!-- 달력 -->
+      
+      </div> <!-- 컨테이너 -->
     
-    </div> <!-- 컨테이너 -->
-
-
+  </form>
 <script src="../assets/js/diary.js"></script>
-
-
+  
+  
   </body>
 </html>

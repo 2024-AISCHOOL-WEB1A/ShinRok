@@ -22,7 +22,7 @@ router.get('/plusPost', (req, res) => {
  
 // 다이어리 페이지 이동
 router.get('/diary', (req, res) => {
-    res.render('diary')
+    res.render('diary', {user: req.session.user})
 })
 
 

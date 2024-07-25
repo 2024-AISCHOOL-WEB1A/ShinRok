@@ -74,7 +74,7 @@ router.get('/freePost',(req,res)=> {
                     B.BOARD_DATE, 
                     B.BOARD_IMG`
     conn.query(sql, (e, r) => {
-        console.log(r)
+        // console.log(r)
         res.render('freePost', {boardFree : r})
     })
 })
@@ -153,10 +153,40 @@ router.get('/bragPost',(req,res)=> {
 //     })
 // })
 
-// 임시
+// 게시글 상세보기 페이지
 router.get('/detailPost', (req, res) => {
-    res.render('detailPost')
+    const postId = req.query.idx
+    
+    const sql = `SELECT 
+                    U.USER_IDX,
+                    U.USER_NICK,
+                    U.USER_PICTURE,
+                    B.BOARD_IDX,
+                    B.BOARD_TITLE,
+                    B.BOARD_CONTENT,
+                    B.BOARD_COUNT,
+                    B.BOARD_DATE,
+                    B.BOARD_IMG,
+                    B.BOARD_CATE
+                FROM 
+                    SR_USER U
+                    JOIN SR_BOARD B ON U.USER_IDX = B.USER_IDX
+                WHERE 
+                    B.BOARD_IDX = ?`
+
+    conn.query(sql, [postId], (e, r) => {
+        if (e) {
+            console.error('DB Query Error: ', e);
+            return res.status(500).json({ error: 'DB Query Error' })
+        }
+        if (r.length === 0) {
+            return res.status(404).json({ error: 'Post not found' })
+        }
+        res.render('detailPost', { post: r[0] })
+    });
 })
+
+module.exports = router;
 
 
 
