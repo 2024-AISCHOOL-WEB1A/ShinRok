@@ -26,5 +26,9 @@ router.get('/diary', (req, res) => {
 })
 
 
+router.get('/dictionary', (req, res)=>{
+    res.render('dictionary', {user: req.session.user})
+})
+
 
 module.exports = router
