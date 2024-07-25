@@ -164,9 +164,6 @@ dd{
     display: flex;
     justify-content: flex-end;
 }
-.fileUpload{
-    /* background-color: whitesmoke; */
-}
 
 /* ------------- 취소버튼 --------------------- */
 input[type="button"] {

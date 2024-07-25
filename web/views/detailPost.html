@@ -3,9 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>게시물 제목이 들어가면 좋겠네용</title> 
+    <script src="https://kit.fontawesome.com/71a327e855.js" crossorigin="anonymous"></script>
+    <!-- font awesome 오류 났을때 fas / fab (brand 이미지일 경우) 앞에 추가하여 해결 _버전 오류 -->
+
+    <link rel="stylesheet" href="../public/detailPost.css">
 </head>
+
 <body>
-    test
+    <!-- ------------------- 최상단 배너 ----------------------- -->
+    <section id="banner">
+        <div class="content">
+            <header>
+                <!-- <h2>오늘의 식물 <br/></h2> -->
+                <img class="murukLogo" src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/board/2cfc7479eda4cbc7ffdecc6081f496d6" alt="">
+            </header>
+            <!-- <ul class="actions">
+                <li><a href="#">자세히 보러가기 <i class="fa-solid fa-right-long"></i></a></li>
+            </ul> -->
+        </div>
+    </section>
+
+    <!-- ----------------------------- Body 전체 ------------------------------------------------------------------------------------------------------------------------------ -->
+    <form action="/board/upload" method="post" class="detailForm">
+        
+        <!-- ------------------ 왼쪽 사이드바 ---------------------- -->
+        <div class="leftSidebar">
+            <ul>
+                <!-- <li><a href="/plusPost"><button id="postingBtn"><i class="fa-solid fa-pen-to-square"></i> 게시글쓰기</button></a></li> -->
+                <!-- 메인으로 돌아가는 버튼 -->
+                <li><a href="/"><button> HOME</button></a></li>
+                <li>
+                    <div class="profile">Profile</div>
+                </li>
+
+                <li><a href="#">자유게시판</a></li>
+                <li><a href="#">자랑하기</a></li>
+                <li><a href="#">인기글</a></li>
+                <li><a href="#">공지사항</a></li>
+                <li><a href="#">질문게시판</a></li>
+            </ul>
+        </div>
+
+        <!-- ---------------------------- 여기부터 게시글 상세페이지 ----------------------------------------- -->
+        <table class="table"> 
+            {% if user %}
+            <input type="hidden" name="idx" value={{user.idx}}>
+            {% endif %}
+
+            <!-- ------------------ 게시물 제목부분 ------------------------ -->
+            <div class="detailTitle">
+                <tr>
+                    <td>카테고리></td>
+                </tr>
+                <tr>
+                    <td><h2 id="titleName">게시물 제목</h2></td>
+                </tr>
+                <tr>
+                    <td rowspan="2" id="profilePic"> 프로필 사진</td>
+                    <td>작성자 닉네임</td>
+                    <tr>
+                        <td id="titleDate">게시날짜 / 게시시간</td>
+                        <td id="titleTd">조회수<span>: 132</span></td>
+                        <td id="titleTd"><i class="fa-regular fa-comment-dots"></i>댓글 수<span>: 10</span></td>
+                    </tr>
+                </tr>
+            </div>
+
+            <!-- ------------------- 게시물 내용이 보이는 부분 ----------------- -->
+             <div class="boardContent">
+                <tr>
+                    <td class="addImage" colspan="5">
+                        <!-- 이미지 혹은 내용을 넣을 공간 -->
+                    </td>
+                </tr>
+            </div>
+            
+            <div>
+                <tr>
+                    <td><i class="fa-regular fa-heart"></i>좋아요 <span>8</span></td>
+                    <td><i class="fa-regular fa-comment-dots"></i>댓글 <span>10</span></td>
+                </tr>
+            </div>
+        </table>
+
+        <!-- ----------------- 오른쪽 사이드바(페이지 이동) ----------------- -->
+        <div class="rightSidebar">
+            <a href="/diary"><button>Diary</button></a>
+            <a href="#"><button>병충해 진단</button></a>
+            <a href="#"><button>식물 도감</button></a>
+            <a href="#"><button>마이페이지</button></a>
+        </div>
+    </form>
+
+    <script src="../assets/js/post.js"></script>
 </body>
 </html>
