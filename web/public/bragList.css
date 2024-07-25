@@ -1,0 +1,72 @@
+@import url('http://fonts.googleapis.com/earlyaccess/nanumgothic.css');
+
+@font-face {
+  font-family: 'GmarketSansMedium';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+*{
+    font-family: 'Pretendard-Regular';
+}
+
+html{
+    height:100%;
+}
+/* ------- 상단 배너 이미지 크기 조절 ---------- */
+#banner header{
+    text-align: center;
+}
+#banner .murukLogo{
+    width: 75vw;
+    margin-bottom: 1vw;
+}
+/* ----------------------- 상세페이지 보이는 부분 -------------- */
+#container{
+    display:grid;
+}
+
+table {
+    width: 100%;
+    border: 1px, solid;
+    height: 80vh;
+}
+
+.bragList{
+    display: inline-flex;
+    width: 100%;
+}
+/* ------------------- 자랑list -------------------------- */
+
+
+
+/* ------------ 왼쪽 사이드바 ----------------------------- */
+.leftSidebar{
+    width: 15%;
+}
+.leftSidebar li{
+    list-style-type: none;
+}
+.leftSidebar a{
+    text-decoration: none;
+}
+.leftSidebar ul{
+    padding-left: 0;
+}
+
+/* -------------- 오른쪽 사이드바  -------------------------- */
+.rightSidebar{
+    display: flex;
+    flex-direction: column;
+    width: 15%;
+}
+.rightSidebar a{
+    text-decoration: none;
+}
