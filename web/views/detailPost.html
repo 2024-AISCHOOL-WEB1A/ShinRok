@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>게시물 제목이 들어가면 좋겠네용</title> 
+    <title>{{ post.BOARD_TITLE }}</title> 
     <script src="https://kit.fontawesome.com/71a327e855.js" crossorigin="anonymous"></script>
     <!-- font awesome 오류 났을때 fas / fab (brand 이미지일 경우) 앞에 추가하여 해결 _버전 오류 -->
 
@@ -57,15 +57,15 @@
                     <td>카테고리></td>
                 </tr>
                 <tr>
-                    <td><h2 id="titleName">게시물 제목</h2></td>
+                    <td><h2 id="titleName">{{ post.BOARD_TITLE }}</h2></td>
                 </tr>
                 <tr>
                     <td rowspan="2" id="profilePic"> 프로필 사진</td>
-                    <td>작성자 닉네임</td>
+                    <td>{{ post.USER_NICK }}</td>
                     <tr>
-                        <td id="titleDate">게시날짜 / 게시시간</td>
-                        <td id="titleTd">조회수<span>: 132</span></td>
-                        <td id="titleTd"><i class="fa-regular fa-comment-dots"></i>댓글 수<span>: 10</span></td>
+                        <td id="titleDate">{{ post.BOARD_DATE }}</td>
+                        <td id="titleTd">조회수<span>: {{ post.BOARD_COUNT }}</span></td>
+                        <td id="titleTd"><i class="fa-regular fa-comment-dots"></i>댓글 수<span>: {{ commentCount }}</span></td>
                     </tr>
                 </tr>
             </div>
@@ -75,14 +75,20 @@
                 <tr>
                     <td class="addImage" colspan="5">
                         <!-- 이미지 혹은 내용을 넣을 공간 -->
+                        {{ post.BOARD_CONTENT }}
+                        <br>
+                        {% if post.BOARD_IMG %}
+                            <img src="{{ post.BOARD_IMG }}" alt="게시글 이미지">
+                        {% endif %}
+
                     </td>
                 </tr>
             </div>
             
             <div>
                 <tr>
-                    <td><i class="fa-regular fa-heart"></i>좋아요 <span>8</span></td>
-                    <td><i class="fa-regular fa-comment-dots"></i>댓글 <span>10</span></td>
+                    <!--<td><i class="fa-regular fa-heart"></i>좋아요 <span>8</span></td>-->
+                    <td><i class="fa-regular fa-comment-dots"></i>댓글 <span>{{ commentCount }}</span></td>
                 </tr>
             </div>
         </table>
