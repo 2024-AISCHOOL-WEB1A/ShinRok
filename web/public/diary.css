@@ -52,15 +52,13 @@ header{
 
 /* --------------------------------달력---------------------------------- */
 
-/* .fc-dayGridMonth-view{
-background-color: pink;
-} */
+
 
 .calendarForm{
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgb(240, 240, 240);
+    background-color: rgb(246, 246, 246);
     width: 60%;
     margin-top: 2%;
 }
@@ -79,8 +77,14 @@ background-color: pink;
 }
     /* 마우스 호버 효과 */
 .fc-daygrid-day-frame:hover{
-    background-color: #fff7e3;
+    background-color: #ffbf00;
 }
+
+
+#modal-text{
+    font-size: 2em;
+}
+
 
 /* --------------------------------모달---------------------------------- */
 
@@ -154,7 +158,7 @@ background-color: pink;
 }
 
 .sticker:hover{
-    background-color: #fff7e3;
+    background-color: #000000;
 }
 
 

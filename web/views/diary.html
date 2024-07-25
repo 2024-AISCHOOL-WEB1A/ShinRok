@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang='en'>
   <head>
+    <title> 📕다이어리📕 </title>
+
     <meta charset='utf-8' />
     <script src=""></script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script> <!-- 드래그 앤 드롭 -->
@@ -24,7 +26,8 @@
 
   <body>
 
-<!-- ----------------------헤더----------------------------------- -->
+<!-- ----------------------헤더(로고/다이어리이름)----------------------------------- -->
+
 
     <header>
       <a href="/" id="logo"><img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/test/KakaoTalk_20240722_111546767_01.png" alt=""></a>
@@ -33,9 +36,12 @@
 
     </header>
 
+
 <!-- ----------------------컨테이너----------------------------------- -->  
-    
+
+
     <div id="container">
+
 
 <!-- ----------------------사이드메뉴----------------------------------- -->
 
@@ -50,9 +56,9 @@
 
       <section class="calendarForm">
         <div id='calendar'></div>
-  
 
-<!-- ----------------------모달----------------------------------- -->
+
+<!-- ----------------------모달 상단----------------------------------- -->
 
 
         <div id="myModal" class="modal">
@@ -66,12 +72,18 @@
             <textarea name="content" id="content" placeholder="내용"></textarea>
 
 
+<!-- ----------------------모달 하단(아이콘, 사진업로드, 등록/취소)----------------------------------- -->
+
 
             <div id="modal_bottom">
-              <div id="sticker_container">
 
-                <div class="weather">
-                  날씨<br>
+
+<!-- ----------------------아이콘----------------------------------- -->
+
+
+              <form id="sticker_container">
+
+                <div class="weather"> 날씨<br>
                   <img src="https://url.kr/ovusa3" alt="해" id="sun" class="sticker">
                   <img src="https://url.kr/qjvl4s" alt="비" id="rain" class="sticker">
                   <img src="https://url.kr/qelhx4" alt="번개" id="thunder" class="sticker">
@@ -94,17 +106,22 @@
                   <img src="https://url.kr/itnj8f" alt="풀" id="leaf" class="sticker">
                   <img src="https://url.kr/6m93r9" alt="꽃" id="flower" class="sticker">
                 </div>
-              </div>
-
-<!-- ----------------------사진파일 업로드----------------------------------- -->
-
-
-              <form class="inputImg" method="post" enctype="multipart/form-data"> <!-- 이미지 파일 데이터에 알맞는 enctype 설정 -->
-                <div class="addImage" id="image-show"></div> <!-- 이미지 띄울 공간 --> 
-                <input type="file" accept="image/*" onchange="loadFile(this)">
               </form>
 
-            </div>
+
+<!-- ----------------------사진업로드----------------------------------- -->
+
+
+                <form class="inputImg" method="post" enctype="multipart/form-data"> <!-- 이미지 파일 데이터에 알맞는 enctype 설정 -->
+                  <div class="addImage" id="image-show"></div> <!-- 이미지 띄울 공간 --> 
+                  <input type="file" accept="image/*" onchange="loadFile(this)">
+                </form>
+
+
+            </div> <!-- 모달 하단(아이콘, 사진업로드, 등록/취소) -->
+
+
+<!-- ----------------------버튼----------------------------------- -->
 
 
             <div id="commitButton">
@@ -112,18 +129,18 @@
               <input type="submit" value="등록">
             </div>
 
-          </div>
-        </div>
-      </section>
+
+          </div> <!-- 모달상단(modal-content) -->
+          
+        </div> <!-- 모달상단 -->
+
+      </section> <!-- 달력 -->
     
-    </div>
-  
-
-    <script src="../assets/js/diary.js"></script>
+    </div> <!-- 컨테이너 -->
 
 
+<script src="../assets/js/diary.js"></script>
 
-    <!-- 코딩이미친새끼 -->
 
   </body>
 </html>
