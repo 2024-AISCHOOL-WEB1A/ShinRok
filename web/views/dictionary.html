@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔍식물 도감🔍</title> 
+    <script src="https://kit.fontawesome.com/71a327e855.js" crossorigin="anonymous"></script>
+    <!-- font awesome 오류 났을때 fas / fab (brand 이미지일 경우) 앞에 추가하여 해결 _버전 오류 -->
+
+    <link rel="stylesheet" href="../public/dictionary.css">
+</head>
+
+<body>
+
+
+<!-- ----------------------------- Body 전체 ------------------------------------------------------------------------------------------------------------------------------ -->
+
+<form action="/board/upload" method="post" class="detailForm">
+
+
+<!-- ----------------------헤더----------------------------------- -->
+
+
+    <header>
+
+        <a href="/" id="logo"><img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/test/KakaoTalk_20240722_111546767_01.png" alt=""></a>
+
+        <section id="search" class="alt">
+            <form method="post" action="#">
+                <input type="text" name="query" id="query" placeholder="Content Search" />
+                <button> 검색 </button>
+            </form>
+        </section>
+
+    </header>
+
+    <div id="con">
+
+        
+<!-- ------------------ 왼쪽 사이드바 ---------------------- -->
+        <aside class="leftSidebar">
+            <nav>
+                <ul>
+                    <!-- <li><a href="/plusPost"><button id="postingBtn"><i class="fa-solid fa-pen-to-square"></i> 게시글쓰기</button></a></li> -->
+                    <!-- 메인으로 돌아가는 버튼 -->
+                    <li><a href="/"><button> HOME</button></a></li>
+                    <li>
+                        <div class="profile">Profile</div>
+                    </li>
+
+                    <li><a href="#">자유게시판</a></li>
+                    <li><a href="#">자랑하기</a></li>
+                    <li><a href="#">인기글</a></li>
+                    <li><a href="#">공지사항</a></li>
+                    <li><a href="#">질문게시판</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+
+
+<!-- ----------------------도감----------------------------------- -->
+
+        <div id="dictionary">
+            <div></div>
+            <div id="text"><h2>식물도감</h2></div>
+            <div></div>
+
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+
+        </div>
+
+
+        <!-- ----------------- 오른쪽 사이드바(페이지 이동) ----------------- -->
+            <aside class="rightSidebar">
+                <nav>
+                    <ul>
+                        <li><a href="/diary">Diary</a></li>
+                        <li><a href="#">병충해 진단</a></li>
+                        <li><a href="#">식물 도감</a></li>
+                        <li><a href="#">마이페이지</a></li>
+                    </ul>
+                </nav>
+            </aside>
+    </form>
+    </div>
+</div>
+
+    <script src="../assets/js/dictionary.js"></script>
+</body>
+</html>

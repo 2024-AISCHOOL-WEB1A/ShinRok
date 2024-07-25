@@ -1,0 +1,113 @@
+html{
+    height: 100%;
+}
+
+/* ----------------------헤더----------------------------------- */
+
+header{
+    display: flex;
+    border-bottom: solid 5px #f56a6a;
+    width: 100%;
+}
+
+#con{
+    display: flex;
+}
+
+#logo{
+    width: 20%;
+}
+
+
+#search,#query{
+    margin-top: 2%;
+    width: 60%;
+    height: 3em;
+}
+
+/* ------------ 왼쪽 사이드바 ----------------------------- */
+.leftSidebar{
+    width: 15%;
+}
+.leftSidebar li{
+    list-style-type: none;
+}
+.leftSidebar a{
+    text-decoration: none;
+}
+.leftSidebar ul{
+    padding-left: 0;
+}
+
+/* -------------- 오른쪽 사이드바  -------------------------- */
+.rightSidebar{
+    text-align: end;
+    width: 15%;
+}
+.rightSidebar a{
+    text-decoration: none;
+}
+.rightSidebar li{
+    list-style: none; 
+}
+.rightSidebar ul{
+    padding-left: 0;
+}
+
+
+.table {
+    display: table;
+    width: 100%;
+    
+}
+.detailForm{
+    display: flex;
+    width: 100vw;
+}
+
+/* ----------------------사이드메뉴----------------------------------- */
+
+
+#side{
+    width: 20%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 5%;
+    height: 80vh;
+}
+
+
+.button{
+    width: 50%
+}
+
+
+/* ----------------------도감----------------------------------- */
+
+
+
+#dictionary{
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 0.4fr 1fr 1fr 1fr;
+
+    width: 70%;
+    background-color: rgb(210, 210, 210);
+    display: grid;
+    margin-top: 2%;
+    margin-bottom: 10%;
+    place-items: center;
+}
+
+#text{
+    margin-top: 5%;
+}
+
+.item{
+    margin: 5%;
+    width: 80%;
+    /* height: 80%; */
+    background-color:white;
+    align-content: center;
+    aspect-ratio: 1;
+}
