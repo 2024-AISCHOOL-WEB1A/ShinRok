@@ -7,7 +7,7 @@
     <script src="https://kit.fontawesome.com/71a327e855.js" crossorigin="anonymous"></script>
     <!-- font awesome 오류 났을때 fas / fab (brand 이미지일 경우) 앞에 추가하여 해결 _버전 오류 -->
 
-    <link rel="stylesheet" href="../public/detailPost.css">
+    <link rel="stylesheet" href="../public/sidebar.css">
 </head>
 
 <body>
@@ -48,18 +48,19 @@
         </aside>
 
         <!-- ---------------------------- 여기부터 작성 ----------------------------------------- -->
-        <table class="table"> 
-
-                
-        </table>
+        
 
         <!-- ----------------- 오른쪽 사이드바(페이지 이동) ----------------- -->
-        <div class="rightSidebar">
-            <a href="/diary"><button>Diary</button></a>
-            <a href="#"><button>병충해 진단</button></a>
-            <a href="#"><button>식물 도감</button></a>
-            <a href="#"><button>마이페이지</button></a>
-        </div>
+        <aside class="rightSidebar">
+            <nav>
+                <ul>
+                    <li><a href="/diary">Diary</a></li>
+                    <li><a href="#">병충해 진단</a></li>
+                    <li><a href="#">식물 도감</a></li>
+                    <li><a href="#">마이페이지</a></li>
+                </ul>
+            </nav>
+        </aside>
     </form>
 
     <script src="../assets/js/post.js"></script>
