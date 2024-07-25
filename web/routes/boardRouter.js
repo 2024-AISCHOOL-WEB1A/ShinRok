@@ -8,6 +8,7 @@ const fs = require('fs');
 
 // 게시판 관련 기능
 
+
 // 게시글 작성 기능
 router.post('/upload', upload.single('image'), async (req, res) => {
     const { title, content, category, idx } = req.body;
