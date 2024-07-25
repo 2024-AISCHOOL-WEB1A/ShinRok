@@ -31,7 +31,7 @@ router.post('/submit', upload.single('image'), async (req, res)=>{
                 console.error('DB Insert Error: ', err);
                 return res.status(500).json({error: 'DB Insert Error'})
             }
-            console.log('게시글 작성 완료');
+            console.log('내용 작성 완료');
             res.redirect('/diary')
         })
     } catch (err){
