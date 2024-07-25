@@ -1,0 +1,121 @@
+@import url('http://fonts.googleapis.com/earlyaccess/nanumgothic.css');
+
+@font-face {
+  font-family: 'GmarketSansMedium';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+*{
+    font-family: 'Pretendard-Regular';
+}
+
+/* ------- 상단 배너 이미지 크기 조절 ---------- */
+#banner header{
+    text-align: center;
+}
+#banner .murukLogo{
+    width: 75vw;
+    margin-bottom: 1vw;
+}
+
+/* ----------------------- 상세페이지 보이는 부분 -------------- */
+.table {
+    display: table;
+    width: 100%;
+    
+}
+
+.detailForm{
+    display: inline-flex;
+    width: 100%;
+}
+/* --- 게시글 제목 부분 ---- */
+#titleName{
+    margin-top: 3%;
+}
+
+#profilePic{
+    width: 15%;
+    text-align: center;
+}
+#titleTd{
+    text-align: center;
+    width: 12%;
+}
+#titleDate{
+    color: #7e7979;
+    font-size: small;
+}
+.horizontal-line {
+    text-align: center;
+    width: 100%;
+    height: 1px;
+    background-color: #afa8a8; /* 원하는 색상으로 변경 가능 */
+    margin-bottom: 3%; 
+}
+
+/* --- 게시글 내용 부분 */
+.addImage {
+    width: 100%;
+    height: 50vw;
+    border: 1.5px #f78c8c solid; /* 전체 테두리 설정 */
+    border-top-width: calc(1.5px + 20px); /* 상단 테두리 두께를 1.5px + 50px으로 설정 */
+    border-top-color: #f56a6a; /* 상단 테두리 색상 설정 */
+    border-top-style: solid; /* 상단 테두리 스타일 설정 */
+    border-radius: 20px 20px 20px 20px; /* 경계선 반지름 설정 */
+    overflow: hidden;
+    padding: 10px;
+}
+
+/* 이미지 사이즈 조정 */
+#postImg{
+    width: 100%;
+    height: 80%;
+    border-radius: 20px 20px / 20px 20px;
+    /* 이미지 최대 너비 지정 */
+    max-width: 100%;
+    padding-bottom: 1%;
+}
+@media (max-width: 786px){
+  #postImg{
+    /* 화면 너비가 768px 이하인 경우 이미지 최대 너비를 500px로 조정 */
+    max-width: 500px;
+  }
+}
+
+/* ------------ 왼쪽 사이드바 ----------------------------- */
+.leftSidebar{
+    width: 15%;
+}
+.leftSidebar li{
+    list-style-type: none;
+}
+.leftSidebar a{
+    text-decoration: none;
+}
+.leftSidebar ul{
+    padding-left: 0;
+}
+
+/* -------------- 오른쪽 사이드바  -------------------------- */
+.rightSidebar{
+    text-align: end;
+    width: 15%;
+}
+.rightSidebar a{
+    text-decoration: none;
+}
+.rightSidebar li{
+    list-style: none; 
+}
+.rightSidebar ul{
+    padding-left: 0;
+}

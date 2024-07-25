@@ -10,8 +10,28 @@
     <link rel="stylesheet" href="../public/plusPost.css">
 </head>
 <body>
+
     <form action="/board/upload" method="post" enctype="multipart/form-data">
 
+    <form action="/board/upload" method="post" enctype="multipart/form-data" class="plusPostForm">
+        
+        <!-- ---------------- 왼쪽 사이드바 ---------------------- -->
+        <div class="leftSidebar">
+            <ul>
+                <!-- <li><a href="/plusPost"><button id="postingBtn"><i class="fa-solid fa-pen-to-square"></i> 게시글쓰기</button></a></li> -->
+                <!-- 메인으로 돌아가는 버튼 -->
+                <li><a href="/"><button> HOME</button></a></li>
+
+
+                <li><a href="#">자유게시판</a></li>
+                <li><a href="#">자랑하기</a></li>
+                <li><a href="#">인기글</a></li>
+                <li><a href="#">공지사항</a></li>
+                <li><a href="#">질문게시판</a></li>
+            </ul>
+        </div>
+
+        <!-- ---------------- 글쓰기 작성 폼 ---------------------- -->
         <section class="table"> 
             {% if user %}
             <input type="hidden" name="idx" value={{user.idx}}>
@@ -46,16 +66,29 @@
             </div>
 
             <!-- ----------- 이미지 파일 업로드 ------------ -->
-            <div>
+            <div class="fileUpload">
                 <dd>
                     <input type="file" name="image" accept="image/*" onchange="loadFile(this)">
                     <div class="addImage" id="image-show">
                         <!-- 이미지 띄울 공간 -->
                     </div>
-                    <input type="submit" value="등록">
                 </dd>
             </div>
+
+            <!-- 등록 버튼 -->
+            <div id="footer">
+                <div class="uploadBtn"><input type="submit" value="등록"></div>
+                <div class="cancelBtn"><input type="button" value="취소"></div>
+            </div>
         </section>
+
+        <!-- ----------------- 오른쪽 사이드바(페이지 이동) ----------------- -->
+        <div class="rightSidebar">
+            <a href="/diary"><button>Diary</button></a>
+            <a href="#"><button>병충해 진단</button></a>
+            <a href="#"><button>식물 도감</button></a>
+            <a href="#"><button>마이페이지</button></a>
+        </div>
     </form>
 
     <script src="../assets/js/post.js"></script>

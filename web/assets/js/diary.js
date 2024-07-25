@@ -1,10 +1,18 @@
 // script.js
+
+
+
 document.addEventListener("DOMContentLoaded", function() {
     var calendarEl = document.getElementById('calendar');
     var modal = document.getElementById("myModal");
     var span = document.getElementsByClassName("close")[0];
     var modalText = document.getElementById("modal-text");
+    var diaryNameInput = document.getElementById('diaryName');
+    var cancel = document.getElementById('cancel');
+    var reg = document.getElementById('reg');
+    var modalTextInput = document.getElementById('modalText');
 
+    // FullCalendar 초기화
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         dateClick: function(info) {
@@ -13,23 +21,53 @@ document.addEventListener("DOMContentLoaded", function() {
             modal.style.display = "block";
         }
     });
-
     calendar.render();
 
+    // 모달 닫기 버튼 클릭 시 모달 닫기
     span.onclick = function() {
         modal.style.display = "none";
     }
 
+    // 모달 외부 클릭 시 모달 닫기
     window.onclick = function(event) {
         if (event.target == modal) {
             modal.style.display = "none";
         }
     }
+    
+
+    
+    // 페이지 로드 시 저장된 다이어리 이름을 불러옴
+    var savedDiaryName = localStorage.getItem('diaryName');
+    if (savedDiaryName) {
+        diaryNameInput.value = savedDiaryName;
+    }
+
+    // 다이어리 이름 변경 시 저장
+    diaryNameInput.addEventListener('input', function() {
+        localStorage.setItem('diaryName', diaryNameInput.value);
+    });
+
+
+    //  등록버튼 클릭 시 등록
+    reg.onclick = function(event){
+        event.preventDefault(); // 기본 폼 제출 동작 방지
+        modalTextInput.value = modalText.innerText; // 숨겨진 필드에 값 설정
+        document.getElementById('diaryForm').submit(); // 폼 제출
+    }
+
+    // 취소버튼 클릭 시 모달 닫기
+    cancel.onclick = function() {
+        modal.style.display = "none";
+    }
 });
 
 
+// =================================================================================================
 
 
+
+// 파일 로드 함수
 function loadFile(input) {
     let file = input.files[0]; // 선택파일 가져오기
 
@@ -47,24 +85,10 @@ function loadFile(input) {
 }
 
 
-document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      initialView: 'dayGridMonth'
-    });
-    calendar.render();
+// =================================================================================================
 
-    // 다이어리 이름 저장 및 로드
-    var diaryNameInput = document.getElementById('diaryName');
 
-    // 페이지 로드 시 저장된 다이어리 이름을 불러옴
-    var savedDiaryName = localStorage.getItem('diaryName');
-    if (savedDiaryName) {
-      diaryNameInput.value = savedDiaryName;
-    }
 
-    // 다이어리 이름 변경 시 저장
-    diaryNameInput.addEventListener('input', function() {
-      localStorage.setItem('diaryName', diaryNameInput.value);
-    });
-  });
+
+
+

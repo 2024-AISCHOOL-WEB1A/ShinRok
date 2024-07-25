@@ -75,13 +75,13 @@ router.get('/freePost',(req,res)=> {
                     B.BOARD_DATE, 
                     B.BOARD_IMG`
     conn.query(sql, (e, r) => {
-        console.log(r)
+        // console.log(r)
         res.render('freePost', {boardFree : r})
     })
 })
 
 // 메인페이지에 자랑게시판을 불러옴
-router.get('/bragPost',(req,res)=> {
+router.get('/bragList',(req,res)=> {
     const sql = `SELECT 
                     U.USER_IDX,
                     U.USER_NICK,
@@ -113,7 +113,7 @@ router.get('/bragPost',(req,res)=> {
 
     conn.query(sql, (e, r) => {
         console.log(r)
-        res.render('bragPost', {bragePost : r})
+        res.render('bragList', {bragePost : r})
     })
 })
 
@@ -153,5 +153,68 @@ router.get('/bragPost',(req,res)=> {
 //         res.render('', { : r})
 //     })
 // })
+
+// 게시글 상세보기 페이지
+router.get('/detailPost', (req, res) => {
+    const postId = req.query.idx
+
+    const postSql = `SELECT 
+                        U.USER_IDX,
+                        U.USER_NICK,
+                        U.USER_PICTURE,
+                        B.BOARD_IDX,
+                        B.BOARD_TITLE,
+                        B.BOARD_CONTENT,
+                        B.BOARD_COUNT,
+                        B.BOARD_DATE,
+                        B.BOARD_IMG,
+                        B.BOARD_CATE
+                    FROM 
+                        SR_USER U
+                        JOIN SR_BOARD B ON U.USER_IDX = B.USER_IDX
+                    WHERE 
+                        B.BOARD_IDX = ?`
+
+    const commentsSql = `SELECT 
+                            COUNT(*) AS COMMENT_COUNT,
+                            C.CMNT_IDX,
+                            C.CMNT_CONTENT,
+                            C.CMNT_DATE,
+                            U.USER_NICK,
+                            U.USER_PICTURE
+                        FROM 
+                            SR_CMNT C
+                            JOIN SR_USER U ON C.USER_IDX = U.USER_IDX
+                        WHERE 
+                            C.BOARD_IDX = ?
+                        GROUP BY
+                            C.CMNT_IDX,
+                            C.CMNT_CONTENT,
+                            C.CMNT_DATE,
+                            U.USER_NICK,
+                            U.USER_PICTURE`
+
+    conn.query(postSql, [postId], (err, postResult) => {
+        if (err) {
+            console.error('DB Query Error: ', err)
+            return res.status(500).json({ error: 'DB Query Error' })
+        }
+        if (postResult.length === 0) {
+            return res.status(404).json({ error: 'Post not found' })
+        }
+
+        const post = postResult[0]
+
+        conn.query(commentsSql, [postId], (err, commentsResult) => {
+            if (err) {
+                console.error('DB Query Error: ', err);
+                return res.status(500).json({ error: 'DB Query Error' })
+            }
+
+            const commentCount = commentsResult.length;
+            res.render('detailPost', { post: post, comments: commentsResult, commentCount: commentCount })
+        })
+    })
+})
 
 module.exports = router

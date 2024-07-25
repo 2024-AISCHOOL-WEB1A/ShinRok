@@ -13,6 +13,7 @@ const mainRouter = require('./routes/mainRouter');
 const userRouter = require('./routes/userRouter');
 const boardRouter = require('./routes/boardRouter');
 const diaryRouter = require('./routes/diaryRouter');
+const dictionaryRouter = require('./routes/dictionaryRouter');
 
 app.use('/public', express.static('public'));
 app.use('/config', express.static('config'));
@@ -56,6 +57,7 @@ app.use('/', mainRouter);
 app.use('/user', userRouter);
 app.use('/board', boardRouter);
 app.use('/diary', diaryRouter);
+app.use('/dictionary', dictionaryRouter);
 
 // 에러 핸들링 미들웨어 추가
 app.use((err, req, res, next) => {
