@@ -1,8 +1,13 @@
-    Flask
-    Flask-Bcrypt
-    Flask-JWT-Extended
-    PyMySQL    
-    boto3
-    python-dotenv
+Flask
+Flask-Bcrypt
+Flask-JWT-Extended
+PyMySQL    
+boto3
+python-dotenv
+torch
+torchvision
+Pillow
+numpy
+
 
 # pip install -r requirements.txt
