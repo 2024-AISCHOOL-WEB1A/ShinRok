@@ -80,7 +80,7 @@ router.get('/freePost',(req,res)=> {
 })
 
 // 메인페이지에 자랑게시판을 불러옴
-router.get('/bragPost',(req,res)=> {
+router.get('/bragList',(req,res)=> {
     const sql = `SELECT 
                     U.USER_IDX,
                     U.USER_NICK,
@@ -112,7 +112,7 @@ router.get('/bragPost',(req,res)=> {
 
     conn.query(sql, (e, r) => {
         console.log(r)
-        res.render('bragPost', {bragePost : r})
+        res.render('bragList', {bragePost : r})
     })
 })
 
