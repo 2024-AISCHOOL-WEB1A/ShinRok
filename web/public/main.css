@@ -557,6 +557,7 @@ button,
   border-bottom: solid 5px #f56a6a;
 }
 
+
 /* Wrapper */
 #wrapper {
   display: -moz-flex;
@@ -581,7 +582,7 @@ button,
   flex-shrink: 1;
   width: 100%; }
   #main > .inner {
-    padding: 0 6em 0.1em 6em ;
+    padding: 0 10vw 0.1em 10vw ;
     margin: 0 auto;
     max-width: 110em; }
     #main > .inner > section {
@@ -591,19 +592,19 @@ button,
         border-top: 0 !important; }
   @media screen and (max-width: 1680px) {
     #main > .inner {
-      padding: 0 5em 0.1em 5em ; }
+      padding: 0 5vw 0.1em 10vw ; }
       #main > .inner > section {
-        padding: 3em 0 3em 0 ; } }
+        padding: 3vw 0 3vw 0 ; } }
   @media screen and (max-width: 1280px) {
     #main > .inner {
-      padding: 0 4em 0.1em 4em ; }}
+      padding: 0 4vw 0.1em 4vw ; }}
       /* #main > .inner > section {
         padding: 4em 0 2em 0 ; } } */
   @media screen and (max-width: 736px) {
     #main > .inner {
-      padding: 0 2em 0.1em 2em ; }
+      padding: 0 2vw 0.1em 2vw ; }
       #main > .inner > section {
-        padding: 3em 0 1em 0 ; } }
+        padding: 3vw 0 1vw 0 ; } }
 
 /* Sidebar */
 #search form {
@@ -657,13 +658,13 @@ button,
   background-color: #f5f6f7;
   font-size: 0.9em;
   position: relative;
-  width: 26em; }
+  width: 23vw; }
   #sidebar h2 {
     font-size: 1.38889em; }
   #sidebar > .inner {
     padding: 2.22222em 2.22222em 2.44444em 2.22222em ;
     position: relative;
-    width: 25em; }
+    width: 21w; }
     #sidebar > .inner > * {
       /* border-bottom: solid 2px rgba(210, 215, 217, 0.75); */
       margin: 0 0 3.5em 0;}
@@ -678,7 +679,7 @@ button,
       border-bottom: 0;
       margin: -2.22222em 0 4.44444em -2.22222em;
       padding: 2.22222em;
-      width: calc(100% + 4.44444em); }
+      width: calc(100% + 4vw); }
   #sidebar .toggle {
     text-decoration: none;
     -moz-transition: left 0.5s ease;
@@ -698,7 +699,7 @@ button,
     text-indent: -15em;
     white-space: nowrap;
     top: 0;
-    width: 6em;
+    width: 9vw;
     z-index: 10000; }
     #sidebar .toggle:before {
       -moz-osx-font-smoothing: grayscale;
@@ -722,7 +723,7 @@ button,
       top: 0;
       width: inherit; }
   #sidebar.inactive {
-    margin-left: -26em; }
+    margin-left: -23.5vw; }
 
 
 /* Header */
@@ -732,7 +733,7 @@ button,
   display: -ms-flex;
   display: flex;
   border-bottom: solid 5px #f56a6a;
-  padding: 6em 0 1em 0;
+  padding: 3vw 0 1em 0;
   position: relative; }
   #header > * {
     -moz-flex: 1;
@@ -756,7 +757,7 @@ button,
 
   @media screen and (max-width: 1680px) {
     #header {
-      padding-top: 5em; } }
+      padding-top: 5vw; } }
   @media screen and (max-width: 736px) {
     #header {
       padding-top: 6.5em; }
@@ -813,6 +814,10 @@ button,
       -ms-object-position: center;
       object-position: center; 
     }
+
+  #banner .actions{
+    margin:0;
+  }
 
 #banner .content .murukLogo{
   width: 100%;
