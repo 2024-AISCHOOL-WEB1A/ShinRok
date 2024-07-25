@@ -28,22 +28,24 @@
     <form action="/board/upload" method="post" class="detailForm">
         
         <!-- ------------------ 왼쪽 사이드바 ---------------------- -->
-        <div class="leftSidebar">
-            <ul>
-                <!-- <li><a href="/plusPost"><button id="postingBtn"><i class="fa-solid fa-pen-to-square"></i> 게시글쓰기</button></a></li> -->
-                <!-- 메인으로 돌아가는 버튼 -->
-                <li><a href="/"><button> HOME</button></a></li>
-                <li>
-                    <div class="profile">Profile</div>
-                </li>
+        <aside class="leftSidebar">
+            <nav>
+                <ul>
+                    <!-- <li><a href="/plusPost"><button id="postingBtn"><i class="fa-solid fa-pen-to-square"></i> 게시글쓰기</button></a></li> -->
+                    <!-- 메인으로 돌아가는 버튼 -->
+                    <li><a href="/"> HOME</a></li>
+                    <li>
+                        <div class="profile">Profile</div>
+                    </li>
 
-                <li><a href="#">자유게시판</a></li>
-                <li><a href="#">자랑하기</a></li>
-                <li><a href="#">인기글</a></li>
-                <li><a href="#">공지사항</a></li>
-                <li><a href="#">질문게시판</a></li>
-            </ul>
-        </div>
+                    <li><a href="#">자유게시판</a></li>
+                    <li><a href="#">자랑하기</a></li>
+                    <li><a href="#">인기글</a></li>
+                    <li><a href="#">공지사항</a></li>
+                    <li><a href="#">질문게시판</a></li>
+                </ul>
+            </nav>
+        </aside>
 
         <!-- ---------------------------- 여기부터 게시글 상세페이지 ----------------------------------------- -->
         <table class="table"> 
@@ -52,38 +54,40 @@
             {% endif %}
 
             <!-- ------------------ 게시물 제목부분 ------------------------ -->
-            <div class="detailTitle">
-                <tr>
-                    <td>카테고리></td>
-                </tr>
-                <tr>
-                    <td><h2 id="titleName">{{ post.BOARD_TITLE }}</h2></td>
-                </tr>
-                <tr>
-                    <td rowspan="2" id="profilePic"> 프로필 사진</td>
-                    <td>{{ post.USER_NICK }}</td>
-                    <tr>
-                        <td id="titleDate">{{ post.BOARD_DATE }}</td>
-                        <td id="titleTd">조회수<span>: {{ post.BOARD_COUNT }}</span></td>
-                        <td id="titleTd"><i class="fa-regular fa-comment-dots"></i>댓글 수<span>: {{ commentCount }}</span></td>
-                    </tr>
-                </tr>
-            </div>
+            <tr>
+                <td colspan="4">카테고리></td>
+            </tr>
 
+            <!-- 타이틀 제목 -->
+            <tr>
+                <td colspan="4"><h2 id="titleName">{{ post.BOARD_TITLE }}</h2></td>
+            </tr>
+                
+            <tr id="spaceTitle">
+                <td rowspan="2" id="profilePic"> 프로필 사진</td>
+                <td>{{ post.USER_NICK }}</td>
+                <tr>
+                    <td id="titleDate">{{ post.BOARD_DATE }}</td>
+                    <td id="titleTd">조회수<span>: {{ post.BOARD_COUNT }}</span></td>
+                    <td id="titleTd"><i class="fa-regular fa-comment-dots"></i>댓글 수<span>: {{ commentCount }}</span></td>
+                </tr>
+            </tr>
+                <!-- 가로선 추가 -->
+                <tr>
+                    <td colspan="4"><div class="horizontal-line"></div></td>
+                </tr>
             <!-- ------------------- 게시물 내용이 보이는 부분 ----------------- -->
-             <div class="boardContent">
                 <tr>
                     <td class="addImage" colspan="5">
                         <!-- 이미지 혹은 내용을 넣을 공간 -->
-                        {{ post.BOARD_CONTENT }}
-                        <br>
+                        <span>{{ post.BOARD_CONTENT }}</span>
+                        <br> <br>
                         {% if post.BOARD_IMG %}
-                            <img src="{{ post.BOARD_IMG }}" alt="게시글 이미지">
+                            <img src="{{ post.BOARD_IMG }}" alt="게시글 이미지" id="postImg">
                         {% endif %}
 
                     </td>
                 </tr>
-            </div>
             
             <div>
                 <tr>
@@ -94,12 +98,16 @@
         </table>
 
         <!-- ----------------- 오른쪽 사이드바(페이지 이동) ----------------- -->
-        <div class="rightSidebar">
-            <a href="/diary"><button>Diary</button></a>
-            <a href="#"><button>병충해 진단</button></a>
-            <a href="#"><button>식물 도감</button></a>
-            <a href="#"><button>마이페이지</button></a>
-        </div>
+        <aside class="rightSidebar">
+            <nav>
+                <ul>
+                    <li><a href="/diary">Diary</a></li>
+                    <li><a href="#">병충해 진단</a></li>
+                    <li><a href="#">식물 도감</a></li>
+                    <li><a href="#">마이페이지</a></li>
+                </ul>
+            </nav>
+        </aside>
     </form>
 
     <script src="../assets/js/post.js"></script>
