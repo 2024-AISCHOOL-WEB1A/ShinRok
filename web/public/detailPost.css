@@ -87,7 +87,7 @@
 @media (max-width: 786px){
   #postImg{
     /* 화면 너비가 768px 이하인 경우 이미지 최대 너비를 500px로 조정 */
-    max-width: 500px;
+    max-width: 300px;
   }
 }
 
