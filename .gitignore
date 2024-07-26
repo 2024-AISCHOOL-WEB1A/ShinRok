@@ -70,3 +70,4 @@ venv
 sessions/
 sessions
 .vscode
+model_resnet50.pth

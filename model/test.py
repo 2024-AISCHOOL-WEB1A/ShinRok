@@ -122,3 +122,12 @@ def predict_image(image_path, crop_name):
         disease_name = disease_code_to_name.get(predicted_label, "Unknown")
         
     return predicted_label, disease_name
+
+# 예측 예시
+image_path = './test.jpg'
+crop_name = '오이'  # 작물 이름 입력
+
+predicted_label, disease_name = predict_image(image_path, crop_name)
+
+print(f"Predicted label: {predicted_label}")
+print(f"Disease name: {disease_name}")

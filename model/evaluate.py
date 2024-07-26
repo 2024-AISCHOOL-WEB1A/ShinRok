@@ -1,60 +1,64 @@
-import os
-from flask import Blueprint, request, jsonify
-import asyncio
-from predict import predict_image_from_path
+import pymysql
+from predict import predict_image
 from db import db_con
 
-evaluate_bp = Blueprint('evaluate', __name__)
+def fetch_image_and_crop(user_idx):
+    connection = db_con()
+    cursor = connection.cursor()
 
-@evaluate_bp.route('/predict', methods=['POST'])
-async def predict():
     try:
-        # 비동기 데이터베이스 연결 및 쿼리 실행
-        loop = asyncio.get_event_loop()
-        result = await loop.run_in_executor(None, fetch_crop_data)
+        # 예측할 이미지 경로와 작물 이름을 데이터베이스에서 가져오기
+        cursor.execute("SELECT DSS_IDX, DSS_PLANT, DSS_IMG FROM SR_DSS WHERE USER_IDX = %s", (user_idx,))
+        result = cursor.fetchone()
+        if result:
+            dss_idx, dss_plant, dss_img = result
+            return dss_idx, dss_plant, dss_img
+        else:
+            return None, None, None
+
+    except pymysql.MySQLError as e:
+        print(f"Error while fetching data from database: {e}")
+        return None, None, None
+
+    finally:
+        cursor.close()
+        connection.close()
+
+def predict_and_update(user_idx):
+    # 이미지 경로와 작물 이름을 데이터베이스에서 가져오기
+    dss_idx, crop_name, image_path = fetch_image_and_crop(user_idx)
+    if not dss_idx or not crop_name or not image_path:
+        print("No pending prediction requests found.")
+        return None
+
+    # 이미지 예측 수행
+    predicted_label, disease_name = predict_image(image_path, crop_name)
+    
+    # 데이터베이스 연결
+    connection = db_con()
+    cursor = connection.cursor()
+
+    try:
+        # 예측 결과를 SR_DSS 테이블에 업데이트
+        query = """
+        UPDATE SR_DSS
+        SET DSS_STATE='completed', DSS_DISC=%s, DSS_PREV=%s, DSS_RES=%s
+        WHERE DSS_IDX=%s
+        """
+        cursor.execute(query, (disease_name, predicted_label, f"Prediction label: {predicted_label}", dss_idx))
+        connection.commit()
+
+        # 업데이트된 데이터 확인 (옵션)
+        cursor.execute("SELECT * FROM SR_DSS WHERE DSS_IDX=%s", (dss_idx,))
+        result = cursor.fetchone()
         
-        if not result:
-            return jsonify({"error": "No data found"}), 404
+        return result
 
-        crop_name, image_path = result
-        
-        # 비동기 예측 수행
-        predicted_label, disease_name = await predict_image_from_path(image_path, crop_name)
-        
-        # 비동기 데이터베이스 업데이트 및 완료 요청 전송
-        await loop.run_in_executor(None, update_db_and_notify, crop_name, image_path, predicted_label, disease_name)
+    except pymysql.MySQLError as e:
+        print(f"Error while updating database: {e}")
+        connection.rollback()
+        return None
 
-        return jsonify({
-            "predicted_label": predicted_label,
-            "disease_name": disease_name
-        })
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-def fetch_crop_data():
-    conn = db_con()
-    cursor = conn.cursor()
-    
-    # 데이터베이스에서 식물 이름과 이미지 경로 가져오기
-    cursor.execute("SELECT DSS_IMG, DSS_PLANT FROM SR_DSS")
-    result = cursor.fetchone()
-    
-    cursor.close()
-    conn.close()
-    
-    return result
-
-def update_db_and_notify(crop_name, image_path, predicted_label, disease_name):
-    conn = db_con()
-    cursor = conn.cursor()
-    
-    # 예측 결과를 데이터베이스에 저장
-    cursor.execute("UPDATE SR_DSS SET DSS_RES=%s, disease_name=%s WHERE condition", (predicted_label, disease_name))
-    conn.commit()
-    
-    cursor.close()
-    conn.close()
-    
-    # 완료 요청을 localhost:3000으로 전송
-    import requests
-    requests.post("http://localhost:3000/complete", json={"status": "completed"})
+    finally:
+        cursor.close()
+        connection.close()
