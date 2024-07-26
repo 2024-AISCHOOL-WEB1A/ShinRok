@@ -1,18 +1,18 @@
 const express = require('express')
 const router = express.Router()
 const conn = require('../config/db')
-const multer = require('multer');
-const upload = multer({ dest: 'uploads/' });
-const uploadImage = require('../config/uploadImage'); // S3 업로드 함수
-const fs = require('fs');
+const multer = require('multer')
+const upload = multer({ dest: 'uploads/' })
+const uploadImage = require('../config/uploadImage') // S3 업로드 함수
+const fs = require('fs')
 
 // 게시판 관련 기능
 
 
 // 게시글 작성 기능
 router.post('/upload', upload.single('image'), async (req, res) => {
-    const { title, content, category, idx } = req.body;
-    let imageUrl = null;
+    const { title, content, category, idx } = req.body
+    let imageUrl = null
     const filePath = req.file ? req.file.path : null
 
     try {

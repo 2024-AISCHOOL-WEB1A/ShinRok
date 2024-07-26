@@ -36,4 +36,14 @@ router.get('/bragList', (req, res)=>{
 })
 
 
+// 병충해 진단 페이지
+router.get('/predict', (req, res) => {
+    res.render('predict', {user: req.session.user})
+})
+
+// 사전 세부 페이지로 이동
+router.get('/dictDetail', (req, res)=>{
+    res.render('dictDetail', {user: req.session.user})
+})
+
 module.exports = router
