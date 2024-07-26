@@ -66,15 +66,14 @@
             <div id="text"><h2>식물도감</h2></div>
             <div></div>
 
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
+
+            {% for i in specificPlant %}
+            <div class="item">
+                <a href="{{i.PLANT_IDX}}"></a>
+                <img src="{{i.PLANT_IMG}}" alt="{{i.PLANT_NAME}}">
+            </div>
+            {% endfor %}
+         
 
         </div>
 
