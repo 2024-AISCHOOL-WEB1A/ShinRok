@@ -106,8 +106,14 @@ header{
 .item{
     margin: 5%;
     width: 80%;
-    /* height: 80%; */
+    height: 80%;
     background-color:white;
     align-content: center;
     aspect-ratio: 1;
 }
+
+.item img {
+    width: 100%; /* Adjust the value as needed */
+    height: 100%; /* Maintain aspect ratio */
+}
+

@@ -8,6 +8,7 @@ const fs = require('fs');
 
 // 게시판 관련 기능
 
+
 // 게시글 작성 기능
 router.post('/upload', upload.single('image'), async (req, res) => {
     const { title, content, category, idx } = req.body;
@@ -27,7 +28,7 @@ router.post('/upload', upload.single('image'), async (req, res) => {
             if (err) {
                 console.error('DB Insert Error: ', err);
                 return res.status(500).json({ error: 'DB Insert Error' })
-            }
+            } 
             console.log('게시글 작성 완료')
             res.redirect('/')
         })
