@@ -1,39 +1,63 @@
 body {
     font-family: 'Arial', sans-serif;
-    max-width: 800px;
+    max-width: 600px;
     margin: 0 auto;
     padding: 20px;
     line-height: 1.6;
     color: #902b2b;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
-.result-container {
+
+.container {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.result {
     background-color: #f0f0f0;
     border-radius: 10px;
     padding: 20px;
     margin-bottom: 20px;
+    width: 100%;
 }
-.result-item {
+.result{
     margin-bottom: 15px;
 }
-.result-item h2 {
+.result {
     color: #333;
     border-bottom: 2px solid #ddd;
     padding-bottom: 5px;
 }
-.button-container {
+
+.buttons {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
     margin-top: 30px;
 }
-.button {
+
+.retry, .goMypage {
     display: inline-block;
-    padding: 10px 20px;
-    background-color: #4CAF50;
+    padding: 12px 24px;
+    background-color: #f56a6a;
     color: white;
     text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
-.button:hover {
-    background-color: #45a049;
+.button button:hover {
+    background-color: #d0b7b7;
+    color: #fff;
 }
