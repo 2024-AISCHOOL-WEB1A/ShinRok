@@ -13,7 +13,7 @@ body {
 
 
 
-.plantImage, .diseaseSymptom, .ControlMethod{
+.plantImage, .diseaseSymptom, .controlMethod{
 
         grid-template-columns: 1fr 1fr 1fr;
         grid-template-rows: 0.4fr 1fr 1fr 1fr;
@@ -23,6 +23,7 @@ body {
         display: grid;
         margin-top: 2%;
         margin-bottom: 10%;
+    
         place-items: center;
 
 }
@@ -33,6 +34,7 @@ body {
     padding: 20px;
     margin-bottom: 20px;
     width: 100%;
+    color: #fff;
 }
 .result{
     margin-bottom: 15px;
@@ -48,7 +50,8 @@ body {
     flex-direction: row;
     gap: 20px;
     width: 100%;
-    margin-top: 30px;
+    margin-top: 10px;
+    margin-left: 40%;
 }
 
 .retry, .goMypage {
