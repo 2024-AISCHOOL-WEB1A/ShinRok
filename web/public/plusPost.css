@@ -15,8 +15,17 @@
 
 *{
     font-family: 'Pretendard-Regular';
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
-
+/* ------- 상단 배너 이미지 크기 조절 ---------- */
+#banner header{
+    text-align: center;
+}
+#banner .murukLogo{
+    width: 80vw;
+}
 /* ---------------------------- 게시글 작성 CSS -------------------------------- */
 .table {
     margin: auto;
@@ -193,19 +202,30 @@ input[type="button"]:active {
 }
 
 /* ------------ 왼쪽 사이드바 ----------------------------- */
-
-.leftSidebar li{
+.leftSidebar{
+    width: 13%;
+    background-color: #2c3e50;
+    color: white;
+    padding-top: 20px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+}
+.leftSidebar nav ul{
     list-style-type: none;
+    padding-left: 0;
+    text-align: center;
 }
-.leftSidebar a{
+.leftSidebar nav ul li{
+    margin: 20px 0;
+}
+.leftSidebar nav ul li a{
+    color: white;
     text-decoration: none;
+    display: block;
+    padding: 10px 0;
+}
+.leftSidebar nav ul li a:hover{
+    background-color: #34495e;
 }
 
-/* -------------- 오른쪽 사이드바  -------------------------- */
-.rightSidebar{
-    display: flex;
-    flex-direction: column;
-}
-.rightSidebar a{
-    text-decoration: none;
-}
