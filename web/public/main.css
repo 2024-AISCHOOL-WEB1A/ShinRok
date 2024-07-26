@@ -47,7 +47,7 @@ body, input, select, textarea {
   color: #7f888f;
   font-size: 13pt;
   font-weight: 400;
-  line-height: 1.65; }
+  line-height: 5vh; }
   @media screen and (max-width: 1680px) {
     body, input, select, textarea {
       font-size: 11pt; } }
@@ -57,7 +57,7 @@ body, input, select, textarea {
   @media screen and (max-width: 360px) {
     body, input, select, textarea {
       font-size: 9pt; } }
-
+  
 a {
   -moz-transition: color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
   -webkit-transition: color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
@@ -789,9 +789,9 @@ button,
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
     border: 0;
     display: block;
-    height: 7.5em;
-    left: 26em;
-    line-height: 7.5em;
+    height: 10em;
+    left: 23em;
+    line-height: 10vh;
     outline: 0;
     overflow: hidden;
     position: absolute;
@@ -808,7 +808,7 @@ button,
       font-style: normal;
       font-variant: normal;
       text-rendering: auto;
-      line-height: 1;
+      line-height: inherit;
       text-transform: none !important;
       font-family: 'Font Awesome 5 Free';
       font-weight: 900; }
@@ -835,9 +835,9 @@ button,
             padding: 1.66667em;
             width: calc(100% + 3.33333em); }
         #sidebar .toggle {
-          height: 6.25em;
+          height: inherit;
           left: 24em;
-          line-height: 6.25em;
+          line-height: inherit;
           text-indent: 5em;
           width: 4em; }
           #sidebar .toggle:before {
