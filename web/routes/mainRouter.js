@@ -25,9 +25,14 @@ router.get('/diary', (req, res) => {
     res.render('diary', {user: req.session.user})
 })
 
-
+// 사전 페이지 이동
 router.get('/dictionary', (req, res)=>{
     res.render('dictionary', {user: req.session.user})
+})
+
+// 자랑게시판 List로 이동
+router.get('/bragList', (req, res)=>{
+    res.render('bragList', {user: req.session.user})
 })
 
 

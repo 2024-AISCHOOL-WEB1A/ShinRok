@@ -1,0 +1,186 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1vw; /* gap을 줄임 */
+    justify-content: center;
+    width: 80%;
+    align-items: center;
+    text-align: center;
+}
+
+.custom-radio {
+    flex-basis: calc(100% / 6 - 1vw); /* 6개씩 배치, gap 고려 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.custom-radio input[type="radio"] {
+    display: none;
+}
+
+.custom-radio input[type="radio"] + label {
+    display: inline-block;
+    cursor: pointer;
+    height: 2vw; /* 높이를 줄임 */
+    width: 10vw; /* 너비를 줄임 */
+    border: 0.1vw solid #f56a6a; /* 테두리를 줄임 */
+    line-height: 2vw; /* line-height를 줄임 */
+    text-align: center;
+    font-weight: bold;
+    font-size: 1vw; /* 글꼴 크기를 줄임 */
+    background-color: #fff;
+    color: #f56a6a;
+}
+
+.custom-radio input[type="radio"] + label:hover {
+    background-color: #f8dada;
+}
+
+.custom-radio input[type="radio"]:checked + label {
+    background-color: #f56a6a;
+    color: #fff;
+}
+
+.image-preview {
+    width: 30vw; /* 너비를 줄임 */
+    height: 30vw; /* 높이를 줄임 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2vw;
+}
+
+.image-preview img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.button {
+    display: flex;
+    gap: 1vw; /* gap을 줄임 */
+}
+
+.button button {
+    padding: 0.5vw 1vw; /* padding을 줄임 */
+    font-size: 1vw; /* 글꼴 크기를 줄임 */
+    border-radius: 15%;
+    color: #f56a6a;
+    background-color: #fff;
+    border: 0.1vw solid #f56a6a;
+}
+
+.button button:hover {
+    background-color: #f56a6a;
+    color: #fff;
+}
+
+.file-upload-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.file-upload-wrapper input[type="file"] {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.file-upload-wrapper label.custom-file-upload {
+    background-color: #f56a6a;
+    color: white;
+    border: 0.1vw solid #f56a6a;
+    padding: 0.5vw 1vw;
+    cursor: pointer;
+    margin-right: 1vw;
+}
+
+#fileName{
+    color : #f56a6a
+}
+
+.file-upload-wrapper span {
+    font-size: 1vw;
+}
+
+/* Media Queries for responsiveness */
+@media (max-width: 768px) {
+    .custom-radio {
+        flex-basis: calc(100% / 3 - 1vw); /* 3개씩 배치, gap 고려 */
+    }
+
+    .custom-radio input[type="radio"] + label {
+        height: 3vw; /* 높이를 조정 */
+        width: 20vw; /* 너비를 조정 */
+        line-height: 3vw; /* line-height를 조정 */
+        font-size: 1.5vw; /* 글꼴 크기를 조정 */
+    }
+
+    .image-preview {
+        width: 50vw; /* 너비를 조정 */
+        height: 50vw; /* 높이를 조정 */
+    }
+
+    .button button {
+        padding: 1.5vw 2.5vw; /* padding을 조정 */
+        font-size: 1.5vw; /* 글꼴 크기를 조정 */
+    }
+
+    .file-upload-wrapper label.custom-file-upload {
+        padding: 1vw 2vw; /* padding을 조정 */
+    }
+
+    .file-upload-wrapper span {
+        font-size: 1.5vw; /* 글꼴 크기를 조정 */
+    }
+}
+
+@media (max-width: 480px) {
+    .custom-radio {
+        flex-basis: calc(100% / 2 - 1vw); /* 2개씩 배치, gap 고려 */
+    }
+
+    .custom-radio input[type="radio"] + label {
+        height: 4vw; /* 높이를 조정 */
+        width: 30vw; /* 너비를 조정 */
+        line-height: 4vw; /* line-height를 조정 */
+        font-size: 2vw; /* 글꼴 크기를 조정 */
+    }
+
+    .image-preview {
+        width: 60vw; /* 너비를 조정 */
+        height: 60vw; /* 높이를 조정 */
+    }
+
+    .button button {
+        padding: 2vw 3vw; /* padding을 조정 */
+        font-size: 2vw; /* 글꼴 크기를 조정 */
+    }
+
+    .file-upload-wrapper label.custom-file-upload {
+        padding: 1.5vw 3vw; /* padding을 조정 */
+    }
+
+    .file-upload-wrapper span {
+        font-size: 2vw; /* 글꼴 크기를 조정 */
+    }
+}

@@ -48,43 +48,8 @@
         </aside>
 
         <!-- ---------------------------- 여기부터 자랑페이지 ----------------------------------------- -->
-        <div id="container">
-            <table class="table" border="1">
-                {% if user %}
-                <input type="hidden" name="idx" value={{user.idx}}>
-                {% endif %}
-                
-                <div class="bragContent">
-                    <tr>
-                        <td class="addImage" colspan="5">이미지
-                            <!-- 이미지 넣을 공간 -->
-                            <br>
-                            {% if post.BOARD_IMG %}
-                                <img src="{{ post.BOARD_IMG }}" alt="게시글 이미지">
-                            {% endif %}
-
-                        </td>
-                    </tr>
-                </div>
-
-                <!-- ------------------ 게시물 제목내용부분 ------------------------ -->
-                <div class="detailTitle">
-                    <tr>
-                        <td>닉네임{{ post.USER_NICK }}</td>
-                        <td id="titleDate">날짜{{ post.BOARD_DATE }}</td>
-                        <td id="titleTd">조회수<span>: {{ post.BOARD_COUNT }}</span></td>
-                        <td id="titleTd"><i class="fa-regular fa-comment-dots"></i>댓글 수<span>: {{ commentCount }}</span></td>
-                    </tr>
-                    <tr>
-                        <td colspan="4"><h2 id="titleName">제목{{ post.BOARD_TITLE }}</h2></td>
-                    </tr>
-                    <tr>
-                        <td colspan="4">내용{{ post.BOARD_CONTENT }}</td>
-                    </tr>
-                </div>
-
-            </table>
-        </div>
+        <div class="board" id="board"></div>
+    <div class="pagination" id="pagination"></div>
 
         <!-- ----------------- 오른쪽 사이드바(페이지 이동) ----------------- -->
         <aside class="rightSidebar">
@@ -100,5 +65,6 @@
     </form>
 
     <script src="../assets/js/post.js"></script>
+    <script src="../assets/js/bragList.js"></script>
 </body>
 </html>
