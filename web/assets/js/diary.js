@@ -89,8 +89,12 @@ function loadFile(input) {
 
 
 const sun = document.getElementById("sun")
+const sunHTML = sun.innerHTML
+const bg = document.getElementsByClassName("fc-daygrid-day-bg")
+
 sun.onclick = function(){
-    
+    console.log("일출");
+    bg.innerHTML = sunHTML
 }
 
 

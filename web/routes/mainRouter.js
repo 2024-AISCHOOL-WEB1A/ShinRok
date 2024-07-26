@@ -18,8 +18,8 @@ router.get('/', (req,res) => {
 // 글쓰기 페이지 이동
 router.get('/plusPost', (req, res) => {
     res.render('plusPost',  { user: req.session.user })
- })
- 
+})
+
 // 다이어리 페이지 이동
 router.get('/diary', (req, res) => {
     res.render('diary', {user: req.session.user})
