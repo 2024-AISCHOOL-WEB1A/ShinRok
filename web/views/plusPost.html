@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="../public/plusPost.css">
 </head>
 <body>
+
+    <form action="/board/upload" method="post" enctype="multipart/form-data">
+
     <form action="/board/upload" method="post" enctype="multipart/form-data" class="plusPostForm">
         
         <!-- ---------------- 왼쪽 사이드바 ---------------------- -->
@@ -18,6 +21,7 @@
                 <!-- <li><a href="/plusPost"><button id="postingBtn"><i class="fa-solid fa-pen-to-square"></i> 게시글쓰기</button></a></li> -->
                 <!-- 메인으로 돌아가는 버튼 -->
                 <li><a href="/"><button> HOME</button></a></li>
+
 
                 <li><a href="#">자유게시판</a></li>
                 <li><a href="#">자랑하기</a></li>
@@ -32,17 +36,16 @@
             {% if user %}
             <input type="hidden" name="idx" value={{user.idx}}>
             {% endif %}
-            <div id="writeTitle">
-                <h2>📝 글쓰기</h2>
+            <div>
+                <h2>글쓰기</h2>
                 <p>식물에 관한 정보를 다른사람과 공유해보세요.</p>
             </div>
 
             <!-- ---------- 글 제목 입력란 ------------ -->
             <div class="boardTitle">
-                <dl><dt id="postT"> 제목</dt></dl>
-                <dl id="inputTitle" class="input-container">
-                    <input type="text" id="title" name="title" placeholder=" ">
-                    <label for="title" class="placeholder">제목을 입력하세요</label>
+                <dl>
+                    <dt>글 제목</dt>
+                    <dd><input type="text" placeholder="제목을 입력하세요" name="title" autofocus></dd>
                 </dl>
             </div>
 
@@ -57,9 +60,9 @@
             </div>
 
             <!-- ------------- 내용 작성 ----------------- -->
-            <div class="plusContent">
+            <div>
                 <dt class="header">Comment</dt>
-                <textarea placeholder="내용을 입력하세요" name="content"></textarea>
+                <dd><textarea placeholder="내용을 입력하세요" name="content"></textarea></dd>
             </div>
 
             <!-- ----------- 이미지 파일 업로드 ------------ -->
