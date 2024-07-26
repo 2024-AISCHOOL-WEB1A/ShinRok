@@ -5,30 +5,46 @@ const router = express.Router();
 const conn = require('../config/db'); // 데이터베이스 연결 설정 파일
 
 // /dictionary 엔드포인트에 대한 GET 요청 처리
-router.get('/a', (req, res) => {
+router.get('/home', (req, res) => {
+    console.log("식물도감");
+    
+    const page = parseInt(req.query.page) || 1;
+    const itemsPerPage = 12; // 페이지당 표시할 항목 수
+    const offset = (page - 1) * itemsPerPage;
 
-    console.log("식물도감")
-        // 데이터베이스에서 식물 정보를 가져오는 로직을 작성     
-        const sql = 'SELECT * FROM SR_PLANT'
-        // 가져온 데이터를 프론트엔드에 전달
-        conn.query(sql, (e, r) => {
-            // console.log(r)
-            res.render('dictionary', {specificPlant : r})
-        })
+    // 전체 항목 수를 가져오는 쿼리
+    const countSql = 'SELECT COUNT(*) as total FROM SR_PLANT';
+    
+    // 페이지에 해당하는 항목을 가져오는 쿼리
+    const sql = 'SELECT * FROM SR_PLANT LIMIT ? OFFSET ?';
+
+    conn.query(countSql, (err, countResult) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send('서버 오류');
+        }
+
+        const totalItems = countResult[0].total;
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+        conn.query(sql, [itemsPerPage, offset], (err, results) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).send('서버 오류');
+            }
+
+            res.render('dictionary', {
+                specificPlant: results,
+                current_page: page,
+                total_pages: totalPages
+            });
+        });
+    });
 });
 
 
 router.get('/detail', async (req, res) => {
-    try {
-        // 데이터베이스에서 식물 정보를 가져오는 로직을 작성
-        // 예시: const plants = await conn.query('SELECT * FROM SR_PLANT');
-        const plants = await conn.query('select * from SR_PLANT');
-        // 가져온 데이터를 프론트엔드에 전달
-        res.render('dictionary', { plants }); // 예시: dictionary.ejs 파일에 데이터 전달
-    } catch (error) {
-        console.error('Error fetching plant data:', error);
-        res.status(500).send('Internal server error');
-    }
+
 });
 
 module.exports = router;
