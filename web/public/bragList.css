@@ -42,11 +42,96 @@ table {
 .bragList{
     display: inline-flex;
     width: 100%;
+    justify-content: space-between;
 }
 /* ------------------- 자랑list -------------------------- */
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
 
+.board{
+    flex: 1;
+    display: grid;
+    padding-bottom: 80px;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+    padding: 20px;
+    padding-bottom: 80px;
+}
 
+.board-item {
+    border: 1px solid #000;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
 
+.board-content{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.addImage {
+    text-align: center;
+    margin-bottom: 10px;
+}
+.addImage img {
+    max-width: 100%;
+    height: auto;
+}
+.title-section {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.content-section {
+    flex: 1;
+    margin-bottom: 10px;
+}
+.info-section {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9em;
+}
+.info-section p {
+    margin: 0;
+    flex-basis: 24%;
+    text-align: center;
+}
+
+.pagination{
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    position: fixed ;
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    border-top: 1px solid #000;
+}
+
+.pagination .pagination-btn {
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: 1px solid #000;
+    background-color: #fff;
+    cursor: pointer;
+}
+.pagination .pagination-btn.active {
+    font-weight: bold;
+    background-color: #ddd;
+}
+.pagination .pagination-btn.disabled {
+    cursor: not-allowed;
+    color: #999;
+}
 /* ------------ 왼쪽 사이드바 ----------------------------- */
 .leftSidebar{
     width: 15%;
