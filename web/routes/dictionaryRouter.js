@@ -5,7 +5,7 @@ const router = express.Router();
 const conn = require('../config/db'); // 데이터베이스 연결 설정 파일
 
 // /dictionary 엔드포인트에 대한 GET 요청 처리
-router.get('/a', (req, res) => {
+router.get('/home', (req, res) => {
 
     console.log("식물도감")
         // 데이터베이스에서 식물 정보를 가져오는 로직을 작성     
