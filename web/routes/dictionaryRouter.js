@@ -6,7 +6,6 @@ const conn = require('../config/db'); // 데이터베이스 연결 설정 파일
 
 // /dictionary 엔드포인트에 대한 GET 요청 처리
 router.get('/home', (req, res) => {
-    console.log("식물도감");
     
     const page = parseInt(req.query.page) || 1;
     const itemsPerPage = 12; // 페이지당 표시할 항목 수
