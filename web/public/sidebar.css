@@ -13,8 +13,13 @@
     font-style: normal;
 }
 
+/* -------------------------------------------------------------------------------------------------------------------------------- */
+
 *{
     font-family: 'Pretendard-Regular';
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 /* ------- 상단 배너 이미지 크기 조절 ---------- */
@@ -24,44 +29,47 @@
 #banner .murukLogo{
     width: 75vw;
     margin-bottom: 1vw;
+    margin-left: 12%;
 }
 
 /* ----------------------- 상세페이지 보이는 부분 -------------- */
 .table {
     display: table;
     width: 100%;
-    
 }
 .detailForm{
     display: flex;
+    min-height: 100vh;
 }
-
 
 /* ------------ 왼쪽 사이드바 ----------------------------- */
 .leftSidebar{
-    width: 15%;
+    width: 13%;
+    background-color: #2c3e50;
+    color: white;
+    padding-top: 20px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
 }
-.leftSidebar li{
+.leftSidebar nav ul{
     list-style-type: none;
-}
-.leftSidebar a{
-    text-decoration: none;
-}
-.leftSidebar ul{
     padding-left: 0;
+    text-align: center;
+}
+.leftSidebar nav ul li{
+    margin: 20px 0;
+}
+.leftSidebar nav ul li a{
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 10px 0;
+}
+.leftSidebar nav ul li a:hover{
+    background-color: #34495e;
 }
 
-/* -------------- 오른쪽 사이드바  -------------------------- */
-.rightSidebar{
-    text-align: end;
-    width: 15%;
-}
-.rightSidebar a{
-    text-decoration: none;
-}
-.rightSidebar li{
-    list-style: none; 
-}
-.rightSidebar ul{
-    padding-left: 0;
-}
+
+
+
