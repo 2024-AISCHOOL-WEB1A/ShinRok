@@ -3,17 +3,17 @@ const itemsPerPage = 6;
 let currentPage = 1
 // 예제 게시물 데이터
 const posts = [];
-// for (let i = 1; i <= 20; i++) {
-//     posts.push({
-//         idx: i,
-//         USER_NICK: `닉네임${i}`,
-//         BOARD_DATE: `2024-07-25`,
-//         BOARD_COUNT: i * 10,
-//         BOARD_TITLE: `제목${i}`,
-//         BOARD_CONTENT: `내용${i}`,
-//         BOARD_IMG: `이미지경로${i}.jpg` // 이미지 경로는 예제로 넣었습니다.
-//     });
-// }
+for (let i = 1; i <= 20; i++) {
+    posts.push({
+        idx: i,
+        USER_NICK: `닉네임${i}`,
+        BOARD_DATE: `2024-07-25`,
+        BOARD_COUNT: i * 10,
+        BOARD_TITLE: `제목${i}`,
+        BOARD_CONTENT: `내용${i}`,
+        BOARD_IMG: `이미지경로${i}.jpg` // 이미지 경로는 예제로 넣었습니다.
+    });
+}
 // 게시물 하나의 템플릿 생성 함수
 function createPostTemplate(post, commentCount) {
     return `
