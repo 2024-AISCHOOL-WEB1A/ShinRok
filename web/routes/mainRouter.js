@@ -35,5 +35,10 @@ router.get('/bragList', (req, res)=>{
     res.render('bragList', {user: req.session.user})
 })
 
+// 병충해 진단 페이지
+router.get('/predict', (req, res) => {
+    res.render('predict', {user: req.session.user})
+})
+
 
 module.exports = router
