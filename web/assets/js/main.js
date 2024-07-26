@@ -249,3 +249,75 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	});
 });
+
+
+
+
+//  페이징 처리하는 부분 --------------------------------------------------------------------------
+// 페이지 정보
+const pageInfo = {
+    totalPosts: 190,          // 모든 글 개수
+    currentPage: 10,          // 현재 페이지 번호
+    postsPerPage: 10,         // 한 페이지당 표시할 글 개수
+    displayPageNum: 5         // 한 번에 표시할 페이지 개수
+};
+
+// 총 페이지 수 계산
+function totalPages(totalPosts, postsPerPage) {
+    return Math.ceil(totalPosts / postsPerPage);
+}
+
+// 마지막 페이지 계산
+function endPage(currentPage, displayPageNum, totalPages) {
+    let endPage = Math.ceil(currentPage / displayPageNum) * displayPageNum;
+    return Math.min(endPage, totalPages);
+}
+
+// 첫 페이지 계산
+function startPage(currentPage, displayPageNum) {
+    return Math.floor((currentPage - 1) / displayPageNum) * displayPageNum + 1;
+}
+
+// 이전 페이지 여부 확인
+function hasPrev(startPage) {
+    return startPage > 1;
+}
+
+// 다음 페이지 여부 확인
+function hasNext(endPage, totalPages) {
+    return endPage < totalPages;
+}
+
+// 페이지네이션 출력
+function printPages(pageInfo) {
+    const totalPagesCount = totalPages(pageInfo.totalPosts, pageInfo.postsPerPage);
+    const startPageNum = startPage(pageInfo.currentPage, pageInfo.displayPageNum);
+    const endPageNum = endPage(pageInfo.currentPage, pageInfo.displayPageNum, totalPagesCount);
+    const hasPrevPage = hasPrev(startPageNum);
+    const hasNextPage = hasNext(endPageNum, totalPagesCount);
+
+    let paginationHtml = '';
+
+    if (hasPrevPage) {
+        paginationHtml += `<a href="?page=1">&laquo; 처음</a>`;
+        paginationHtml += `<a href="?page=${startPageNum - pageInfo.displayPageNum}">이전</a>`;
+    }
+
+    for (let page = startPageNum; page <= endPageNum; page++) {
+        if (page === pageInfo.currentPage) {
+            paginationHtml += `<span class="current">${page}</span>`;
+        } else {
+            paginationHtml += `<a href="?page=${page}">${page}</a>`;
+        }
+    }
+
+    if (hasNextPage) {
+        paginationHtml += `<a href="?page=${endPageNum + 1}">다음</a>`;
+        paginationHtml += `<a href="?page=${totalPagesCount}">&raquo; 마지막</a>`;
+    }
+
+    document.getElementById('pagination-container').innerHTML = paginationHtml;
+}
+
+// 페이지네이션 출력 함수 호출
+printPages(pageInfo);
