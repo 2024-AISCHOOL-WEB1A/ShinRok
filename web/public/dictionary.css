@@ -116,3 +116,7 @@ header{
     width: 100%; /* Adjust the value as needed */
     height: 102%; /* Maintain aspect ratio */
 }
+
+.pagination{
+    place-items: center;
+}
