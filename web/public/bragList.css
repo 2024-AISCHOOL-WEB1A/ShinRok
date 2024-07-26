@@ -36,7 +36,7 @@ html{
 table {
     width: 100%;
     border: 1px, solid;
-    height: 80vh;
+    height: 50vh;
 }
 
 .bragList{
@@ -70,6 +70,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    height: 100%;
 }
 
 .board-content{
@@ -78,34 +79,50 @@ body {
     margin-top: 10px;
 }
 
-.addImage {
-    text-align: center;
-    margin-bottom: 10px;
-}
-.addImage img {
-    max-width: 100%;
-    height: auto;
-}
-.title-section {
-    font-size: 1.2em;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-.content-section {
-    flex: 1;
-    margin-bottom: 10px;
-}
+/* 게시물 */
 .info-section {
     display: flex;
     justify-content: space-between;
     font-size: 0.9em;
+    margin: 10px 0;
 }
-.info-section p {
+
+.info-section span {
     margin: 0;
     flex-basis: 24%;
     text-align: center;
 }
+/* 이미지 */
+.addImage {
+    text-align: center;
+    margin-bottom: 10px;
+    flex: 1;
+}
+.addImage img {
+    width: 100%;
+    height: auto;
+    max-height: 200px; /* 원하는 이미지 최대 높이로 조정 */
+    object-fit: cover;
+}
 
+h2#titleName {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    height: 40px; /* 고정 높이 설정 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+p {
+    margin: 0;
+    height: 50px; /* 고정 높이 설정 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+/* 페이지 변환하는 칸 */
 .pagination{
     bottom: 0;
     left: 0;

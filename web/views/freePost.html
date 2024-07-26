@@ -1,14 +1,8 @@
 {% extends 'main.html' %}
 
 {% block content %}
-<section>
-    <table class="table">
-        <tr>
-            <td colspan="7">
-                <h2>자유게시판</h2>
-            </td>
-        </tr>
-
+<section id="freeSection">
+    <table class="freetable">
         <tr class="postHead">
             <th>번호</th>
             <th>구분</th>
@@ -17,7 +11,7 @@
             <th>작성날짜</th>
             <th>조회수</th>
             <th>댓글수</th>
-            <th>-</th>
+            <th></th>
         </tr>
 
         {% for i in boardFree %}
@@ -34,6 +28,7 @@
                 </td>
             </tr>
         {% endfor %}
+        
     </table>
 </section>
 {% endblock %}

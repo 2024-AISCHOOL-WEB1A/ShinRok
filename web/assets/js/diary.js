@@ -88,7 +88,7 @@ function loadFile(input) {
 // =================================================================================================
 
 
-
+const sun = document.getElementById("sun")
 
 
 
