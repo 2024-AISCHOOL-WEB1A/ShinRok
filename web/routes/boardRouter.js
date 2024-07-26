@@ -117,6 +117,42 @@ router.get('/bragList',(req,res)=> {
     })
 })
 
+router.get('/bragPost',(req,res)=> {
+    const sql = `SELECT 
+                    U.USER_IDX,
+                    U.USER_NICK,
+                    U.USER_PICTURE,
+                    B.BOARD_IDX,
+                    B.BOARD_TITLE,
+                    B.BOARD_CONTENT,
+                    B.BOARD_COUNT,
+                    B.BOARD_DATE,
+                    B.BOARD_IMG,
+                    B.BOARD_CATE,
+                    COUNT(C.CMNT_CONTENT) AS COMMENT_COUNT
+                FROM 
+                    SR_USER U
+                    JOIN SR_BOARD B ON U.USER_IDX = B.USER_IDX
+                    LEFT JOIN SR_CMNT C ON B.BOARD_IDX = C.BOARD_IDX
+                WHERE 
+                    B.BOARD_CATE = '자랑'
+                GROUP BY 
+                    B.BOARD_IDX, 
+                    U.USER_IDX, 
+                    U.USER_NICK, 
+                    U.USER_PICTURE, 
+                    B.BOARD_TITLE, 
+                    B.BOARD_CONTENT, 
+                    B.BOARD_COUNT, 
+                    B.BOARD_DATE, 
+                    B.BOARD_IMG`
+
+    conn.query(sql, (e, r) => {
+        console.log(r)
+        res.render('bragPost', {bragePost : r})
+    })
+})
+
 // // 질문 게시판
 // router.get('', (req, res) => {
 //     const sql = `SELECT 

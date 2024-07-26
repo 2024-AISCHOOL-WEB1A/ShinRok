@@ -119,3 +119,45 @@
 .rightSidebar ul{
     padding-left: 0;
 }
+
+/* ----------- 댓글 버튼 ------------ */
+#changeBtn {
+    display: flex;
+    justify-content: flex-end;
+}
+#commendBtn{
+    width: 50vw;
+}
+#commendBtn a{
+    text-decoration: none;
+    color: #312f2f;
+}
+.align-buttons{
+    display: flex;
+    justify-content: space-between;
+
+}
+
+/* ----------- 수정 버튼 ------------- */
+#changeBtn button {
+    width: 100px;
+    height: 40px;
+    font-size: 15px;
+    border: 0;
+    outline: 1.5px #f56a6a solid;
+    border-radius: 5px;
+    padding-left: 10px;
+    background-color: rgb(255, 150, 150);
+}
+
+/* 수정버튼 클릭 시 이벤트 */
+#changeBtn button:active {
+    width: 100px;
+    height: 40px;
+    font-size: 15px;
+    border: 0;
+    border-radius: 5px;
+    outline: 1.5px #f56a6a solid;
+    padding-left: 10px;
+    background-color: #f56a6a;
+}

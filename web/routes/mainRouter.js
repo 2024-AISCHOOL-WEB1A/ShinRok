@@ -1,3 +1,4 @@
+const { log } = require('console')
 const express = require('express')
 const router = express.Router()
 const path = require('path')
@@ -44,6 +45,12 @@ router.get('/predict', (req, res) => {
 // 사전 세부 페이지로 이동
 router.get('/dictDetail', (req, res)=>{
     res.render('dictDetail', {user: req.session.user})
+})
+
+// 수정 페이지로 이동
+router.get('/changePost', (req,res)=> {
+    log("test")
+    res.render('changePost', {user: req.session.user})
 })
 
 module.exports = router
