@@ -101,12 +101,13 @@ header{
 
 #text{
     margin-top: 5%;
+    font-size: 150%;
 }
 
 .item{
     margin: 5%;
-    width: 80%;
-    height: 80%;
+    /* width: 80%;
+    height: 80%; */
     background-color:white;
     align-content: center;
     aspect-ratio: 1;
