@@ -109,6 +109,8 @@ header{
     border-top-width: calc(1.5px + 20px); /* 상단 테두리 두께를 1.5px + 50px으로 설정 */
     border-top-color: #f56a6a; /* 상단 테두리 색상 설정 */
     border-top-style: solid; /* 상단 테두리 스타일 설정 */
+    border-radius: 20px 20px 20px 20px; /* 경계선 반지름 설정 */
+
 
 }
 
@@ -160,6 +162,13 @@ header{
     width: 80%;
     height: 80%;
     overflow-y: auto;
+
+    border: 1.5px #f78c8c solid; /* 전체 테두리 설정 */
+    border-top-width: calc(1.5px + 20px); /* 상단 테두리 두께를 1.5px + 50px으로 설정 */
+    border-top-color: #f56a6a; /* 상단 테두리 색상 설정 */
+    border-top-style: solid; /* 상단 테두리 스타일 설정 */
+    border-radius: 20px 20px 20px 20px; /* 경계선 반지름 설정 */
+
 }
 
 #modal-text{
@@ -197,7 +206,7 @@ header{
     margin-right: 10%;
     margin-left: 10%;
     margin-top: 5%;
-    width: 100%;
+    /* width: 100%; */
     display: flex;
 }
 
@@ -228,8 +237,9 @@ header{
 }
 
 #commitButton{
-display: flex;
-flex-direction: row-reverse;
-/* margin: 3% 10% 3% 0%; */
+    display: flex;
+    flex-direction: row-reverse;
+    
+    /* margin: 3% 10% 3% 0%; */
 }
 

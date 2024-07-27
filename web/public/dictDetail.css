@@ -73,8 +73,7 @@ header{
     padding: 2%;
     background-color: rgb(210, 210, 210);
     display: flex;
-    margin-top: 2%;
-    margin-bottom: 10%;
+    margin: 2% 0% 10% 20%;
     flex-direction: row;
 }
 
