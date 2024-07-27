@@ -46,4 +46,4 @@ router.get('/dictDetail', (req, res)=>{
     res.render('dictDetail', {user: req.session.user})
 })
 
-module.exports = router
+module.exports = router 

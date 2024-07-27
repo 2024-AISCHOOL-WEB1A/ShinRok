@@ -68,7 +68,7 @@ class CustomResNet50(nn.Module):
 
 # 학습된 모델 로드
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-model_path = './model_resnet50.pth'
+model_path = './model/model_resnet50.pth'
 
 # 기존 모델을 3개의 클래스로 설정하여 로드 (예: 3개 클래스)
 model = CustomResNet50(num_classes=3)
