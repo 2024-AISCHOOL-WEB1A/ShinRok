@@ -15,11 +15,13 @@ const boardRouter = require('./routes/boardRouter');
 const diaryRouter = require('./routes/diaryRouter');
 const dictionaryRouter = require('./routes/dictionaryRouter');
 const dictDetailRouter = require('./routes/dictDetailRouter')
+const predictRouter = require('./routes/predictRouter')
 
 app.use('/public', express.static('public'));
 app.use('/config', express.static('config'));
 app.use('/images', express.static('images'));
 app.use('/assets', express.static('assets'));
+
 
 // 세션 미들웨어
 app.use(session({
@@ -60,6 +62,7 @@ app.use('/board', boardRouter);
 app.use('/diary', diaryRouter);
 app.use('/dictionary', dictionaryRouter);
 app.use('/dictDetail', dictDetailRouter)
+app.use('/predict', predictRouter)
 
 // 에러 핸들링 미들웨어 추가
 app.use((err, req, res, next) => {
