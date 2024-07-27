@@ -1,3 +1,43 @@
+/* ------------ 왼쪽 사이드바 ----------------------------- */
+.leftSidebar{
+    width: 13%;
+    background-color: #f5f6f7;
+    padding-top: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+
+}
+.leftSidebar nav ul{
+    list-style-type: none;
+    padding-left: 0;
+    text-align: center;
+}
+.leftSidebar nav ul li{
+    margin: 20px 0;
+}
+.leftSidebar nav ul li a{
+    color: #34495e;
+    text-decoration: none;
+    display: block;
+    padding: 10px 0;
+}
+.leftSidebar nav ul li a:hover{
+    background-color: #34495e;
+    color: #f5f6f7;
+}
+
+.underSidebar a{
+    font-size: smaller;
+    margin-top: 5%;
+}
+.underSidebar li{
+    border-top: solid 2px #afa8a8;
+}
+
+/* ------------ 바디 ----------------------------- */
+
 body {
     display: flex;
     justify-content: center;
