@@ -14,6 +14,7 @@ const posts = [];
 //         BOARD_IMG: `이미지경로${i}.jpg` // 이미지 경로는 예제로 넣었습니다.
 //     });
 // }
+
 // 게시물 하나의 템플릿 생성 함수
 function createPostTemplate(post, commentCount) {
     return `
@@ -37,8 +38,6 @@ function createPostTemplate(post, commentCount) {
         </div>
     `;
 }
-
-
 
 // 현재 페이지의 게시물 표시
 function displayPage(page) {
