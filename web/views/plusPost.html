@@ -34,7 +34,7 @@
                     <a href="#">Profile</a>
                 </li>
 
-                <li><a href="#">자유게시판</a></li>
+                <li><a href="/freeList">자유게시판</a></li>
                 <li><a href="#">자랑하기</a></li>
                 <li><a href="#">인기글</a></li>
                 <li><a href="#">공지사항</a></li>
@@ -62,7 +62,7 @@
             {% if user %}
             <input type="hidden" name="idx" value={{user.idx}}>
             {% endif %}
-            <div>
+            <div class="postHeader">
                 <h2>글쓰기</h2>
                 <p>식물에 관한 정보를 다른사람과 공유해보세요.</p>
             </div>
@@ -86,8 +86,8 @@
             </div>
 
             <!-- ------------- 내용 작성 ----------------- -->
-            <div>
-                <dt class="header">Comment</dt>
+            <div class="conheader">
+                <dt>Comment</dt>
                 <dd><textarea placeholder="내용을 입력하세요" name="content"></textarea></dd>
             </div>
 
@@ -103,8 +103,8 @@
 
             <!-- 등록 버튼 -->
             <div id="footer">
-                <div class="uploadBtn"><input type="submit" value="등록"></div>
-                <div class="cancelBtn"><input type="button" value="취소"></div>
+                <div id="uploadBtn"><input type="submit" value="등록"></div>
+                <div id="cancelBtn"><input type="button" value="취소"></div>
             </div>
         </section>
 

@@ -8,6 +8,7 @@
     <!-- font awesome 오류 났을때 fas / fab (brand 이미지일 경우) 앞에 추가하여 해결 _버전 오류 -->
 
     <link rel="stylesheet" href="../public/detailPost.css">
+
 </head>
 
 <body>
@@ -35,7 +36,7 @@
                     <a href="#">Profile</a>
                 </li>
 
-                <li><a href="#">자유게시판</a></li>
+                <li><a href="/freeList">자유게시판</a></li>
                 <li><a href="#">자랑하기</a></li>
                 <li><a href="#">인기글</a></li>
                 <li><a href="#">공지사항</a></li>
@@ -109,11 +110,48 @@
                     <td id="changeBtn"><a href="/changePost" class="change_post"><button type="button">수정하기</button></a></td>
                 </div>
             </tr>
-        
+            
+        <!-- ----------------------- 댓글 목록 & 작성하기 부분 -------------------- -->
+            <tr>
+                <td colspan="5">
+                    <div class="comment-section">
+                        <!-- 댓글 작성 -->
+                        <h4><i class="fa-solid fa-plus"></i>댓글쓰기</h4>
+                        <div id="plusCommend">
+                            <textarea placeholder="내용을 입력하세요" name="content"></textarea>
+                            <button type="submit">등록하기</button>
+                        </div>
+                        <div id="commentTitle">
+                            <h3>전체 댓글</h3> 
+                        </div>
+                        
+                        <div class="comment">
+                            <i class="fa-regular fa-comment-dots"></i>
+                            <div>
+                                <span class="author">신록 대장핑</span>
+                                <span class="timestamp">2024.07.28 - AM:12:22 </span>
+                            </div>
+                            <div class="content">
+                                최악의 하루입니다. 왜냐하면 날씨가 너무 더워요. <br>
+                                참고로 자유게시판목록 파일이름 (freeList.html이고) 댓글은 (detailPost.html)안에 있어용~
+                            </div>
+                        </div>
 
-            <!-- ----------------- 댓글 추가 ------------------------------ -->
+                        
+                        <div class="comment">
+                            <i class="fa-regular fa-comment-dots"></i>
+                            <div>
+                                <span class="author">익명의 조승혁</span>
+                                <span class="timestamp">2024.07.28 - PM:18:36 </span>
+                            </div>
+                            <div class="content">
+                                오븐마루 ㅈㅁㅌㄱㄹ~~ 닭껍질이 바삭한게 완전 내 입맛임.
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
         </table>
-
     </form>
 
     <script src="../assets/js/post.js"></script>
