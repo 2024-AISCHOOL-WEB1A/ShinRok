@@ -33,7 +33,7 @@ body{
     margin-top: 2%;
 }
 
-.plusPostForm{
+.changePostForm{
     display: inline-flex;
     justify-content: flex-end;
     width: 93%;
@@ -62,7 +62,7 @@ textarea {
     height: 30px;
 }
 
-/* ------------------------------------------ 등록 버튼 ---------------------------------------- */
+/* ------------------------------------------ 수정 버튼 ---------------------------------------- */
 input[type="submit"] {
     width: 100px;
     height: 40px;
@@ -74,7 +74,7 @@ input[type="submit"] {
     background-color: #f5b0b0;
 }
 
-/* 등록버튼 클릭 시 이벤트 */
+/* 수정버튼 클릭 시 이벤트 */
 input[type="submit"]:active {
     width: 100px;
     height: 40px;
@@ -239,5 +239,3 @@ input[type="button"]:active {
 .underSidebar li{
     border-top: solid 2px #afa8a8;
 }
-
-

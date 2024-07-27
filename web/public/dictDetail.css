@@ -1,0 +1,121 @@
+html{
+    height: 100%;
+}
+
+header{
+    display: flex;
+    border-bottom: solid 5px #f56a6a;
+    width: 100%;
+}
+
+#con{
+    display: flex;
+}
+
+#logo{
+    width: 20%;
+}
+
+
+#search,#query{
+    margin-top: 2%;
+    width: 60%;
+    height: 3em;
+}
+
+/* ------------ 왼쪽 사이드바 ----------------------------- */
+.leftSidebar{
+    width: 13%;
+    background-color: #f5f6f7;
+    padding-top: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+
+}
+.leftSidebar nav ul{
+    list-style-type: none;
+    padding-left: 0;
+    text-align: center;
+}
+.leftSidebar nav ul li{
+    margin: 20px 0;
+}
+.leftSidebar nav ul li a{
+    color: #34495e;
+    text-decoration: none;
+    display: block;
+    padding: 10px 0;
+}
+.leftSidebar nav ul li a:hover{
+    background-color: #34495e;
+    color: #f5f6f7;
+}
+
+.underSidebar a{
+    font-size: smaller;
+    margin-top: 5%;
+}
+.underSidebar li{
+    border-top: solid 2px #afa8a8;
+}
+
+
+/* ----------------------도감----------------------------------- */
+
+
+
+#container{
+    width: 70%;
+    height: 70vh;
+    position: relative;
+    padding: 2%;
+    background-color: rgb(210, 210, 210);
+    display: flex;
+    margin: 2% 0% 10% 20%;
+    flex-direction: row;
+}
+
+#left{
+    width: 30%;
+    height: 90%;
+}
+
+#right{
+    width: 70%;
+    height: 90%;
+    margin-left: 3%;
+    padding: 0% 3% 3% 3%;
+    border-left: 1px solid white;
+}
+
+#bottom{
+    height: 10%;
+}
+
+#btn{
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+
+/* ----------------------자식컨텐츠----------------------------------- */
+
+
+#pict{
+    background-color: white;
+    width: 100%;
+    aspect-ratio: 1;
+}
+
+
+#name{
+    height: 20%;
+    margin-bottom: 3%;
+}
+
+#sebu{
+    height: 80%;
+}

@@ -10,6 +10,10 @@
 		<!-- font awesome 오류 났을때 fas / fab (brand 이미지일 경우) 앞에 추가하여 해결 _버전 오류 -->
 
 		<link rel="stylesheet" href="../public/main.css" />
+		<!-- 자유게시판 CSS -->
+		<link rel="stylesheet" href="../public/freePost.css">
+		<!-- 자랑게시판 CSS -->
+		<link rel="stylesheet" href="../public/bragList.css">
 	</head>
 	<body class="is-preload">
 		
@@ -81,7 +85,8 @@
 										<h2>Menu</h2>
 									</header>
 									<ul class="sideList">
-										<li><a href="/main.html">Mainpage</a></li>
+										<li><a href="/main.html">Mainpage</a></li>    
+										<!-- to. 원희 : 여기 href "/"이어야 넘어가는거 아닌가??? 혹시 몰라서 그냥 주석으로만 냅둬 월요일날 다시물어볼게 -->
 										<li>
 											<span class="opener">게시판</span>
 											<ul>
@@ -92,7 +97,7 @@
 										</li>
 										<li><a href="/diary">Diary</a></li>
 										<li><a href="/dictionary/home">Plant BOOK</a></li>
-										<li><a href="#">병충해 진단🦠</a></li>
+										<li><a href="/predict">병충해 진단🦠</a></li>
 										<li><a href="#">Another Site</a></li>
 									</ul>
 								</nav>
@@ -122,6 +127,10 @@
 			<script src="../assets/js/browser.min.js"></script>
 			<script src="../assets/js/breakpoints.min.js"></script>
 			<script src="../assets/js/main.js"></script>
+
+			<!-- 자랑게시판 JS 파일 -->
+		    <script src="../assets/js/post.js"></script>
+    		<script src="../assets/js/bragList.js"></script>
 
 	</body>
 </html>
