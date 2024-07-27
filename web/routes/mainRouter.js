@@ -49,7 +49,6 @@ router.get('/dictDetail', (req, res)=>{
 
 // 수정 페이지로 이동
 router.get('/changePost', (req,res)=> {
-    log("test")
     res.render('changePost', {user: req.session.user})
 })
 
