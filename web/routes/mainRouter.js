@@ -1,3 +1,4 @@
+const { log } = require('console')
 const express = require('express')
 const router = express.Router()
 const path = require('path')
@@ -18,8 +19,8 @@ router.get('/', (req,res) => {
 // 글쓰기 페이지 이동
 router.get('/plusPost', (req, res) => {
     res.render('plusPost',  { user: req.session.user })
- })
- 
+})
+
 // 다이어리 페이지 이동
 router.get('/diary', (req, res) => {
     res.render('diary', {user: req.session.user})
@@ -46,4 +47,9 @@ router.get('/dictDetail', (req, res)=>{
     res.render('dictDetail', {user: req.session.user})
 })
 
-module.exports = router 
+// 수정 페이지로 이동
+router.get('/changePost', (req,res)=> {
+    res.render('changePost', {user: req.session.user})
+})
+
+module.exports = router

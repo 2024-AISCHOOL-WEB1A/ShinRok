@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>게시글 작성 📝</title>
+    <title>게시글 수정 📝</title>
     <script src="https://kit.fontawesome.com/71a327e855.js" crossorigin="anonymous"></script>
 		<!-- font awesome 오류 났을때 fas / fab (brand 이미지일 경우) 앞에 추가하여 해결 _버전 오류 -->
 
-    <link rel="stylesheet" href="../public/plusPost.css">
+    <link rel="stylesheet" href="../public/changePost.css">
 </head>
 <body>
     <!-- ------------------- 최상단 배너 ----------------------- -->
@@ -22,7 +22,7 @@
             </ul> -->
         </div>
     </section>
-        
+   
     <!-- ------------------ 왼쪽 사이드바 ---------------------- -->
     <aside class="leftSidebar">
         <nav>
@@ -54,14 +54,14 @@
         
     </aside>
 
-  <!-- ----------------------------- Body 전체 ------------------------------------------------------------------------------------------------------------------------------ -->
-    <form action="/board/upload" method="post" enctype="multipart/form-data" class="plusPostForm">
-        
+
+    <form action="/board/upload" method="post" enctype="multipart/form-data" class="changePostForm">
+     
         <!-- ---------------- 글쓰기 작성 폼 ---------------------- -->
         <section class="table"> 
-            {% if user %}
+            <!-- {% if user %}
             <input type="hidden" name="idx" value={{user.idx}}>
-            {% endif %}
+            {% endif %} -->
             <div>
                 <h2>글쓰기</h2>
                 <p>식물에 관한 정보를 다른사람과 공유해보세요.</p>
@@ -103,13 +103,13 @@
 
             <!-- 등록 버튼 -->
             <div id="footer">
-                <div class="uploadBtn"><input type="submit" value="등록"></div>
+                <div class="changeBtn"><input type="submit" value="수정"></div>
                 <div class="cancelBtn"><input type="button" value="취소"></div>
             </div>
         </section>
 
     </form>
 
-    <script src="../assets/js/post.js"></script>
+    <!-- <script src="../assets/js/post.js"></script> -->
 </body>
 </html>
