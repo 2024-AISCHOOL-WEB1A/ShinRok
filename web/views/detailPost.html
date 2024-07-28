@@ -75,10 +75,10 @@
             </tr>
                 
             <tr id="spaceTitle">
-                <td rowspan="2" id="profilePic"> 프로필 사진</td>
+                <td rowspan="2" id="profilePic"><img src = '{{post.USER_PICTURE}}'></td>
                 <td>{{ post.USER_NICK }}</td>
                 <tr>
-                    <td id="titleDate">{{ post.BOARD_DATE }}</td>
+                    <td id="titleDate">{{ post.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}</td>
                     <td id="titleTd">조회수<span>: {{ post.BOARD_COUNT }}</span></td>
                     <td id="titleTd"><i class="fa-regular fa-comment-dots"></i>댓글 수<span>: {{ commentCount }}</span></td>
                 </tr>
