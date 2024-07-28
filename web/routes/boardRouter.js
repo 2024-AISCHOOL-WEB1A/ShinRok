@@ -157,7 +157,6 @@ router.get('/bragList', (req, res) => {
     });
 });
 
-
 router.get('/bragPost',(req,res)=> {
     const sql = `SELECT 
                     U.USER_IDX,
