@@ -18,9 +18,13 @@ header{
 
 
 #search,#query{
-    margin-top: 2%;
     width: 60%;
     height: 3em;
+    display: flex;
+}
+
+#search{
+    margin-top: 2%;
 }
 
 /* ------------ 왼쪽 사이드바 ----------------------------- */
