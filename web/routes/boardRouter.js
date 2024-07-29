@@ -96,7 +96,7 @@ router.get('/freePost', (req, res) => {
                 console.error('DB Query Error: ', err);
                 return res.status(500).json({ error: 'DB Query Error' });
             }
-            res.render('freePost', { boardFree: dataResult, currentPage: page, totalPages: totalPages });
+            res.render('freePost', { boardFree: dataResult, currentPage: page, totalPages: totalPages, user: req.session.user });
         });
     });
 });
@@ -137,7 +137,7 @@ router.get('/bragPost',(req,res)=> {
 
     conn.query(sql, (e, r) => {
         console.log(r)
-        res.render('bragPost', {bragPost : r})
+        res.render('bragPost', {bragPost : r, user: req.session.user})
     })
 })
 
