@@ -253,7 +253,7 @@ function getPost(postId, req, res) {
         res.render('bragdetailPost', { post: post, user: req.session.user })
     })
 }
-
+//d
 // // 질문 게시판
 // router.get('', (req, res) => {
 //     const sql = `SELECT 
