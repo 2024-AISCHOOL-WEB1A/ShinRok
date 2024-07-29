@@ -15,6 +15,7 @@ const boardRouter = require('./routes/boardRouter');
 const diaryRouter = require('./routes/diaryRouter');
 const dictionaryRouter = require('./routes/dictionaryRouter');
 const predictRouter = require('./routes/predictRouter')
+const searchRouter = require('./routes/searchRouter')
 
 app.use('/public', express.static('public'));
 app.use('/config', express.static('config'));
@@ -61,7 +62,7 @@ app.use('/board', boardRouter);
 app.use('/diary', diaryRouter);
 app.use('/dictionary', dictionaryRouter);
 app.use('/predict', predictRouter);
-
+app.use('/search', searchRouter);
 // 에러 핸들링 미들웨어 추가
 app.use((err, req, res, next) => {
     console.error(err.stack);
