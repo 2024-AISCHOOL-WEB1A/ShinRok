@@ -397,12 +397,7 @@ router.post('/cmnt', (req, res) => {
         if(err) {
             res.send(`<script>alert('댓글 삽입에 실패했습니다.'); </script>`)
         }
-        else{
-            // 삽입 성공
-            // console.log('Insert 완료', result)
-            res.redirect(`/detailPost?idx=?${board_idx}`);
-        }
-
+        
         // 삽입 성공
         res.json({ success: true, message: '댓글이 성공적으로 등록되었습니다.', board_idx: board_idx })
 
