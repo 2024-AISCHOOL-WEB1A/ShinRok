@@ -10,16 +10,48 @@
     <div class="container">
         <div class="sidebar">
             <div class="profile-photo">{{ mypage.USER_PICTURE}}</div>
-            <button class="nickname">{{ USER_NICK }} <span>수정</span></button>
-            <button class="linked-accounts">{{ SNS_PROVIDER }}</button>
+            <button class="nickname">{{ USER_NICK }} 워니워니 <span>수정</span></button>
+            <button class="linked-accounts">{{ SNS_PROVIDER }} kakaotalk</button>
             <button class="delete-account">회원 탈퇴</button>
         </div>
         <div class="content">
             <div class="posts-list">
-                <h2>작성 글 목록</h2>
+                <h2 id="myListTop">작성 글 목록</h2>
+                <table class="myPostList">
+                    <tr id="myListTr">
+                        <td>카테고리</td>
+                        <td>게시글 제목</td>
+                        <td>게시날짜</td>
+                        <td>조회수</td>
+                        <td id="mycommend">댓글수</td>
+                    </tr>
+                    <tr class="myUnderList">
+                        <td>자유게시판</td>
+                        <td>오늘 오븐마루 갈 사람</td>
+                        <td>2024-07-29</td>
+                        <td>12</td>
+                        <td id="undercommend">3</td>
+                    </tr>
+                </table>
             </div>
             <div class="diagnosis-records">
-                <h2>병충해 진단 기록</h2>
+                <h2 id="myListTop2">병충해 진단 기록</h2>
+                <table class="mybugList">
+                    <tr id="bugListTr">
+                        <td>카테고리</td>
+                        <td>게시글 제목</td>
+                        <td>게시날짜</td>
+                        <td>조회수</td>
+                        <td id="lasttd">댓글수</td>
+                    </tr>
+                    <tr class="bugUnderList">
+                        <td>자유게시판</td>
+                        <td>오늘 오븐마루 갈 사람</td>
+                        <td>2024-07-29</td>
+                        <td>12</td>
+                        <td id="lasttd2">3</td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
