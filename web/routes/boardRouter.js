@@ -132,73 +132,21 @@ router.get('/bragPost',(req,res)=> {
                     B.BOARD_COUNT, 
                     B.BOARD_DATE, 
                     B.BOARD_IMG
+                ORDER BY B.BOARD_DATE DESC
                     `
 
     conn.query(sql, (e, r) => {
         console.log(r)
-        res.render('bragList', {bragList : r})
+        res.render('bragPost', {bragPost : r})
     })
 })
 
-router.get('/bragList', (req, res) => {
+router.get('/bragList',(req,res)=> {
     const page = parseInt(req.query.page) || 1; // 현재 페이지 번호 (기본값: 1)
     const limit = 15; // 페이지 당 게시글 수
     const offset = (page - 1) * limit;
-
+    
     const countSql = `SELECT COUNT(*) AS total FROM SR_BOARD WHERE BOARD_CATE = '자랑'`;
-    const dataSql = `SELECT 
-                        U.USER_IDX,
-                        U.USER_NICK,
-                        U.USER_PICTURE,
-                        B.BOARD_IDX,
-                        B.BOARD_TITLE,
-                        B.BOARD_CONTENT,
-                        B.BOARD_COUNT,
-                        B.BOARD_DATE,
-                        B.BOARD_IMG,
-                        B.BOARD_CATE,
-                        COUNT(C.CMNT_CONTENT) AS COMMENT_COUNT
-                    FROM 
-                        SR_USER U
-                        JOIN SR_BOARD B ON U.USER_IDX = B.USER_IDX
-                        LEFT JOIN SR_CMNT C ON B.BOARD_IDX = C.BOARD_IDX
-                    WHERE 
-                        B.BOARD_CATE = '자랑'
-                    GROUP BY 
-                        B.BOARD_IDX, 
-                        U.USER_IDX, 
-                        U.USER_NICK, 
-                        U.USER_PICTURE, 
-                        B.BOARD_TITLE, 
-                        B.BOARD_CONTENT, 
-                        B.BOARD_COUNT, 
-                        B.BOARD_DATE, 
-                        B.BOARD_IMG
-                    ORDER BY B.BOARD_DATE DESC
-                    LIMIT ?, ?`;
-
-    conn.query(countSql, (err, countResult) => {
-        if (err) {
-            console.error('DB Count Error: ', err);
-            return res.status(500).json({ error: 'DB Count Error' });
-        }
-        
-        const totalPosts = countResult[0].total;
-        const totalPages = Math.ceil(totalPosts / limit);
-
-        conn.query(dataSql, [offset, limit], (err, dataResult) => {
-            if (err) {
-                console.error('DB Query Error: ', err);
-                return res.status(500).json({ error: 'DB Query Error' });
-            }
-            res.render('bragList', { bragPost: dataResult, currentPage: page, totalPages: totalPages });
-        });
-    });
-});
-
-
-router.get('/bragList',(req,res)=> {
-    console.log(req.body);
     const sql = `SELECT 
                     U.USER_IDX,
                     U.USER_NICK,
@@ -228,9 +176,22 @@ router.get('/bragList',(req,res)=> {
                     B.BOARD_DATE, 
                     B.BOARD_IMG`
 
-    conn.query(sql, (e, r) => {
-        console.log(r)
-        res.render('bragList', {bragList : r})
+    conn.query(countSql, (err, countResult) => {
+        if (err) {
+            console.error('DB Count Error: ', err);
+            return res.status(500).json({ error: 'DB Count Error' });
+        }
+        
+        const totalPosts = countResult[0].total;
+        const totalPages = Math.ceil(totalPosts / limit);
+
+        conn.query(sql, [offset, limit], (err, dataResult) => {
+            if (err) {
+                console.error('DB Query Error: ', err);
+                return res.status(500).json({ error: 'DB Query Error' });
+            }
+        res.render('bragList', {bragList : dataResult, currentPage: page, totalPages: totalPages})
+        })
     })
 })
 
@@ -291,14 +252,14 @@ router.get('/detailPost', (req, res) => {
                 return res.status(500).json({ error: 'DB Update Error' })
             }
 
-            getPostAndComments(postId, req, res)
+            getPost(postId, req, res)
         })
     } else {
-        getPostAndComments(postId, req, res)
+        getPost(postId, req, res)
     }
 });
 
-function getPostAndComments(postId, req, res) {
+function getPost(postId, req, res) {
     const postSql = `SELECT 
                         U.USER_IDX,
                         U.USER_NICK,
@@ -316,25 +277,6 @@ function getPostAndComments(postId, req, res) {
                     WHERE 
                         B.BOARD_IDX = ?`
 
-    const commentsSql = `SELECT 
-                            COUNT(*) AS COMMENT_COUNT,
-                            C.CMNT_IDX,
-                            C.CMNT_CONTENT,
-                            C.CMNT_DATE,
-                            U.USER_NICK,
-                            U.USER_PICTURE
-                        FROM 
-                            SR_CMNT C
-                            JOIN SR_USER U ON C.USER_IDX = U.USER_IDX
-                        WHERE 
-                            C.BOARD_IDX = ?
-                        GROUP BY
-                            C.CMNT_IDX,
-                            C.CMNT_CONTENT,
-                            C.CMNT_DATE,
-                            U.USER_NICK,
-                            U.USER_PICTURE`
-
     conn.query(postSql, [postId], (err, postResult) => {
         if (err) {
             console.error('DB Query Error: ', err)
@@ -345,41 +287,68 @@ function getPostAndComments(postId, req, res) {
         }
 
         const post = postResult[0]
-
-        conn.query(commentsSql, [postId], (err, commentsResult) => {
-            if (err) {
-                console.error('DB Query Error: ', err)
-                return res.status(500).json({ error: 'DB Query Error' })
-            }
-
-            const commentCount = commentsResult.length
-            res.render('detailPost', { post: post, comments: commentsResult, commentCount: commentCount, user: req.session.user })
-        })
+        res.render('detailPost', { post: post, user: req.session.user })
     })
 }
 
 
+// 댓글 목록 조회
+router.get('/comments', (req, res) => {
+    const { board_idx } = req.query;
+    console.log(req.session.user)
+    const commentsSql = `SELECT 
+                            C.CMNT_IDX,
+                            C.CMNT_CONTENT,
+                            C.CMNT_DATE,
+                            U.USER_NICK,
+                            U.USER_PICTURE
+                        FROM 
+                            SR_CMNT C
+                            JOIN SR_USER U ON C.USER_IDX = U.USER_IDX
+                        WHERE 
+                            C.BOARD_IDX = ?
+                        ORDER BY C.CMNT_DATE DESC`;
+
+    conn.query(commentsSql, [board_idx], (err, commentsResult) => {
+        if (err) {
+            console.error('DB Query Error: ', err);
+            return res.status(500).json({ error: 'DB Query Error' });
+        }
+        res.json({ success: true, comments: commentsResult, user: req.session.user });
+    });
+});
+
+// 댓글기능
 router.post('/cmnt', (req, res) => {
-    console.log(req.body)
-    console.log('test')
+    let { user_idx, board_idx, content } = req.body;
+    console.log(req.body);
+    if (!user_idx || !board_idx || !content) {
+        return res.json({ success: false, message: '모든 필드를 채워주세요.' });
+    }
 
-    let {user_idx, board_idx, content} = req.body
-    const sql = `INSERT INTO SR_CMNT (BOARD_IDX, USER_IDX, CMNT_CONTENT)
-                        VALUES ( ?, ?, ?)`
+    const sql = `INSERT INTO SR_CMNT (BOARD_IDX, USER_IDX, CMNT_CONTENT) VALUES (?, ?, ?)`;
     
-    conn.query(sql,[user_idx, board_idx, content], (err, rows)=>{
-        console.log('insert 완료', rows)
+    conn.query(sql, [board_idx, user_idx, content], (err, result) => {
+        if (err) {
+            console.error('Insert Error: ', err);
+            return res.json({ success: false, message: '댓글 삽입에 실패했습니다.' });
+        }
 
-        if(err) {
-            res.send(`<script>alert('댓글 삽입에 실패했습니다.'); </script>`)
-        }
-        else{
-            // 삽입 성공
-            console.log('Insert 완료', result)
-            res.redirect(`/detailPost?idx=?${board_idx}`);
-        }
-    })
-})
+        // 삽입 성공 후, 총 댓글 수를 다시 가져와서 응답에 포함
+        const countSql = `SELECT COUNT(*) AS commentCount FROM SR_CMNT WHERE BOARD_IDX = ?`;
+        conn.query(countSql, [board_idx], (countErr, countResult) => {
+            if (countErr) {
+                console.error('Count Error: ', countErr);
+                return res.json({ success: false, message: '댓글 수 조회에 실패했습니다.' });
+            }
+
+            res.json({ success: true, commentCount: countResult[0].commentCount });
+        });
+    });
+});
+
 
 
 module.exports = router
+
+
