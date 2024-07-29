@@ -8,7 +8,8 @@ const REDIRECT_URI = process.env.REDIRECT_URI;
 const LOG_OUT_URI = process.env.LOG_OUT_URI;
 // 카카오 로그인 페이지로 이동
 router.get('/login', (req, res) => {
-  const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_APP_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+  // const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_APP_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+  const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${KAKAO_APP_KEY}&redirect_uri=${REDIRECT_URI}&prompt=login`;
   res.redirect(kakaoAuthURL);
 });
 
@@ -117,12 +118,7 @@ router.get('/oauth', async (req, res, next) => {
 
 router.get('/logout', async (req, res, next) => {
   try {
-    // 카카오 로그아웃 요청
-    const kakaoLogoutURL = `https://kauth.kakao.com/logout?client_id=${KAKAO_APP_KEY}&logout_redirect_uri=${LOG_OUT_URI}`;
-    
-    // 클라이언트가 카카오 로그아웃 페이지로 리다이렉트
-    res.redirect(kakaoLogoutURL);
-    
+ 
     // 로그아웃 후 세션 및 쿠키 삭제
     req.session.destroy((err) => {
       if (err) {
