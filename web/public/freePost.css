@@ -57,9 +57,11 @@
     flex-direction: row;
     justify-content: center;
     margin-right: 5%;
+    margin-bottom: 3%;
 }
 
 .freePaging a, span{
     margin-left: 1%;
     font-size: 15px;
+    /* color: #3D4449; */
 }

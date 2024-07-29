@@ -87,6 +87,7 @@ body{
     width: 100%;
     padding-left: 18%;
     padding-right: 6.5%;
+    margin-bottom: 10%;
 }
 
 .freetable{
@@ -94,6 +95,7 @@ body{
     /* margin-top: 1%; */
     border-collapse: collapse;
     border-top: 1px solid #3D4449;
+    margin-bottom: 3%;
 }
 
 .freetable *{
@@ -125,4 +127,24 @@ body{
 .freetable .contentBody:hover {
     background-color: #f1f1f1;
     cursor: pointer;
+}
+
+
+/* 하단 페이징 */
+.freePaging {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-right: 5%;
+}
+
+.freePaging a, span{
+    margin-left: 1%;
+    font-size: 15px;
+    text-decoration: none;
+    color: #34495e;
+}
+
+.freePaging a:hover{
+    color: #f56a6a;
 }
