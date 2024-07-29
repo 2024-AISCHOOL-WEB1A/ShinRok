@@ -94,11 +94,11 @@
                 <tr>
                     <td class="addImage" colspan="5">
                         <!-- 이미지 혹은 내용을 넣을 공간 -->
-                        <span>{{ post.BOARD_CONTENT }}</span>
-                        <br> <br>
                         {% if post.BOARD_IMG %}
                             <img src="{{ post.BOARD_IMG }}" alt="게시글 이미지" id="postImg">
                         {% endif %}
+                        <br> <br>
+                        <span>{{ post.BOARD_CONTENT }}</span>
 
                     </td>
                 </tr>
