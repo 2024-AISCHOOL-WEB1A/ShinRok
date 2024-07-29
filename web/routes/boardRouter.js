@@ -292,14 +292,14 @@ router.get('/detailPost', (req, res) => {
                 return res.status(500).json({ error: 'DB Update Error' })
             }
 
-            getPostAndComments(postId, req, res)
+            getPost(postId, req, res)
         })
     } else {
-        getPostAndComments(postId, req, res)
+        getPost(postId, req, res)
     }
 });
 
-function getPostAndComments(postId, req, res) {
+function getPost(postId, req, res) {
     const postSql = `SELECT 
                         U.USER_IDX,
                         U.USER_NICK,
@@ -317,25 +317,6 @@ function getPostAndComments(postId, req, res) {
                     WHERE 
                         B.BOARD_IDX = ?`
 
-    const commentsSql = `SELECT 
-                            COUNT(*) AS COMMENT_COUNT,
-                            C.CMNT_IDX,
-                            C.CMNT_CONTENT,
-                            C.CMNT_DATE,
-                            U.USER_NICK,
-                            U.USER_PICTURE
-                        FROM 
-                            SR_CMNT C
-                            JOIN SR_USER U ON C.USER_IDX = U.USER_IDX
-                        WHERE 
-                            C.BOARD_IDX = ?
-                        GROUP BY
-                            C.CMNT_IDX,
-                            C.CMNT_CONTENT,
-                            C.CMNT_DATE,
-                            U.USER_NICK,
-                            U.USER_PICTURE`
-
     conn.query(postSql, [postId], (err, postResult) => {
         if (err) {
             console.error('DB Query Error: ', err)
@@ -346,27 +327,46 @@ function getPostAndComments(postId, req, res) {
         }
 
         const post = postResult[0]
-
-        conn.query(commentsSql, [postId], (err, commentsResult) => {
-            if (err) {
-                console.error('DB Query Error: ', err)
-                return res.status(500).json({ error: 'DB Query Error' })
-            }
-
-            const commentCount = commentsResult.length
-            res.render('detailPost', { post: post, comments: commentsResult, commentCount: commentCount, user: req.session.user })
-        })
+        res.render('detailPost', { post: post, user: req.session.user })
     })
 }
 
 
-router.post('/cmnt', (req, res) => {
-    console.log(req.body)
-    console.log('test')
+// 댓글 목록 조회
+router.get('/comments', (req, res) => {
+    const { board_idx } = req.query;
+    console.log(req.session.user)
+    const commentsSql = `SELECT 
+                            C.CMNT_IDX,
+                            C.CMNT_CONTENT,
+                            C.CMNT_DATE,
+                            U.USER_NICK,
+                            U.USER_PICTURE
+                        FROM 
+                            SR_CMNT C
+                            JOIN SR_USER U ON C.USER_IDX = U.USER_IDX
+                        WHERE 
+                            C.BOARD_IDX = ?
+                        ORDER BY C.CMNT_DATE DESC`;
 
-    let {user_idx, board_idx, content} = req.body
-    const sql = `INSERT INTO SR_CMNT (BOARD_IDX, USER_IDX, CMNT_CONTENT)
-                        VALUES ( ?, ?, ?)`
+    conn.query(commentsSql, [board_idx], (err, commentsResult) => {
+        if (err) {
+            console.error('DB Query Error: ', err);
+            return res.status(500).json({ error: 'DB Query Error' });
+        }
+        res.json({ success: true, comments: commentsResult, user: req.session.user });
+    });
+});
+
+// 댓글기능
+router.post('/cmnt', (req, res) => {
+    let { user_idx, board_idx, content } = req.body;
+    console.log(req.body);
+    if (!user_idx || !board_idx || !content) {
+        return res.json({ success: false, message: '모든 필드를 채워주세요.' });
+    }
+
+    const sql = `INSERT INTO SR_CMNT (BOARD_IDX, USER_IDX, CMNT_CONTENT) VALUES (?, ?, ?)`;
     
     conn.query(sql,[user_idx, board_idx, content], (err, rows)=>{
         console.log('insert 완료', rows)
@@ -383,5 +383,6 @@ router.post('/cmnt', (req, res) => {
 })
 
 
-
 module.exports = router
+
+
