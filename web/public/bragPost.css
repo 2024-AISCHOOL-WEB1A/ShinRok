@@ -52,14 +52,14 @@
 }
 
 /* 하단 페이징 */
-.freePaging {
+.bragPaging {
     display: flex;
     flex-direction: row;
     justify-content: center;
     margin-right: 5%;
 }
 
-.freePaging a, span{
+.bragPaging a, span{
     margin-left: 1%;
     font-size: 15px;
 }
