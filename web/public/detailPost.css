@@ -42,10 +42,22 @@ body{
 #titleName{
     margin-top: 3%;
 }
-
 #profilePic{
-    width: 15%;
-    text-align: center;
+    width: 10%;
+}
+
+#spaceTitle img{
+    width: 5vw;
+    height: 10vh;
+    border-radius: 90%;
+    padding-left: 10%;
+}
+#spaceTitle #userNick{
+    font-weight: bold;
+}
+
+.titleList{
+    width: 100%;
 }
 #titleTd{
     text-align: center;
@@ -67,7 +79,7 @@ body{
 #category{
     border-left: 4px solid #f56a6a;
     padding-left: 1%;
-    width: 10%;
+    width: 100%;
     border-radius: 1px;
 }
 
@@ -147,7 +159,7 @@ body{
     
 }
 #commendBtn{
-    width: 50vw;
+    width: 10vw;
 }
 #commendBtn a{
     text-decoration: none;
@@ -156,6 +168,24 @@ body{
 
 .change_post{
     justify-content: start;
+}
+
+/* ----------- 추천하기 버튼 ----------- */
+#chochun i{
+    color: #f5f24e;
+    margin-left: 5%;
+}
+#chochun button{
+    background-color: white;
+    border-style: none;
+    color: #312f2f;
+    font-family: 'Pretendard-Regular';
+    font-size: 15px;
+    padding: 0;
+}
+#chochun button:active{
+    cursor: pointer;
+    font-size: smaller;
 }
 
 /* ----------- 수정 버튼 ------------- */
