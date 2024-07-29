@@ -57,18 +57,18 @@
 
             <!-- 타이틀 제목 -->
             <tr>
-                <td colspan="4"><h2 id="titleName">{{ bragList.BOARD_TITLE }}</h2></td>
+                <td colspan="4"><h2 id="titleName">{{ bragdetailPost.BOARD_TITLE }}</h2></td>
             </tr>
                 
             <tr id="spaceTitle">
 
-                <td rowspan="2" id="profilePic"><img src = '{{post.USER_PICTURE}}'></td>
-                <td id="userNick"> {{ bragList.USER_NICK }}</td>
+                <td rowspan="2" id="profilePic"><img src = '{{bragdetailPost.USER_PICTURE}}'></td>
+                <td id="userNick"> {{ bragdetailPost.USER_NICK }}</td>
                 <tr class="titleList">
-                    <td id="titleDate">{{ bragList.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}
-                        <input type="hidden" name="board_idx" value="{{post.BOARD_IDX}}">
+                    <td id="titleDate">{{ bragdetailPost.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}
+                        <input type="hidden" name="board_idx" value="{{bragdetailPost.BOARD_IDX}}">
                     </td>
-                    <td id="titleTd">조회수<span>: {{ bragList.BOARD_COUNT }}</span></td>
+                    <td id="titleTd">조회수<span>: {{ bragdetailPost.BOARD_COUNT }}</span></td>
                     <td id="titleTd" colspan="2"><i class="fa-regular fa-comment-dots"></i>댓글 수<span>: {{ commentCount }}</span></td>
                 </tr>
             </tr>
@@ -81,11 +81,11 @@
                 <tr>
                     <td class="addImage" colspan="5">
                         <!-- 이미지 혹은 내용을 넣을 공간 -->
-                        {% if bragList.BOARD_IMG %}
-                            <img src="{{ bragList.BOARD_IMG }}" alt="게시글 이미지" id="postImg">
+                        {% if bragdetailPost.BOARD_IMG %}
+                            <img src="{{ bragdetailPost.BOARD_IMG }}" alt="게시글 이미지" id="postImg">
                         {% endif %}
                         <br> <br>
-                        <span>{{ bragList.BOARD_CONTENT }}</span>
+                        <span>{{ bragdetailPost.BOARD_CONTENT }}</span>
 
             <!-- 가로선 추가 -->
             <tr>
@@ -201,7 +201,7 @@
         }
 
         // 페이지 로드 시 댓글 목록 로드
-        const boardIdx = "{{ bragList.BOARD_IDX }}"; // 템플릿 변수 사용
+        const boardIdx = "{{ bragdetailPost.BOARD_IDX }}"; // 템플릿 변수 사용
         loadComments(boardIdx); // 해당 게시글 ID로 호출
     </script>
 </body>
