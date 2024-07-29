@@ -96,11 +96,13 @@
 
                 <td id="commendBtn"><i class="fa-regular fa-comment-dots"></i>
                     <a href="#">댓글 <span id="commentCount">{{ commentCount }}</span></a></td>
-                    <td id="chochun" colspan="3"><i class="fa-regular fa-star"></i>
+                    <td id="chochun" colspan="2"><i class="fa-regular fa-star"></i>
                         <button type="button">추천하기</button></td>
                     {% if user.idx == post.USER_IDX %}
-                    <td id="changeBtn"><a href="/board/changePost?board_idx={{ post.BOARD_IDX }}" class="change_post"><button type="button">수정하기</button></a></td>
+                    <td id="changeBtn"><a href="/board/changePost?board_idx={{ post.BOARD_IDX }}" class="change_post">
+                        <button type="button">수정하기</button></a></td>
                     {% endif %}
+                    <td id="deleteBtn"><button type="button">삭제하기</button></td>
                 </div>
             </tr>
 
