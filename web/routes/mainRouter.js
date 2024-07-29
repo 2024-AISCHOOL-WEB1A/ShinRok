@@ -21,11 +21,10 @@ router.get('/plusPost', (req, res) => {
     res.render('plusPost',  { user: req.session.user })
 })
 
-// 수정 페이지로 이동
-router.get('/changePost', (req,res)=> {
-    res.render('changePost', {user: req.session.user})
+// 자유게시판 List로 이동
+router.get('/freeList', (req, res)=>{
+    res.render('freeList', {user: req.session.user})
 })
-
 
 // 자랑게시판 List로 이동
 router.get('/bragList', (req, res)=>{
