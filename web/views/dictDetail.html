@@ -83,19 +83,23 @@
     
     <!-- ----------------------도감----------------------------------- -->
     
+        
             <div id="container">
 
                 <div id="left">
-                    <div id="pict">  </div>
+                    <div id="pict"><img src="{{plantData.PLANT_IMG}}" alt="{{plantData.PLANT_NAME}}">  </div>
                 </div>
-
+            
+                
                 <div id="right">
-                    <div id="name">명칭</div>
-                    <div id="sebu">세부</div>
+                    <div id="name">{{plantData.PLANT_NAME}}</div>
+                    <div id="sebu">{{plantData.PLANT_EXPL}}</div>
+                    <div id="care">{{plantData.PLANT_CARE}}</div>
                 </div>
-                <div id="bottom"><button id="btn">목록</button></div>
+                <div id="bottom"><button id="btn"><a href="/dictionary/home">목록</a></button></div> 
             </div>
-    
+          
+            
     
     
         <script src="../assets/js/dictDetail.js"></script>
