@@ -5,6 +5,7 @@ const multer = require('multer')
 const upload = multer({ dest: 'uploads/' })
 const uploadImage = require('../config/uploadImage') // S3 업로드 함수
 const fs = require('fs')
+const { log } = require('console')
 
 // 게시판 관련 기능
 
@@ -109,15 +110,17 @@ router.get('/bragPost',(req,res)=> {
                     B.BOARD_CONTENT, 
                     B.BOARD_COUNT, 
                     B.BOARD_DATE, 
-                    B.BOARD_IMG`
+                    B.BOARD_IMG
+                    `
 
     conn.query(sql, (e, r) => {
         console.log(r)
-        res.render('bragList', {bragePost : r})
+        res.render('bragList', {bragList : r})
     })
 })
 
-router.get('/bragPost',(req,res)=> {
+router.get('/bragList',(req,res)=> {
+    console.log(req.body);
     const sql = `SELECT 
                     U.USER_IDX,
                     U.USER_NICK,
@@ -149,7 +152,7 @@ router.get('/bragPost',(req,res)=> {
 
     conn.query(sql, (e, r) => {
         console.log(r)
-        res.render('bragPost', {bragePost : r})
+        res.render('bragList', {bragList : r})
     })
 })
 
