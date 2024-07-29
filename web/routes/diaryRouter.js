@@ -44,3 +44,5 @@ router.post('/submit', upload.single('image'), async (req, res)=>{
 })
 
 module.exports = router
+
+//칸칸에 넣는건 풀캘린더 날짜색 변경& 여기 사블로그에 있는 방법
