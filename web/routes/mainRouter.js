@@ -69,4 +69,10 @@ router.get('/myPage', (req,res)=>{
     res.render('myPage', {user: req.session.user})
 })
 
+router.get('/search', (req,res)=>{
+    res.render('search', {user: req.session.user})
+})
+
+
+
 module.exports = router
