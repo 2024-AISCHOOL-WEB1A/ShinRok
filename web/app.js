@@ -16,6 +16,7 @@ const diaryRouter = require('./routes/diaryRouter');
 const dictionaryRouter = require('./routes/dictionaryRouter');
 const predictRouter = require('./routes/predictRouter')
 const searchRouter = require('./routes/searchRouter')
+const mypageRouter = require('./routes/mypageRouter');
 
 app.use('/public', express.static('public'));
 app.use('/config', express.static('config'));
@@ -46,6 +47,11 @@ env.addFilter('date', (date, format) => {
   return moment(date).format(format);
 });
 
+// 줄바꿈 필터 추가
+env.addFilter('nl2br', function(str) {
+    return str.replace(/\r\n|\n\r|\r|\n/g, '<br>');
+  })
+
 // body-parser 미들웨어 설정(POST 허용)
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
@@ -64,6 +70,7 @@ app.use('/diary', diaryRouter);
 app.use('/dictionary', dictionaryRouter);
 app.use('/predict', predictRouter);
 app.use('/search', searchRouter);
+app.use('/myPage', mypageRouter);
 // 에러 핸들링 미들웨어 추가
 app.use((err, req, res, next) => {
     console.error(err.stack);

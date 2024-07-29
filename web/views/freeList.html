@@ -49,7 +49,7 @@
                 <li><a href="/diary">Diary</a></li>
                 <li><a href="#">병충해 진단</a></li>
                 <li><a href="#">식물 도감</a></li>
-                <li><a href="#">마이페이지</a></li>
+                <li><a href="/myPage">마이페이지</a></li>
             </ul>
         </nav>
         
@@ -88,10 +88,26 @@
                 </tr>
             {% endfor %}
             
-            
-            
         </table>
         
+        <!-- 하단 페이징 -->
+        <div class="freePaging">
+            {% if currentPage > 1 %}
+                <a href="?page={{ currentPage - 1 }}">이전</a>
+            {% endif %}
+            
+            {% for page in range(1, totalPages + 1) %}
+                {% if page == currentPage %}
+                    <span>{{ page }}</span>
+                {% else %}
+                    <a href="?page={{ page }}">{{ page }}</a>
+                {% endif %}
+            {% endfor %}
+            
+            {% if currentPage < totalPages %}
+                <a href="?page={{ currentPage + 1 }}">다음</a>
+            {% endif %}
+        </div>
     </section>
 </body>
 </html>

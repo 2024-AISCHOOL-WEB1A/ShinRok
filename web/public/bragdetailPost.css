@@ -28,6 +28,7 @@ body{
     width: 80%;
     /* margin-right: 3%; */
     margin-top: 2%;
+    margin-left: 17%;
 }
 
 .detailForm{
@@ -44,7 +45,6 @@ body{
 }
 #profilePic{
     width: 10%;
-    /* height: 10%; */
 }
 
 #spaceTitle img{
@@ -52,7 +52,6 @@ body{
     height: 10vh;
     border-radius: 90%;
     padding-left: 10%;
-    padding-right: 10%;
 }
 #spaceTitle #userNick{
     font-weight: bold;
@@ -158,6 +157,7 @@ body{
 }
 #changeBtn button{
     margin-top: 5%;
+    
 }
 #commendBtn{
     width: 10vw;
@@ -170,7 +170,6 @@ body{
 .change_post{
     justify-content: start;
 }
-
 
 /* ----------- 추천하기 버튼 ----------- */
 #chochun i{
@@ -185,9 +184,9 @@ body{
     font-size: 15px;
     padding: 0;
 }
-#chochun button:hover{
+#chochun button:active{
     cursor: pointer;
-    color: #f56a6a;
+    font-size: smaller;
 }
 
 /* ----------- 수정 버튼 ------------- */
@@ -215,32 +214,6 @@ body{
     background-color: #f56a6a;
 }
 
-
-/* ------------ 삭제하기 버튼 -------------*/
-#deleteBtn button{
-    width: 100px;
-    height: 40px;
-    font-size: 15px;
-    border: 0;
-    outline: 1.5px #f56a6a solid;
-    border-radius: 5px;
-    padding-left: 10px;
-    margin-bottom: 10%  ;
-    background-color: rgb(255, 202, 202);
-    margin-top: 5%;
-    margin-left: 3%;
-}
-/* 삭제버튼 클릭 시 이벤트 */
-#deleteBtn button:active {
-    width: 100px;
-    height: 40px;
-    font-size: 15px;
-    border: 0;
-    border-radius: 5px;
-    outline: 1.5px #f56a6a solid;
-    padding-left: 10px;
-    background-color: #f56a6a;
-}
 
 /* ----------------------- 여기부터 댓글 부분 ---------------------- */
 .comment-section h3{
@@ -299,7 +272,8 @@ body{
     height: 40px;
     font-size: 15px;
     border: 0;
-    margin-left: 2%;
+    /* margin-left: 2%; */
+    margin: 1% 0 1% 2%;
     outline: 1.5px #7e7979 solid;
     border-radius: 5px;
     padding-left: 10px;
