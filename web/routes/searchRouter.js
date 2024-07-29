@@ -69,7 +69,11 @@ router.get('/list', (req, res) => {
                 return res.status(500).json({ error: 'DB Query Error' });
             }
 
-            res.render('searchResults', { searchResults: dataResult, currentPage: page, totalPages: totalPages, searchQuery: searchQuery });
+            res.render('searchResults', {
+                 searchResults: dataResult, 
+                 currentPage: page, 
+                 totalPages: totalPages, 
+                 searchQuery: searchQuery });
         });
     });
 });
