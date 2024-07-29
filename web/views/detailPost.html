@@ -67,7 +67,7 @@
                         <input type="hidden" name="board_idx" value="{{ post.BOARD_IDX }}">
                     </td>
                     <td id="titleTd">조회수<span>: {{ post.BOARD_COUNT }}</span></td>
-                    <td id="titleTd" colspan="2"><i class="fa-regular fa-comment-dots"></i>댓글 수<span>: {{ commentCount }}</span></td>
+                    <td id="titleTd" colspan="2"><i class="fa-regular fa-comment-dots"></i>댓글 수 : {{ commentCount }}</td>
                 </tr>
             </tr>
 
@@ -99,8 +99,9 @@
                         <button type="button">수정하기</button></a></td>
                     {% endif %}
                     {% if user.idx == post.USER_IDX or user.category == 'admin' %}
-                    <td id="deleteBtn"><a href="/board/delete?idx={{ post.BOARD_IDX }}" class="change_post">
-                        <button type="button">삭제하기</button></a></td>
+                    <td id="deleteBtn">
+                        <button type="button" onclick="deletePost('{{ post.BOARD_IDX }}')">삭제하기</button>
+                    </td>
                     {% endif %}
                 </div>
             </tr>
@@ -143,6 +144,8 @@
                         loadComments(data.board_idx);
                         // 댓글 수 업데이트
                         document.getElementById('commentCount').innerText = response.data.commentCount;
+                        // 텍스트 영역 초기화
+                        document.querySelector('textarea[name="content"]').value = '';
                     } else {
                         alert('댓글 등록에 실패했습니다.');
                         document.querySelector('textarea[name="content"]').focus();
@@ -188,6 +191,26 @@
 
                         commentList.appendChild(commentDiv);
                     });
+
+                    // 댓글 수 업데이트
+                    document.getElementById('commentCount').innerText = response.data.commentCount;
+
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        function deletePost(boardIdx) {
+            axios.get(`http://localhost:3000/board/delete?idx=${boardIdx}`)
+                .then(response => {
+                    if (response.data.success) {
+                        alert(response.data.message);
+                        // 성공적으로 삭제된 경우, 메인 페이지로 이동하거나 다른 적절한 페이지로 이동
+                        window.location.href = '/';
+                    } else {
+                        alert('게시글 삭제에 실패했습니다.');
+                    }
                 })
                 .catch(error => {
                     console.error('Error:', error);

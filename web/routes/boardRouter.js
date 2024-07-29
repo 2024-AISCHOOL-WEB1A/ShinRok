@@ -344,8 +344,8 @@ function getPost(postId, req, res) {
         if (postResult.length === 0) {
             return res.status(404).json({ error: 'Post not found' })
         }
-
         const post = postResult[0]
+        // log(post)
         res.render('detailPost', { post: post, user: req.session.user })
     })
 }
@@ -354,7 +354,9 @@ function getPost(postId, req, res) {
 // 댓글 목록 조회
 router.get('/comments', (req, res) => {
     const { board_idx } = req.query;
-    console.log(req.session.user)
+    console.log(req.session.user);
+    
+    // 댓글 목록 조회
     const commentsSql = `SELECT 
                             C.CMNT_IDX,
                             C.CMNT_CONTENT,
@@ -368,14 +370,28 @@ router.get('/comments', (req, res) => {
                             C.BOARD_IDX = ?
                         ORDER BY C.CMNT_DATE ASC`;
 
+    // 댓글 수 조회 
+    const countSql = `SELECT COUNT(*) AS COMMENT_COUNT FROM SR_CMNT WHERE BOARD_IDX = ?`;
+
+    // 댓글 목록 조회
     conn.query(commentsSql, [board_idx], (err, commentsResult) => {
         if (err) {
             console.error('DB Query Error: ', err);
             return res.status(500).json({ error: 'DB Query Error' });
         }
-        res.json({ success: true, comments: commentsResult, user: req.session.user });
+
+        // 댓글 수 조회
+        conn.query(countSql, [board_idx], (countErr, countResult) => {
+            if (countErr) {
+                console.error('Count Query Error: ', countErr);
+                return res.status(500).json({ error: 'Count Query Error' });
+            }
+           
+            res.json({ success: true, comments: commentsResult, commentCount: countResult[0].COMMENT_COUNT, user: req.session.user });
+        });
     });
 });
+
 
 // 댓글기능
 router.post('/cmnt', (req, res) => {
@@ -501,6 +517,25 @@ router.get('/freeList', (req, res) => {
         });
     });
 });
+
+// 게시글 삭제 기능
+router.get('/delete', (req, res) => {
+    const board_idx = req.query.idx;
+    log(board_idx);
+    const sql = `DELETE FROM SR_BOARD WHERE BOARD_IDX = ?`
+
+    conn.query(sql, [board_idx], (e, r) => {
+        if (e) {
+            log(e);
+            return res.status(500).json({ error: "DB 쿼리 에러" })
+        } else if (r.affectedRows === 0) {
+            return res.status(404).json({ error: "페이지 없음" })
+        } else {
+            res.json({ success: true, message: '게시글이 성공적으로 삭제되었습니다.', board_idx: board_idx })
+        }
+    })
+})
+
 
 
 
