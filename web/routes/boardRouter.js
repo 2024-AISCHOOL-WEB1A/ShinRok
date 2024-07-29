@@ -296,10 +296,24 @@ router.get('/detailPost', (req, res) => {
 router.post('/cmnt', (req, res) => {
     console.log(req.body)
     console.log('test')
-    const sql = 'INSERT INTO '
 
+    let {user_idx, board_idx, content} = req.body
+    const sql = `INSERT INTO SR_CMNT (BOARD_IDX, USER_IDX, CMNT_CONTENT)
+                        VALUES ( ?, ?, ?)`
+    
+    conn.query(sql,[user_idx, board_idx, content], (err, rows)=>{
+        console.log('insert 완료', rows)
+
+        if(err) {
+            res.send(`<script>alert('댓글 삽입에 실패했습니다.'); </script>`)
+        }
+        else{
+            // 삽입 성공
+            console.log('Insert 완료', result)
+            res.redirect(`/detailPost?idx=?${board_idx}`);
+        }
+    })
 })
-
 
 
 module.exports = router
