@@ -13,27 +13,28 @@
 </head>
 
 <body>
+    
+    
+    <!-- ----------------------------- Body 전체 ------------------------------------------------------------------------------------------------------------------------------ -->
 
-
-<!-- ----------------------------- Body 전체 ------------------------------------------------------------------------------------------------------------------------------ -->
-
-<form action="/search/plant" method="get" class="detailForm">
-
-
-<!-- ----------------------헤더----------------------------------- -->
-
-
+    
+    
+    <!-- ----------------------헤더----------------------------------- -->
+    
+    
     <header>
-
+        
         <a href="/" id="logo"><img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/test/KakaoTalk_20240722_111546767_01.png" alt=""></a>
-
+        
         <section id="search" class="alt">
             
-                <input type="text" id="q" placeholder="식물 검색" />
+            <form action="/search/plant" method="get" class="detailForm">
+                <input type="text" name="q" placeholder="식물 검색" />
                 <button id="searchbtn"> 검색 </button>
-           
+            </form>
+            
         </section>
-
+        
     </header>
 
     <div id="con">
@@ -112,7 +113,6 @@
 
 
     </div>
-</form>
 
     <script src="../assets/js/dictionary.js"></script>
 </body>
