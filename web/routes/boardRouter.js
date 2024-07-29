@@ -234,6 +234,30 @@ router.get('/bragPost',(req,res)=> {
 router.get('/detailPost', (req, res) => {
     const postId = req.query.idx
 
+    // 세션에 조회한 게시글 ID 저장
+    if (!req.session.viewedPosts) {
+        req.session.viewedPosts = {}
+    }
+
+    if (!req.session.viewedPosts[postId]) {
+        req.session.viewedPosts[postId] = true;
+
+        const updateCountSql = `UPDATE SR_BOARD SET BOARD_COUNT = BOARD_COUNT + 1 WHERE BOARD_IDX = ?`
+
+        conn.query(updateCountSql, [postId], (err, result) => {
+            if (err) {
+                console.error('DB Update Error: ', err)
+                return res.status(500).json({ error: 'DB Update Error' })
+            }
+
+            getPostAndComments(postId, req, res)
+        })
+    } else {
+        getPostAndComments(postId, req, res)
+    }
+});
+
+function getPostAndComments(postId, req, res) {
     const postSql = `SELECT 
                         U.USER_IDX,
                         U.USER_NICK,
@@ -283,15 +307,16 @@ router.get('/detailPost', (req, res) => {
 
         conn.query(commentsSql, [postId], (err, commentsResult) => {
             if (err) {
-                console.error('DB Query Error: ', err);
+                console.error('DB Query Error: ', err)
                 return res.status(500).json({ error: 'DB Query Error' })
             }
 
-            const commentCount = commentsResult.length;
+            const commentCount = commentsResult.length
             res.render('detailPost', { post: post, comments: commentsResult, commentCount: commentCount, user: req.session.user })
         })
     })
-})
+}
+
 
 router.post('/cmnt', (req, res) => {
     console.log(req.body)
