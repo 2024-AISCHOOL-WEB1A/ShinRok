@@ -68,7 +68,7 @@ router.get('/list', (req, res) => {
                 console.error('DB Query Error: ', err);
                 return res.status(500).json({ error: 'DB Query Error' });
             }
-
+            console.log('dataResult', dataResult)
             res.render('searchResults', {
                  searchResults: dataResult, 
                  currentPage: page, 
@@ -77,5 +77,47 @@ router.get('/list', (req, res) => {
         });
     });
 });
+
+router.get('/plant', async (req, res) => {
+    const searchQuery = req.query.q;
+    const page = parseInt(req.query.page) || 1;
+    const limit = 15;
+    const offset = (page - 1) * limit;
+    const countSql = `SELECT COUNT(*) AS total 
+                      FROM SR_PLANT
+                      WHERE PLANT_NAME LIKE ? `;
+    const dataSql= `SELECT * 
+                    FROM SR_PLANT 
+                    WHERE PLANT_NAME LIKE ? 
+                    LIMIT ?, ?`;
+  // 총 게시글 수 조회
+        conn.query(countSql, [searchQuery], (err, countResult) => {
+        if (err) {
+        console.error('DB Count Error: ', err);
+            return res.status(500).json({ error: 'DB Count Error' });
+        }
+
+    const totalPosts = countResult[0].total;
+    const totalPages = Math.ceil(totalPosts / limit);
+
+    conn.query(dataSql,[searchQuery,offset,limit],(err,result)=>{
+        if (err) {
+            console.error('DB Count Error: ', err);
+            return res.status(500).json({ error: 'DB Count Error' });
+        }
+        console.log('result',result)
+        const totalPosts = Result[0].total;
+        const totalPages = Math.ceil(totalPosts / limit);
+        res.render('dictionarySearch', {
+            searchResults: result,
+            currentPage: page,
+            totalPages: totalPages,
+            searchQuery: searchQuery
+        });
+    })
+    })
+});
+
+
 
 module.exports = router;

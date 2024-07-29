@@ -1,5 +1,17 @@
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+*{
+    font-family: 'Pretendard-Regular';
+}
+
+/* ------------------------------------------------------------ */
+
 body {
-    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     display: flex;
@@ -13,19 +25,26 @@ body {
     display: flex;
     width: 80%;
     height: 80vh;
-    background-color: #ffffff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
 }
 
 .sidebar {
     width: 25%;
+    height: 100%;
     background-color: #e0e0e0;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px;
     box-sizing: border-box;
+    border-radius: 15px;
 }
+@media screen and (max-width: 1680px) {
+    .sidebar .profile-photo {
+      margin-bottom: 10%; 
+    }
+  }
 
 .profile-photo {
     width: 100%;
@@ -38,9 +57,11 @@ body {
     align-items: center;
     font-size: 1.2em;
     color: #888888;
+    margin-top: 5%;
+    margin-bottom: 5%;
 }
 
-.nickname, .linked-accounts, .delete-account {
+.nickname, .linked-accounts, .delete-account, #mainBack{
     width: 100%;
     padding: 10px;
     margin-top: 20px;
@@ -48,27 +69,53 @@ body {
     border: none;
     cursor: pointer;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    text-align: left;
+    text-align: center;
+    border-radius: 15px;
+}
+
+.sidebar button:hover{
+    background-color: #ff7e7e;
+}
+
+#mainBack:hover{
+    background-color: #ff7e7e;
 }
 
 .nickname span {
     float: right;
     color: #ff0000;
+    margin-left: -10%;
 }
 
 .content {
     width: 75%;
     display: flex;
     flex-direction: column;
+    background-color: #ffffff;
+    border-radius: 15px;
+    /* margin-left: 3%; */
 }
 
-.posts-list, .diagnosis-records {
+.posts-list {
     flex: 1;
-    margin: 20px;
-    background-color: #f8f8f8;
+    margin: 2%;
+    margin-bottom: 1%;
+    background-color: #fffafa;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     padding: 20px;
     box-sizing: border-box;
+    border-radius: 15px;
+}
+
+.diagnosis-records{
+    flex: 1;
+    margin: 2%;
+    margin-top: 1%;
+    background-color: #fffafa;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 15px;
 }
 
 h2 {
@@ -76,3 +123,85 @@ h2 {
     font-size: 1.5em;
     color: #333333;
 }
+#myListTop{
+    margin-bottom: 3%;
+    border-left: 5px solid #f56a6a;
+    padding-left: 1.5%;
+}
+#myListTop2{
+    margin-bottom: 3%;
+    border-left: 5px solid #bee06e;
+    padding-left: 1.5%;
+}
+
+/* ------------------------------------------------------------------------ */
+
+/* 작성 글 목록 */
+.myPostList{
+    width: 100%;
+    /* border: 1px solid #333333; */
+    text-align: center;
+}
+
+#myListTr td{
+    background-color: #fdb5b5;
+    border: 1px solid #333333;
+    border-right: none;
+    padding: 0;
+}
+#myListTr #mycommend{
+    border-right: 1px solid #333333;
+}
+table{
+    border-spacing: 0;
+}
+
+.myUnderList td{
+    border: 1px solid #333333;
+    border-top: none;
+    border-right: none;
+}
+.myUnderList:hover{
+    background-color: rgba(210, 215, 217, 0.75);
+    cursor: pointer;
+}
+#undercommend{
+    border-right: 1px solid #333333;
+}
+
+
+/* 병충해 진단 기록 */
+.mybugList{
+    width: 100%;
+    /* border: 1px solid #333333; */
+    text-align: center;
+}
+#bugListTr td{
+    background-color: #bee06e;
+    border: 1px solid #333333;
+    border-right: none;
+    padding: 0;
+}
+#bugListTr #lasttd{
+    border-right: 1px solid #333333;
+}
+
+.bugUnderList:hover{
+    background-color: rgba(210, 215, 217, 0.75);
+    cursor: pointer;
+}
+
+table{
+    border-spacing: 0;
+}
+
+.bugUnderList td{
+    border: 1px solid #333333;
+    border-top: none;
+    border-right: none;
+}
+#lasttd2{
+    border-right: 1px solid #333333;
+}
+
+/*  */

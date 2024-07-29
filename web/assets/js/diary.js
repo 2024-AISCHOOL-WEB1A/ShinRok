@@ -12,6 +12,10 @@ document.addEventListener("DOMContentLoaded", function() {
     var reg = document.getElementById('reg');
     var modalTextInput = document.getElementById('modalText');
 
+    const images = document.querySelectorAll("#stk img");
+
+
+
     // FullCalendar 초기화
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
@@ -19,9 +23,31 @@ document.addEventListener("DOMContentLoaded", function() {
             document.body.style.userSelect = 'none';
             modalText.innerText = `${info.dateStr}`;
             modal.style.display = "block";
+
+            console.log(info.jsEvent);
+            console.log(images);
+
+            // 각 img 태그에 클릭 이벤트 리스너를 추가합니다
+            images.forEach(function(img) {
+                img.addEventListener("click", function(event){
+                    const clickedImage = event.target;
+                    const src =  clickedImage.src;
+
+                    setDateImage(src,info);
+                });
+            });
         }
     });
+
     calendar.render();
+
+    // // 이미지를 클릭했을 때 동작하는 함수
+    function setDateImage(src,info){
+
+        return function(){
+            info.jsEvent.target.innerHTML = `<img width='50' height='50' src='${src}' alt='이미지없음' />`;
+        }();
+    }
 
     // 모달 닫기 버튼 클릭 시 모달 닫기
     span.onclick = function() {
@@ -34,8 +60,6 @@ document.addEventListener("DOMContentLoaded", function() {
             modal.style.display = "none";
         }
     }
-    
-
     
     // 페이지 로드 시 저장된 다이어리 이름을 불러옴
     var savedDiaryName = localStorage.getItem('diaryName');
@@ -88,15 +112,98 @@ function loadFile(input) {
 // =================================================================================================
 
 
-const stk = document.getElementById("stk")
-const sun = document.getElementById("sun")
-const sunHTML = sun.innerHTML
-const bg = document.getElementsByClassName("fc-daygrid-day-bg")
+// const stk = document.getElementById("stk")
+// const sun = document.getElementById("sun")
+// const sunHTML = sun.innerHTML
+// const bg = document.getElementsByClassName("fc-daygrid-day-bg")
 
-stk.onclick = function(){
-    console.log("스티커클릭");
-    bg.innerHTML += sunHTML
-}
+// stk.onclick = function(){
+//     console.log("스티커클릭");
+//     bg.innerHTML += sunHTML
+// }
 
 
 
+
+
+// document.addEventListener("DOMContentLoaded", function() {
+//     // img 태그를 선택합니다
+//     const logoImg = document.getElementById("stk");
+    
+//     // fc-daygrid-day-bg 클래스가 있는 div를 선택합니다
+//     const calendarDivs = document.querySelectorAll(".fc-daygrid-day-bg");
+    
+//     // 이미지를 각 div에 추가합니다
+//     calendarDivs.forEach(function(div) {
+//       const imgClone = logoImg.cloneNode(true);  // 이미지를 복제합니다
+//       div.appendChild(imgClone);  // div에 이미지 추가합니다
+//     });
+    
+// });
+
+
+
+
+// document.addEventListener("DOMContentLoaded", function() {
+//     // 모든 img 태그를 선택합니다
+//     const images = document.querySelectorAll("stk");
+    
+//     // fc-daygrid-day-bg 클래스를 가진 div들을 선택합니다
+//     const calendarDivs = document.querySelectorAll(".fc-daygrid-day-bg");
+
+//     // 이미지를 클릭했을 때 동작하는 함수
+//     function handleImageClick(event) {
+//       // 클릭한 이미지를 가져옵니다
+//     const clickedImage = event.target;
+
+//       // 각 calendarDiv에 클릭한 이미지를 추가합니다
+//     calendarDivs.forEach(function(div) {
+//         // 기존의 모든 이미지를 제거합니다
+//         while (div.firstChild) {
+//         div.removeChild(div.firstChild);
+//         }
+//         // 클릭한 이미지를 복제하고 div에 추가합니다
+//         const imgClone = clickedImage.cloneNode(true);
+//         div.appendChild(imgClone);
+//         });
+//     }
+
+//     // 각 img 태그에 클릭 이벤트 리스너를 추가합니다
+//     images.forEach(function(img) {
+//     img.addEventListener("click", handleImageClick);
+//     });
+// });
+
+
+
+
+
+// document.addEventListener("DOMContentLoaded", function() {
+//     // stk id를 가진 요소 아래의 모든 img 태그를 선택합니다
+//     const images = document.querySelectorAll("#stk img");
+    
+//     // fc-daygrid-day-bg 클래스가 있는 div를 선택합니다
+//     const calendarDivs = document.querySelectorAll(".fc-daygrid-day-bg");
+    
+//     // 이미지를 클릭했을 때 동작하는 함수
+//     function handleImageClick(event) {
+//       // 클릭한 이미지를 가져옵니다
+//       const clickedImage = event.target;
+      
+//       // 각 calendarDiv에 클릭한 이미지를 추가합니다
+//       calendarDivs.forEach(function(div) {
+//         // 기존의 모든 이미지를 제거합니다
+//         while (div.firstChild) {
+//           div.removeChild(div.firstChild);
+//         }
+//         // 클릭한 이미지를 복제하고 div에 추가합니다
+//         const imgClone = clickedImage.cloneNode(true);
+//         div.appendChild(imgClone);
+//       });
+//     }
+
+//     // 각 img 태그에 클릭 이벤트 리스너를 추가합니다
+//     images.forEach(function(img) {
+//       img.addEventListener("click", handleImageClick);
+//     });
+//   });
