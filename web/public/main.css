@@ -517,7 +517,6 @@ button,
     background-color: #f56a6a;
     cursor: pointer;
     display: inline-block;
-    font-size: 13px;
     letter-spacing: 3.5px;
     text-align: center;
     font-family: 'GmarketSansMedium';
@@ -526,6 +525,9 @@ button,
     overflow: hidden; /* 자식 요소가 부모 요소를 넘는 경우 숨김 처리 */
   }
   
+  #postingBtn text{
+    font-size: 10vw;
+  }
 
 /* Posts */
 .posts {
