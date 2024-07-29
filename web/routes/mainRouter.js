@@ -1,6 +1,7 @@
 const { log } = require('console')
 const express = require('express')
 const router = express.Router()
+const conn = require('../config/db')
 const path = require('path')
 const file_Path = path.join(__dirname, "") 
 
@@ -33,7 +34,19 @@ router.get('/bragList', (req, res)=>{
 
 // 다이어리 페이지 이동
 router.get('/diary', (req, res) => {
-    res.render('diary', {user: req.session.user})
+    const user_idx = req.session.user.idx
+    const sql = `SELECT * FROM SR_DIARY WHERE USER_IDX = ?`
+
+    conn.query(sql, [user_idx], (e, r) => {
+        if(e) {
+            console.error('DB Query Error: ', e)
+            return res.status(500).json({ error: 'DB Query Error' })
+        } else {
+            console.log(r)
+            res.render('diary', {user: req.session.user, diaries : r})
+        }
+    })
+
 })
 
 // 사전 페이지 이동
