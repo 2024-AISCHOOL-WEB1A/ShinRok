@@ -43,7 +43,22 @@ router.get('/home', (req, res) => {
 
 
 router.get('/detail', async (req, res) => {
+    const dicId=req.query.idx
+    const sql = 'SELECT * FROM SR_PLANT WHERE PLANT_IDX = ?'
+    conn.query(sql,[dicId],(e,r)=>{
+        const plantData=r[0]
 
+
+        if (e) {
+            console.error(e);
+            return res.status(500).send('dictionaryRouter detail 오류');
+        }
+
+        res.render('dictDetail',{ 
+            plantData:plantData
+        })
+        
+    })
 });
 
 module.exports = router;
