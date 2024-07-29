@@ -9,47 +9,6 @@
 </head>
 
 <body>
-<<<<<<< HEAD
-
-=======
->>>>>>> b066df583b99bc63b741a514934e90e5f1325c1b
-
-<!-- ----------------------------------사이드바---------------------------------- -->
-
-
-<aside class="leftSidebar">
-    <nav>
-        <ul>
-            <!-- <li><a href="/plusPost"><button id="postingBtn"><i class="fa-solid fa-pen-to-square"></i> 게시글쓰기</button></a></li> -->
-            <!-- 메인으로 돌아가는 버튼 -->
-            <li><a href="/">HOME</a></li>
-            <li class="profile">
-                <a href="#">Profile</a>
-            </li>
-
-            <li><a href="/board/freePost">자유게시판</a></li>
-            <li><a href="/board/bragPost">자랑하기</a></li>
-            <li><a href="#">인기글</a></li>
-            <li><a href="#">공지사항</a></li>
-            <li><a href="#">질문게시판</a></li>
-        </ul>
-    </nav>
-
-    <!-- ----------------- 아래쪽 사이드바(페이지 이동) ----------------- -->
-    <nav>
-        <ul>
-            <li><a href="/diary">Diary</a></li>
-            <li><a href="/predict">병충해 진단</a></li>
-            <li><a href="/dictionary/home">식물 도감</a></li>
-            <li><a href="#">마이페이지</a></li>
-</ul>
-    </nav>
-    
-</aside>
-
-
-
-
     <form id="predictForm" action="/predict/start" method="post" enctype="multipart/form-data">
         <input type="hidden" name="idx" value="{{user.idx}}">
         <div>진단</div>
@@ -114,15 +73,15 @@
         </div>
         <br>
         <div class="button">
-            <button type="button" class="cancel-button">취소</button>
+            <button type="button" class="cancel-button" onclick="window.location.href='/'">취소</button>
             <button type="submit">전송</button>
         </div>
     </form>
     <script>
-        const imageUpload = document.getElementById('imageUpload');
-        const imagePreview = document.getElementById('imagePreview');
-        const fileNameSpan = document.getElementById('fileName');
-        const cancelButton = document.querySelector('.cancel-button');
+        const imageUpload = document.getElementById('imageUpload')
+        const imagePreview = document.getElementById('imagePreview')
+        const fileNameSpan = document.getElementById('fileName')
+        const cancelButton = document.querySelector('.cancel-button')
 
         imageUpload.addEventListener('change', function() {
             const file = this.files[0];
