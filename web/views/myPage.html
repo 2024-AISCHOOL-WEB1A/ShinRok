@@ -9,9 +9,9 @@
 <body>
     <div class="container">
         <div class="sidebar">
-            <div class="profile-photo">프로필 사진</div>
-            <button class="nickname">닉네임 <span>수정</span></button>
-            <button class="linked-accounts">연동 계정</button>
+            <div class="profile-photo">{{ mypage.USER_PICTURE}}</div>
+            <button class="nickname">{{ USER_NICK }} <span>수정</span></button>
+            <button class="linked-accounts">{{ SNS_PROVIDER }}</button>
             <button class="delete-account">회원 탈퇴</button>
         </div>
         <div class="content">

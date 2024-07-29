@@ -273,8 +273,7 @@ body{
     height: 40px;
     font-size: 15px;
     border: 0;
-    /* margin-left: 2%; */
-    margin: 1% 0 1% 2%;
+    margin-left: 2%;
     outline: 1.5px #7e7979 solid;
     border-radius: 5px;
     padding-left: 10px;

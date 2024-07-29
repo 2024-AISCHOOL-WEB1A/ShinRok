@@ -52,5 +52,9 @@ router.get('/predict', (req, res) => {
     res.render('predict', {user: req.session.user})
 })
 
+// 마이페이지 이동
+router.get('/myPage', (req,res)=>{
+    res.render('myPage', {user: req.session.user})
+})
 
 module.exports = router
