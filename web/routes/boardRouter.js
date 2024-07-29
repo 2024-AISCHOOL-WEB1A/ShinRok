@@ -215,14 +215,14 @@ router.get('/bragdetailPost',(req,res)=> {
                 return res.status(500).json({ error: 'DB Update Error' })
             }
 
-            getPost(postId, req, res)
+            bragPost(postId, req, res)
         })
     } else {
-        getPost(postId, req, res)
+        bragPost(postId, req, res)
     }
 });
 
-function getPost(postId, req, res) {
+function bragPost(postId, req, res) {
     const postSql = `SELECT 
                         U.USER_IDX,
                         U.USER_NICK,
@@ -364,14 +364,14 @@ router.get('/question',(req,res)=> {
                 return res.status(500).json({ error: 'DB Update Error' })
             }
 
-            getPost(postId, req, res)
+            questPost(postId, req, res)
         })
     } else {
-        getPost(postId, req, res)
+        questPost(postId, req, res)
     }
 });
 
-function getPost(postId, req, res) {
+function questPost(postId, req, res) {
     const postSql = `SELECT 
                         U.USER_IDX,
                         U.USER_NICK,
