@@ -366,7 +366,7 @@ router.get('/comments', (req, res) => {
                             JOIN SR_USER U ON C.USER_IDX = U.USER_IDX
                         WHERE 
                             C.BOARD_IDX = ?
-                        ORDER BY C.CMNT_DATE DESC`;
+                        ORDER BY C.CMNT_DATE ASC`;
 
     conn.query(commentsSql, [board_idx], (err, commentsResult) => {
         if (err) {
@@ -379,27 +379,25 @@ router.get('/comments', (req, res) => {
 
 // 댓글기능
 router.post('/cmnt', (req, res) => {
-    let { user_idx, board_idx, content } = req.body;
-    console.log(req.body);
+    let { user_idx, board_idx, content } = req.body
+    console.log(req.body)
     if (!user_idx || !board_idx || !content) {
-        return res.json({ success: false, message: '댓글을 작성 해주세요.' });
+        return res.json({ success: false, message: '댓글을 작성 해주세요.' })
     }
 
-    const sql = `INSERT INTO SR_CMNT (BOARD_IDX, USER_IDX, CMNT_CONTENT) VALUES (?, ?, ?)`;
+    const sql = `INSERT INTO SR_CMNT (BOARD_IDX, USER_IDX, CMNT_CONTENT) VALUES (?, ?, ?)`
     
-    conn.query(sql,[user_idx, board_idx, content], (err, rows)=>{
-        console.log('insert 완료', rows)
+    conn.query(sql, [board_idx, user_idx, content], (err, rows) => {
+        if (err) {
+            console.error('Insert Error: ', err)
+            return res.json({ success: false, message: '댓글 삽입에 실패했습니다.' })
+        }
 
-        if(err) {
-            res.send(`<script>alert('댓글 삽입에 실패했습니다.'); </script>`)
-        }
-        else{
-            // 삽입 성공
-            console.log('Insert 완료', result)
-            res.redirect(`/detailPost?idx=?${board_idx}`);
-        }
+        // 삽입 성공
+        res.json({ success: true, message: '댓글이 성공적으로 등록되었습니다.', board_idx: board_idx })
     })
 })
+
 
 // 수정 페이지로 이동
 router.get('/changePost', (req, res) => {
@@ -425,7 +423,7 @@ router.get('/changePost', (req, res) => {
 router.post('/change', (req, res) => {
     const {title, category, content, board_idx} = req.body
     // log(req.body)
-    const sql = `UPDATE SR_BOARD SET BOARD_CONTENT = ? WHERE BOARD_IDX = ?`
+    const sql = `UPDATE SR_BOARD SET BOARD_CONTENT = ? WHERE BOARD_IDX = ? `
     
     conn.query(sql, [content, board_idx], (e, r) => {
         if(e) {

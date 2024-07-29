@@ -138,12 +138,14 @@
             axios.post('http://localhost:3000/board/cmnt', data)
                 .then(response => {
                     if (response.data.success) {
+                        alert(response.data.message);
                         // 댓글 목록 업데이트
                         loadComments(data.board_idx);
                         // 댓글 수 업데이트
                         document.getElementById('commentCount').innerText = response.data.commentCount;
                     } else {
                         alert('댓글 등록에 실패했습니다.');
+                        document.querySelector('textarea[name="content"]').focus();
                     }
                 })
                 .catch(error => {
