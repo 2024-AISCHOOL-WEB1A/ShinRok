@@ -3,55 +3,6 @@ const itemsPerPage = 6;
 let currentPage = 1
 // 예제 게시물 데이터
 const posts = [];
-// <<<<<<< HEAD
-// for (let i = 1; i <= 20; i++) {
-//     posts.push({
-//         idx: i,
-//         USER_NICK: `닉네임${i}`,
-//         BOARD_DATE: `2024-07-25`,
-//         BOARD_COUNT: i * 10,
-//         BOARD_TITLE: `제목${i}`,
-//         BOARD_CONTENT: `내용${i}`,
-//         BOARD_IMG: `이미지경로${i}.jpg` // 이미지 경로는 예제로 넣었습니다.
-//     });
-// }
-
-
-for (let i = 1; i <= 20; i++) {
-    posts.push({
-        idx: i,
-        USER_NICK: `닉네임${i}`,
-        BOARD_DATE: `2024-07-25`,
-        BOARD_COUNT: i * 10,
-        BOARD_TITLE: `제목${i}`,
-        BOARD_CONTENT: `내용${i}`,
-        BOARD_IMG: `이미지경로${i}.jpg` // 이미지 경로는 예제로 넣었습니다.
-    });
-}
-// >>>>>>> 8265532e3adfdf5d25d6b0fdd21a777938f7240f
-// 게시물 하나의 템플릿 생성 함수
-function createPostTemplate(post, commentCount) {
-    return `
-        <div class="board-item">
-            <input type="hidden" name="idx" value="${post.idx}">
-            <div class="info-section">
-                <span>${post.USER_NICK}</span>
-                <span>${post.BOARD_DATE}</span>
-                <span>조회수: ${post.BOARD_COUNT}</span>
-                <span><i class="fa-regular fa-comment-dots"></i> 댓글 수: ${commentCount}</span>
-            </div>
-            <table class="table">
-                <tr>
-                    <td class="addImage" style="text-align: center;">
-                        <img src="${post.BOARD_IMG}" alt="자랑 이미지" style="max-width: 100%; height: auto;">
-                    </td>
-                </tr>
-            </table>
-            <h2 id="titleName">제목: ${post.BOARD_TITLE}</h2>
-            <p>내용: ${post.BOARD_CONTENT}</p>
-        </div>
-    `;
-}
 
 // 현재 페이지의 게시물 표시
 function displayPage(page) {

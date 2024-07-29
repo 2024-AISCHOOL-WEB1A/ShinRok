@@ -81,9 +81,9 @@
             <div></div>
 
 
-            {% for i in specificPlant %}
+            {% for i in specificPlant %} 
             <div class="item">
-                <a href="{{i.PLANT_IDX}}">
+                <a href="/dictionary/detail?idx={{i.PLANT_IDX}}">
                     <img src="{{i.PLANT_IMG}}" alt="{{i.PLANT_NAME}}">
                     <p>{{i.PLANT_NAME}}</p>
                 </a>

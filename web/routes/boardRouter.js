@@ -5,6 +5,7 @@ const multer = require('multer')
 const upload = multer({ dest: 'uploads/' })
 const uploadImage = require('../config/uploadImage') // S3 업로드 함수
 const fs = require('fs')
+const { log } = require('console')
 
 // 게시판 관련 기능
 
@@ -101,6 +102,44 @@ router.get('/freePost', (req, res) => {
 });
 
 // 메인페이지에 자랑게시판을 불러옴
+
+router.get('/bragPost',(req,res)=> {
+    const sql = `SELECT 
+                    U.USER_IDX,
+                    U.USER_NICK,
+                    U.USER_PICTURE,
+                    B.BOARD_IDX,
+                    B.BOARD_TITLE,
+                    B.BOARD_CONTENT,
+                    B.BOARD_COUNT,
+                    B.BOARD_DATE,
+                    B.BOARD_IMG,
+                    B.BOARD_CATE,
+                    COUNT(C.CMNT_CONTENT) AS COMMENT_COUNT
+                FROM 
+                    SR_USER U
+                    JOIN SR_BOARD B ON U.USER_IDX = B.USER_IDX
+                    LEFT JOIN SR_CMNT C ON B.BOARD_IDX = C.BOARD_IDX
+                WHERE 
+                    B.BOARD_CATE = '자랑'
+                GROUP BY 
+                    B.BOARD_IDX, 
+                    U.USER_IDX, 
+                    U.USER_NICK, 
+                    U.USER_PICTURE, 
+                    B.BOARD_TITLE, 
+                    B.BOARD_CONTENT, 
+                    B.BOARD_COUNT, 
+                    B.BOARD_DATE, 
+                    B.BOARD_IMG
+                    `
+
+    conn.query(sql, (e, r) => {
+        console.log(r)
+        res.render('bragList', {bragList : r})
+    })
+})
+
 router.get('/bragList', (req, res) => {
     const page = parseInt(req.query.page) || 1; // 현재 페이지 번호 (기본값: 1)
     const limit = 15; // 페이지 당 게시글 수
@@ -157,7 +196,9 @@ router.get('/bragList', (req, res) => {
     });
 });
 
-router.get('/bragPost',(req,res)=> {
+
+router.get('/bragList',(req,res)=> {
+    console.log(req.body);
     const sql = `SELECT 
                     U.USER_IDX,
                     U.USER_NICK,
@@ -189,7 +230,7 @@ router.get('/bragPost',(req,res)=> {
 
     conn.query(sql, (e, r) => {
         console.log(r)
-        res.render('bragPost', {bragePost : r})
+        res.render('bragList', {bragList : r})
     })
 })
 
@@ -321,10 +362,24 @@ function getPostAndComments(postId, req, res) {
 router.post('/cmnt', (req, res) => {
     console.log(req.body)
     console.log('test')
-    const sql = 'INSERT INTO '
 
+    let {user_idx, board_idx, content} = req.body
+    const sql = `INSERT INTO SR_CMNT (BOARD_IDX, USER_IDX, CMNT_CONTENT)
+                        VALUES ( ?, ?, ?)`
+    
+    conn.query(sql,[user_idx, board_idx, content], (err, rows)=>{
+        console.log('insert 완료', rows)
+
+        if(err) {
+            res.send(`<script>alert('댓글 삽입에 실패했습니다.'); </script>`)
+        }
+        else{
+            // 삽입 성공
+            console.log('Insert 완료', result)
+            res.redirect(`/detailPost?idx=?${board_idx}`);
+        }
+    })
 })
-
 
 
 module.exports = router

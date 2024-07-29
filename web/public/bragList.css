@@ -53,7 +53,7 @@ body {
     min-height: 100vh;
 }
 
-.board{
+.post-container{
     flex: 1;
     display: grid;
     padding-bottom: 80px;
@@ -148,6 +148,20 @@ p {
 .pagination .pagination-btn.disabled {
     cursor: not-allowed;
     color: #999;
+}
+
+.pagination a {
+    margin: 0 5px;
+    padding: 8px 16px;
+    text-decoration: none;
+    color: #007BFF;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.pagination a:hover {
+    background-color: #007BFF;
+    color: white;
 }
 /* ------------ 왼쪽 사이드바 ----------------------------- */
 .leftSidebar{

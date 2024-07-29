@@ -48,8 +48,41 @@
         </aside>
         
         <!-- ---------------------------- 여기부터 자랑페이지 ----------------------------------------- -->
-        <div class="board" id="board"></div>
-        <div class="pagination" id="pagination"></div>
+        <!-- <div class="board" id="board"></div> -->
+
+        <div class="post-container">
+             <!-- 각 게시물 블록을 반복해서 사용 -->
+            {% for i in bragList%}
+            <div class="board-item">
+                <input type="hidden" name="idx" value="{{bragList.idx}}">
+                <div class="info-section">
+                    <span>{{i.USER_NICK}}</span>
+                    <span>{{i.BOARD_DATE}}</span>
+                    <span>조회수: {{i.BOARD_COUNT}}</span>
+                    <span><i class="fa-regular fa-comment-dots"></i> 댓글 수: {{commentCount}}</span>
+                </div>
+                <table class="table">
+                    <tr>
+                        <td class="addImage" style="text-align: center;">
+                            <img src="{{bragList.BOARD_IMG}}" alt="자랑 이미지" style="max-width: 100%; height: auto;">
+                        </td>
+                    </tr>
+                </table>
+                <h2 class="post-title">제목: {{i.BOARD_TITLE}}</h2>
+                <p>내용: {{i.BOARD_CONTENT}}</p>
+            </div>
+            {% endfor %}
+        </div>
+    
+        <!-- <div class="pagination" id="pagination"></div>  -->
+        <!-- 페이지네이션 -->
+        <div class="pagination">
+            <a href="#">&laquo; 이전</a>
+            <a href="#">1</a>
+            <a href="#">2</a>
+            <a href="#">3</a>
+            <a href="#">다음 &raquo;</a>
+        </div>
 
         <!-- ----------------- 오른쪽 사이드바(페이지 이동) ----------------- -->
         <aside class="rightSidebar">
