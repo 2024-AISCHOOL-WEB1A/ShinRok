@@ -47,6 +47,11 @@ env.addFilter('date', (date, format) => {
   return moment(date).format(format);
 });
 
+// 줄바꿈 필터 추가
+env.addFilter('nl2br', function(str) {
+    return str.replace(/\r\n|\n\r|\r|\n/g, '<br>');
+  })
+
 // body-parser 미들웨어 설정(POST 허용)
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
