@@ -395,7 +395,7 @@ router.post('/cmnt', (req, res) => {
         }
         else{
             // 삽입 성공
-            console.log('Insert 완료', result)
+            // console.log('Insert 완료', result)
             res.redirect(`/detailPost?idx=?${board_idx}`);
         }
     })
