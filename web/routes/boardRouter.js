@@ -141,6 +141,7 @@ router.get('/bragPost',(req,res)=> {
     })
 })
 
+// 세부 목록페이지 (+그림포함, 사이드바 통해서)
 router.get('/bragList',(req,res)=> {
     const page = parseInt(req.query.page) || 1; // 현재 페이지 번호 (기본값: 1)
     const limit = 15; // 페이지 당 게시글 수
@@ -194,6 +195,64 @@ router.get('/bragList',(req,res)=> {
         })
     })
 })
+
+router.get('/bragdetailPost',(req,res)=> {
+    const postId = req.query.idx
+
+    // 세션에 조회한 게시글 ID 저장
+    if (!req.session.viewedPosts) {
+        req.session.viewedPosts = {}
+    }
+
+    if (!req.session.viewedPosts[postId]) {
+        req.session.viewedPosts[postId] = true;
+
+        const updateCountSql = `UPDATE SR_BOARD SET BOARD_COUNT = BOARD_COUNT + 1 WHERE BOARD_IDX = ?`
+
+        conn.query(updateCountSql, [postId], (err, result) => {
+            if (err) {
+                console.error('DB Update Error: ', err)
+                return res.status(500).json({ error: 'DB Update Error' })
+            }
+
+            getPost(postId, req, res)
+        })
+    } else {
+        getPost(postId, req, res)
+    }
+});
+
+function getPost(postId, req, res) {
+    const postSql = `SELECT 
+                        U.USER_IDX,
+                        U.USER_NICK,
+                        U.USER_PICTURE,
+                        B.BOARD_IDX,
+                        B.BOARD_TITLE,
+                        B.BOARD_CONTENT,
+                        B.BOARD_COUNT,
+                        B.BOARD_DATE,
+                        B.BOARD_IMG,
+                        B.BOARD_CATE
+                    FROM 
+                        SR_USER U
+                        JOIN SR_BOARD B ON U.USER_IDX = B.USER_IDX
+                    WHERE 
+                        B.BOARD_IDX = ?`
+
+    conn.query(postSql, [postId], (err, postResult) => {
+        if (err) {
+            console.error('DB Query Error: ', err)
+            return res.status(500).json({ error: 'DB Query Error' })
+        }
+        if (postResult.length === 0) {
+            return res.status(404).json({ error: 'Post not found' })
+        }
+
+        const post = postResult[0]
+        res.render('bragdetailPost', { post: post, user: req.session.user })
+    })
+}
 
 // // 질문 게시판
 // router.get('', (req, res) => {
@@ -347,6 +406,7 @@ router.post('/cmnt', (req, res) => {
     });
 });
 
+
 // 수정 페이지로 이동
 router.get('/changePost', (req, res) => {
     const board_idx = req.query.board_idx
@@ -386,6 +446,64 @@ router.post('/change', (req, res) => {
         }
     })
 })
+
+// 자유게시판의 전체 목록을 가져옴
+router.get('/freeList', (req, res) => {
+    const page = parseInt(req.query.page) || 1; // 현재 페이지 번호 (기본값: 1)
+    const limit = 15; // 페이지 당 게시글 수
+    const offset = (page - 1) * limit;
+
+    const countSql = `SELECT COUNT(*) AS total FROM SR_BOARD WHERE BOARD_CATE = '자유'`;
+    const dataSql = `SELECT 
+                        U.USER_IDX,
+                        U.USER_NICK,
+                        U.USER_PICTURE,
+                        B.BOARD_IDX,
+                        B.BOARD_TITLE,
+                        B.BOARD_CONTENT,
+                        B.BOARD_COUNT,
+                        B.BOARD_DATE,
+                        B.BOARD_IMG,
+                        B.BOARD_CATE,
+                        COUNT(C.CMNT_CONTENT) AS COMMENT_COUNT
+                    FROM 
+                        SR_USER U
+                        JOIN SR_BOARD B ON U.USER_IDX = B.USER_IDX
+                        LEFT JOIN SR_CMNT C ON B.BOARD_IDX = C.BOARD_IDX
+                    WHERE 
+                        B.BOARD_CATE = '자유'
+                    GROUP BY 
+                        B.BOARD_IDX, 
+                        U.USER_IDX, 
+                        U.USER_NICK, 
+                        U.USER_PICTURE, 
+                        B.BOARD_TITLE, 
+                        B.BOARD_CONTENT, 
+                        B.BOARD_COUNT, 
+                        B.BOARD_DATE, 
+                        B.BOARD_IMG
+                    ORDER BY B.BOARD_DATE DESC
+                    LIMIT ?, ?`;
+
+    conn.query(countSql, (err, countResult) => {
+        if (err) {
+            console.error('DB Count Error: ', err);
+            return res.status(500).json({ error: 'DB Count Error' });
+        }
+        
+        const totalPosts = countResult[0].total;
+        const totalPages = Math.ceil(totalPosts / limit);
+
+        conn.query(dataSql, [offset, limit], (err, dataResult) => {
+            if (err) {
+                console.error('DB Query Error: ', err);
+                return res.status(500).json({ error: 'DB Query Error' });
+            }
+            res.render('freeList', { boardFree: dataResult, currentPage: page, totalPages: totalPages });
+        });
+    });
+});
+
 
 
 module.exports = router

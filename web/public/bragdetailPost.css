@@ -28,6 +28,7 @@ body{
     width: 80%;
     /* margin-right: 3%; */
     margin-top: 2%;
+    margin-left: 17%;
 }
 
 .detailForm{
@@ -44,7 +45,6 @@ body{
 }
 #profilePic{
     width: 10%;
-    /* height: 10%; */
 }
 
 #spaceTitle img{
@@ -52,7 +52,6 @@ body{
     height: 10vh;
     border-radius: 90%;
     padding-left: 10%;
-    padding-right: 10%;
 }
 #spaceTitle #userNick{
     font-weight: bold;
@@ -185,9 +184,9 @@ body{
     font-size: 15px;
     padding: 0;
 }
-#chochun button:hover{
+#chochun button:active{
     cursor: pointer;
-    color: #f56a6a;
+    font-size: smaller;
 }
 
 /* ----------- 수정 버튼 ------------- */
