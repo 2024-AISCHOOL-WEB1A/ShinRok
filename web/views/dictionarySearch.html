@@ -17,7 +17,7 @@
 
 <!-- ----------------------------- Body 전체 ------------------------------------------------------------------------------------------------------------------------------ -->
 
-<form action="/board/upload" method="post" class="detailForm">
+
 
 
 <!-- ----------------------헤더----------------------------------- -->
@@ -28,8 +28,8 @@
         <a href="/" id="logo"><img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/test/KakaoTalk_20240722_111546767_01.png" alt=""></a>
 
         <section id="search" class="alt">
-            <form method="post" action="#">
-                <input type="text" name="query" id="query" placeholder="Content Search" />
+            <form action="/search/plant" method="get" class="detailForm">
+                <input type="text" name="q" placeholder="식물 검색" />
                 <button id="searchbtn"> 검색 </button>
             </form>
         </section>
@@ -78,13 +78,10 @@
         <div id="dictionary">
             <div></div>
             <div id="text"><h2>식물도감</h2></div>
-            <div><form action="/search/plant" method="get">
-                <input type="text" name="q" placeholder="검색어 입력" required>
-                <button type="submit">검색</button>
-            </form></div>
+            <div></div>
 
 
-            {% for i in specificPlant %} 
+            {% for i in searchResults %} 
             <div class="item">
                 <a href="/dictionary/detail?idx{{i.PLANT_IDX}}">
                     <img src="{{i.PLANT_IMG}}" alt="{{i.PLANT_NAME}}">
@@ -115,7 +112,7 @@
 
 
     </div>
-</form>
+
 
     <script src="../assets/js/dictionary.js"></script>
 </body>

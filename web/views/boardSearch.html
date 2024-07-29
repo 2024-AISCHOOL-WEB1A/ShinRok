@@ -1,32 +1,190 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>검색 결과</h1>
-    <p>'<%= searchQuery %>'에 대한 검색 결과입니다.</p>
-    <% if (searchResults.length === 0) { %>
-        <p>검색 결과가 없습니다.</p>
-    <% } else { %>
-        <ul>
-            <% searchResults.forEach(result => { %>
-                <li>
-                    <a href="/detailPost?idx=<%= result.BOARD_IDX %>"><%= result.BOARD_TITLE %></a>
-                    <p><%= result.BOARD_CONTENT %></p>
-                    <p>작성자: <%= result.USER_NICK %></p>
-                    <p>작성일: <%= result.BOARD_DATE %></p>
-                    <p>댓글 수: <%= result.COMMENT_COUNT %></p>
-                </li>
-            <% }) %>
-        </ul>
-    <% } %>
-    <div>
-        <% for (let i = 1; i <= totalPages; i++) { %>
-            <a href="/search?q=<%= searchQuery %>&page=<%= i %>"><%= i %></a>
-        <% } %>
-    </div>
-</body>
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<title>🌱Murok무럭🐛
+			 -ShinRok</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<script src="https://kit.fontawesome.com/71a327e855.js" crossorigin="anonymous"></script>
+		<!-- font awesome 오류 났을때 fas / fab (brand 이미지일 경우) 앞에 추가하여 해결 _버전 오류 -->
+
+		<link rel="stylesheet" href="../public/main.css" />
+		<!-- 자유게시판 CSS -->
+		<link rel="stylesheet" href="../public/freePost.css">
+		<!-- 자랑게시판 CSS -->
+		<link rel="stylesheet" href="../public/bragPost.css">
+	</head>
+	<body class="is-preload">
+		
+		<!-- 페이지 전체묶음 -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+
+							<!-- Header -->
+								<header id="header">
+									<a href="/" class="logo"><img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/test/KakaoTalk_20240722_163631321_07.png" alt="무럭이">
+										<strong>MURUK </strong> <span>by ShinRok</span></a>
+									<ul class="icons">
+										<li><a href="#">내소식 </a></li>
+										<li><a href="/myPage">마이페이지</a></li>
+										{% if user %}
+										<div class="kakaoLogout">
+											<a href="/user/logout">로그아웃<img src=""></a>
+										</div>
+										{% else %}
+										<div class="kakaoLogin">
+											<a href="/user/login"><img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/test/kakao_login_small+(1).png"></a>
+										</div>
+										{% endif %}
+									</ul>
+								</header>
+							
+							
+							<!-- 가장 상단의 배너 -->
+								<section id="banner">
+									<div class="content">
+										<header>
+											<!-- <h2>오늘의 식물 <br/></h2> -->
+											<img class="murukLogo" src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/board/44556b4abaf0e13f2ab09f6cedaad2f6" alt="">
+										</header>
+										<ul class="actions">
+											<li><a href="#" class="button big">자세히 보러가기 <i class="fa-solid fa-right-long"></i></a></li>
+										</ul>
+									</div>
+								</section>
+
+							<section class="changePost">
+								<header class="major, postList">
+									<a href="/board/bragPost"><i class="fa-regular fa-face-smile"></i><h3>자랑하기</h3></a>
+									<a href="/board/freePost"><i class="fa-regular fa-pen-to-square"></i><h3>자유게시판</h3></a>
+									<a href="#"><i class="fa-regular fa-heart"></i> <h3>인기글</h3></a>
+									<a href="#"><i class="fa-regular fa-bell"></i> <h3>공지사항</h3></a>
+									<a href="#"><i class="fa-regular fa-comments"></i> <h3>질문게시판</h3></a>
+								</header>
+								{% block content %}
+								<section id="freeSection">
+									<table class="freetable">
+										<tr class="postHead">
+											<th>번호</th>
+											<th>구분</th>
+											<th class="postTitle">제목</th>
+											<th>작성자</th>
+											<th>작성날짜</th>
+											<th>조회수</th>
+											<th>댓글수</th>
+											<th></th>
+										</tr>
+								
+										{% for i in searchResults %}
+											<tr class="contentBody" onclick="location.href='/board/detailPost?idx={{ i.BOARD_IDX }}'">
+												<td>{{ loop.index + ((currentPage - 1) * 15) }}</td>
+												<td>{{ i.BOARD_CATE }}</td>
+												<td class="content">{{ i.BOARD_TITLE }}</td>
+												<td>{{ i.USER_NICK }}</td>
+												<td>{{ i.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}</td>
+												<td>{{ i.BOARD_COUNT }}</td>
+												<td>{{ i.COMMENT_COUNT }}</td> 
+												<td>
+													<input type="hidden" value="{{ i.BOARD_IDX }}">
+												</td>
+											</tr>
+										{% endfor %}
+										
+									</table>
+								
+									<!-- 하단 페이징 -->
+									<div class="freePaging">
+										{% if currentPage > 1 %}
+											<a href="?page={{ currentPage - 1 }}">이전</a>
+										{% endif %}
+										
+										{% for page in range(1, totalPages + 1) %}
+											{% if page == currentPage %}
+												<span>{{ page }}</span>
+											{% else %}
+												<a href="?page={{ page }}">{{ page }}</a>
+											{% endif %}
+										{% endfor %}
+										
+										{% if currentPage < totalPages %}
+											<a href="?page={{ currentPage + 1 }}">다음</a>
+										{% endif %}
+									</div>
+								</section>
+    							{% endblock %}
+								<form action="/search/list" method="get">
+									<input type="text" name="q" placeholder="검색어 입력" required>
+									<button type="submit">검색</button>
+								</form>
+							</section>
+
+						</div>
+					</div> 
+
+				<!-- 사이드바 부분 -->
+					<div id="sidebar">
+						<div class="inner">
+							<!-- 글쓰기 페이지로 이동 -->
+							<div>
+								<a href="/plusPost"><button id="postingBtn"><i class="fa-solid fa-pen-to-square"></i> 게시글쓰기</button></a>
+							</div>
+							<!-- Menu -->
+								<nav id="menu">
+									<header class="major">
+										<h2>Menu</h2>
+									</header>
+									<ul class="sideList">
+										<li><a href="/">Mainpage</a></li>    
+										<li>
+											<span class="opener">게시판</span>
+											<ul>
+
+												<li><a href="/board/freeList">자유게시판</a></li>
+												<li><a href="/board/bragList">자랑게시판</a></li>
+
+												<li><a href="#">질문게시판</a></li>
+											</ul>
+										</li>
+										<li><a href="/diary">Diary</a></li>
+										<li><a href="/dictionary/home">Plant BOOK</a></li>
+										<li><a href="/predict">병충해 진단🦠</a></li>
+										<li><a href="#">Another Site</a></li>
+									</ul>
+								</nav>
+
+							<!-- Footer -->
+								<footer id="footer">
+									<header class="major">
+										<h2>ShinRok</h2>
+									</header>
+									<img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/test/sideImg.jfif" alt="사이드바 속 이미지">
+									<p class="footerContent">新綠 <br>늦봄이나 초여름에 <br>새로 나온 잎의 푸른빛. </p>
+									<div class="contact">
+										<i class="fa-solid fa-envelope"></i> <p>ShinRok@gmail.com</p>
+										<i class="fa-solid fa-phone"></i><p>(062) 201-0413</p>
+										<i class="fa-solid fa-house"></i><p>광주광역시 동구 제봉로 92<br />
+										인공지능사관학교, <br>상담시간: 10~17시 (월~금)</p>
+									</div>
+								</footer>
+
+						</div>
+					</div>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+			<script src="../assets/js/browser.min.js"></script>
+			<script src="../assets/js/breakpoints.min.js"></script>
+			<script src="../assets/js/main.js"></script>
+
+			<!-- 자랑게시판 JS 파일 -->
+		    <script src="../assets/js/post.js"></script>
+    		<script src="../assets/js/bragPost.js"></script>
+
+	</body>
 </html>

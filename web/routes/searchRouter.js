@@ -69,7 +69,7 @@ router.get('/list', (req, res) => {
                 return res.status(500).json({ error: 'DB Query Error' });
             }
             console.log('dataResult', dataResult)
-            res.render('searchResults', {
+            res.render('boardSearch', {
                  searchResults: dataResult, 
                  currentPage: page, 
                  totalPages: totalPages, 
@@ -79,6 +79,7 @@ router.get('/list', (req, res) => {
 });
 
 router.get('/plant', async (req, res) => {
+    console.log('req.query',req.query.q)
     const searchQuery = req.query.q;
     const page = parseInt(req.query.page) || 1;
     const limit = 15;
@@ -90,26 +91,25 @@ router.get('/plant', async (req, res) => {
                     FROM SR_PLANT 
                     WHERE PLANT_NAME LIKE ? 
                     LIMIT ?, ?`;
+
+    const searchParam = `%${searchQuery}%`;
   // 총 게시글 수 조회
-        conn.query(countSql, [searchQuery], (err, countResult) => {
+        conn.query(countSql, [searchParam], (err, countResult) => {
         if (err) {
         console.error('DB Count Error: ', err);
             return res.status(500).json({ error: 'DB Count Error' });
         }
-
-    const totalPosts = countResult[0].total;
-    const totalPages = Math.ceil(totalPosts / limit);
-
-    conn.query(dataSql,[searchQuery,offset,limit],(err,result)=>{
+        console.log('countResult',countResult)
+        const totalPosts = countResult[0].total;
+        const totalPages = Math.ceil(totalPosts / limit);
+    conn.query(dataSql,[searchParam,offset,limit],(err,dataresult)=>{
         if (err) {
             console.error('DB Count Error: ', err);
             return res.status(500).json({ error: 'DB Count Error' });
         }
-        console.log('result',result)
-        const totalPosts = Result[0].total;
-        const totalPages = Math.ceil(totalPosts / limit);
+        console.log('dataresult',dataresult)
         res.render('dictionarySearch', {
-            searchResults: result,
+            searchResults: dataresult,
             currentPage: page,
             totalPages: totalPages,
             searchQuery: searchQuery
