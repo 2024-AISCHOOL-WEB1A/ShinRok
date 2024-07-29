@@ -57,12 +57,12 @@
     </aside>
 
     <!-- ----------------------------- Body 전체 ------------------------------------------------------------------------------------------------------------------------------ -->
-    <form action="/board/upload" method="post" class="detailForm">
+    <form action="/board/cmnt" method="post" class="detailForm">
       
         <!-- ---------------------------- 여기부터 게시글 상세페이지 ----------------------------------------- -->
         <table class="table"> 
             {% if user %}
-            <input type="hidden" name="idx" value={{user.idx}}>
+            <input type="hidden" name="user_idx" value={{user.idx}}>
             {% endif %}
 
             <!-- ------------------ 게시물 제목부분 ------------------------ -->
@@ -79,7 +79,9 @@
                 <td rowspan="2" id="profilePic"><img src = '{{post.USER_PICTURE}}'></td>
                 <td>{{ post.USER_NICK }}</td>
                 <tr>
-                    <td id="titleDate">{{ post.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}</td>
+                    <td id="titleDate">{{ post.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}
+                        <input type="hidden" name="board_idx" value="{{post.BOARD_IDX}}">
+                    </td>
                     <td id="titleTd">조회수<span>: {{ post.BOARD_COUNT }}</span></td>
                     <td id="titleTd"><i class="fa-regular fa-comment-dots"></i>댓글 수<span>: {{ commentCount }}</span></td>
                 </tr>
@@ -115,7 +117,9 @@
             <tr>
                 <td colspan="5">
                     <div class="comment-section">
+         
                         <!-- 댓글 작성 -->
+                         <!-- cmnt -->
                         <h4><i class="fa-solid fa-plus"></i>댓글쓰기</h4>
                         <div id="plusCommend">
                             <textarea placeholder="내용을 입력하세요" name="content"></textarea>

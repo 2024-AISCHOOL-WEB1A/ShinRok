@@ -288,9 +288,18 @@ router.get('/detailPost', (req, res) => {
             }
 
             const commentCount = commentsResult.length;
-            res.render('detailPost', { post: post, comments: commentsResult, commentCount: commentCount })
+            res.render('detailPost', { post: post, comments: commentsResult, commentCount: commentCount, user: req.session.user })
         })
     })
 })
+
+router.post('/cmnt', (req, res) => {
+    console.log(req.body)
+    console.log('test')
+    const sql = 'INSERT INTO '
+
+})
+
+
 
 module.exports = router
