@@ -18,6 +18,7 @@ const predictRouter = require('./routes/predictRouter')
 const searchRouter = require('./routes/searchRouter')
 const mypageRouter = require('./routes/mypageRouter');
 
+
 app.use('/public', express.static('public'));
 app.use('/config', express.static('config'));
 app.use('/images', express.static('images'));
