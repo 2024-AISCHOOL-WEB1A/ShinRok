@@ -328,25 +328,19 @@ router.post('/cmnt', (req, res) => {
 
     const sql = `INSERT INTO SR_CMNT (BOARD_IDX, USER_IDX, CMNT_CONTENT) VALUES (?, ?, ?)`;
     
-    conn.query(sql, [board_idx, user_idx, content], (err, result) => {
-        if (err) {
-            console.error('Insert Error: ', err);
-            return res.json({ success: false, message: '댓글 삽입에 실패했습니다.' });
+    conn.query(sql,[user_idx, board_idx, content], (err, rows)=>{
+        console.log('insert 완료', rows)
+
+        if(err) {
+            res.send(`<script>alert('댓글 삽입에 실패했습니다.'); </script>`)
         }
-
-        // 삽입 성공 후, 총 댓글 수를 다시 가져와서 응답에 포함
-        const countSql = `SELECT COUNT(*) AS commentCount FROM SR_CMNT WHERE BOARD_IDX = ?`;
-        conn.query(countSql, [board_idx], (countErr, countResult) => {
-            if (countErr) {
-                console.error('Count Error: ', countErr);
-                return res.json({ success: false, message: '댓글 수 조회에 실패했습니다.' });
-            }
-
-            res.json({ success: true, commentCount: countResult[0].commentCount });
-        });
-    });
-});
-
+        else{
+            // 삽입 성공
+            console.log('Insert 완료', result)
+            res.redirect(`/detailPost?idx=?${board_idx}`);
+        }
+    })
+})
 
 
 module.exports = router

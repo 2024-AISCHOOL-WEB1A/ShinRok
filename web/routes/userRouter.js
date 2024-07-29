@@ -5,7 +5,7 @@ const axios = require('axios');
 const querystring = require('querystring');
 const KAKAO_APP_KEY = process.env.KAKAO_APP_KEY;
 const REDIRECT_URI = process.env.REDIRECT_URI;
-
+const LOG_OUT_URI = process.env.LOG_OUT_URI;
 // 카카오 로그인 페이지로 이동
 router.get('/login', (req, res) => {
   const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_APP_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
@@ -115,20 +115,33 @@ router.get('/oauth', async (req, res, next) => {
   }
 });
 
-// 로그아웃
-router.get('/logout', (req, res, next) => {
-  req.session.destroy((err) => {
-    if (err) {
+router.get('/logout', async (req, res, next) => {
+  try {
+    // 카카오 로그아웃 요청
+    const kakaoLogoutURL = `https://kauth.kakao.com/logout?client_id=${KAKAO_APP_KEY}&logout_redirect_uri=${LOG_OUT_URI}`;
+    
+    // 클라이언트가 카카오 로그아웃 페이지로 리다이렉트
+    res.redirect(kakaoLogoutURL);
+    
+    // 로그아웃 후 세션 및 쿠키 삭제
+    req.session.destroy((err) => {
+      if (err) {
         console.error('세션 삭제 중 에러 발생:', err);
         return res.status(500).send('세션 삭제 중 에러가 발생했습니다.');
-    } else {
-      res.clearCookie('connect.sid');
-      res.redirect('/');
-      console.log('로그아웃')
-    }
-    // res.send("<script>window.location.href='/'</script>");
-})
+      } else {
+        res.clearCookie('connect.sid'); // 세션 쿠키 삭제
+        console.log('로그아웃 완료');
+        // 로그아웃 후 메인 페이지로 리다이렉트
+        res.redirect('/');
+      }
+    });
+  } catch (error) {
+    console.error('로그아웃 처리 중 에러 발생:', error);
+    res.status(500).send('Internal Server Error'); // 에러 메시지 전달
+    next(error);
+  }
 });
+
 
 // 로그인 여부 확인 미들웨어
 function isLoggedIn(req, res, next) {
