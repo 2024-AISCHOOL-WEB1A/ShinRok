@@ -158,7 +158,6 @@ body{
 }
 #changeBtn button{
     margin-top: 5%;
-    
 }
 #commendBtn{
     width: 10vw;
@@ -171,6 +170,7 @@ body{
 .change_post{
     justify-content: start;
 }
+
 
 /* ----------- 추천하기 버튼 ----------- */
 #chochun i{
@@ -215,6 +215,32 @@ body{
     background-color: #f56a6a;
 }
 
+
+/* ------------ 삭제하기 버튼 -------------*/
+#deleteBtn button{
+    width: 100px;
+    height: 40px;
+    font-size: 15px;
+    border: 0;
+    outline: 1.5px #f56a6a solid;
+    border-radius: 5px;
+    padding-left: 10px;
+    margin-bottom: 10%  ;
+    background-color: rgb(255, 202, 202);
+    margin-top: 5%;
+    margin-left: 3%;
+}
+/* 삭제버튼 클릭 시 이벤트 */
+#deleteBtn button:active {
+    width: 100px;
+    height: 40px;
+    font-size: 15px;
+    border: 0;
+    border-radius: 5px;
+    outline: 1.5px #f56a6a solid;
+    padding-left: 10px;
+    background-color: #f56a6a;
+}
 
 /* ----------------------- 여기부터 댓글 부분 ---------------------- */
 .comment-section h3{
