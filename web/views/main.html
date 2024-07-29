@@ -14,6 +14,8 @@
 		<link rel="stylesheet" href="../public/freePost.css">
 		<!-- 자랑게시판 CSS -->
 		<link rel="stylesheet" href="../public/bragPost.css">
+		<!-- 질문게시판 CSS -->
+		<link rel="stylesheet" href="../public/quesPost.css">
 	</head>
 	<body class="is-preload">
 		
@@ -63,7 +65,7 @@
 									<a href="/board/freePost"><i class="fa-regular fa-pen-to-square"></i><h3>자유게시판</h3></a>
 									<a href="#"><i class="fa-regular fa-heart"></i> <h3>인기글</h3></a>
 									<a href="#"><i class="fa-regular fa-bell"></i> <h3>공지사항</h3></a>
-									<a href="#"><i class="fa-regular fa-comments"></i> <h3>질문게시판</h3></a>
+									<a href="/board/quesPost"><i class="fa-regular fa-comments"></i> <h3>질문게시판</h3></a>
 								</header>
 								{% block content %}
 								<section id="freeSection">
@@ -146,7 +148,7 @@
 												<li><a href="/board/freeList">자유게시판</a></li>
 												<li><a href="/board/bragList">자랑게시판</a></li>
 
-												<li><a href="#">질문게시판</a></li>
+												<li><a href="/board/queslist">질문게시판</a></li>
 											</ul>
 										</li>
 										<li><a href="/diary">Diary</a></li>
