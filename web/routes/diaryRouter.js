@@ -5,6 +5,12 @@ const multer = require('multer');
 const upload = multer({ dest: 'uploads/' });
 const uploadImage = require('../config/uploadImage'); // S3 업로드 함수
 const fs = require('fs');
+const { log } = require('console')
+
+// 다이어리 정보 불러오기
+router.get('/list', (req, res) => {})
+
+
 
 // 다이어리 작성 기능
 router.post('/submit', upload.single('image'), async (req, res)=>{
