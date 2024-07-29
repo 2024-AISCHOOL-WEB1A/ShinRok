@@ -5,11 +5,12 @@ const axios = require('axios');
 const querystring = require('querystring');
 const KAKAO_APP_KEY = process.env.KAKAO_APP_KEY;
 const REDIRECT_URI = process.env.REDIRECT_URI;
-const LOG_OUT_URI = process.env.LOG_OUT_URI;
+
 // 카카오 로그인 페이지로 이동
 router.get('/login', (req, res) => {
-  // const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_APP_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-  const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${KAKAO_APP_KEY}&redirect_uri=${REDIRECT_URI}&prompt=login`;
+  // const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_APP_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`; // 자동로그인
+  // const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${KAKAO_APP_KEY}&redirect_uri=${REDIRECT_URI}&prompt=login`;  //무조건 재로그인 
+  const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${KAKAO_APP_KEY}&redirect_uri=${REDIRECT_URI}&prompt=select_account`; // 재로그인 선택
   res.redirect(kakaoAuthURL);
 });
 
