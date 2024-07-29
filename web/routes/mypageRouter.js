@@ -2,6 +2,42 @@ const express = require('express');
 const router = express.Router();
 const conn = require('../config/db'); // 데이터베이스 연결 설정 파일
 
+
+// 회원 정보 보기 기능 router
+router.post('/info', (req, res) => {
+    console.log('myPage', req.body);
+    const { userId, boardId, dssId } = req.body;
+
+    const sql = `
+        SELECT 
+            U.USER_NAME, U.USER_NIC, U.SNS_PROVIDER, U.USER_PICTURE,
+            B.BOARD_TITLE, B.BOARD_CONTENT, B.BOARD_DATE, B.BOARD_CATE,
+            D.DSS_PLANT, D.DSS_DATE, D.DSS_RES, D.DSS_PREV, D.DSS_DISC
+        FROM 
+            SR_USER U
+        JOIN 
+            SR_BOARD B ON U.USER_IDX = B.USER_IDX
+        JOIN 
+            SR_DSS D ON B.BOARD_IDX = D.BOARD_IDX
+        WHERE 
+            U.USER_IDX = ? AND B.BOARD_IDX = ? AND D.DSS_IDX = ?
+    `;
+
+    conn.query(sql, [userId, boardId, dssId], (err, rows) => {
+        if (err) {
+            console.error('Database query error:', err);
+            return res.status(500).json({ error: 'Database query error' });
+        }
+        console.log(rows);
+        res.render('myPage', {
+            myData: rows[0]
+        });
+    });
+});
+
+
+
+
 // 회원 수정 기능 router
 router.post('/dkanrjsk',(req,res)=>{
     console.log('changeNick', req.body)
