@@ -71,7 +71,7 @@ header{
     height: 70vh;
     position: relative;
     padding: 2%;
-    background-color: rgb(210, 210, 210);
+    background-color: rgb(246, 246, 246);
     display: flex;
     margin: 2% 0% 10% 20%;
     flex-direction: row;
@@ -105,22 +105,27 @@ header{
 
 
 #pict{
-    background-color: white;
+    /* background-color: white; */
     width: 100%;
     aspect-ratio: 1;
+    overflow: hidden;
 }
 
 
 #name{
     height: 20%;
     margin-bottom: 3%;
+    font-size: 2em;
 }
 
 #sebu{
     height: 40%;
+    overflow-y: scroll;
+    margin-bottom: 3%;
 }
 
 
 #care{
     height: 40%;
+    overflow-y: scroll;
 }

@@ -35,7 +35,6 @@ html{
 
 table {
     width: 100%;
-    border: 1px, solid;
     height: 50vh;
 }
 
@@ -92,17 +91,23 @@ body {
     flex-basis: 24%;
     text-align: center;
 }
-/* 이미지 */
+
 .addImage {
     text-align: center;
     margin-bottom: 10px;
     flex: 1;
+    width: 500px; /* 원하는 너비 */
+    height: 351px; /* 원하는 높이 */
+    background: #f0f0f0; /* 배경색 (이미지가 없는 경우) */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* 이미지가 컨테이너를 넘지 않도록 설정 */
 }
 .addImage img {
-    width: 100%;
-    height: auto;
-    max-height: 200px; /* 원하는 이미지 최대 높이로 조정 */
-    object-fit: cover;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* 이미지 비율 유지 */
 }
 
 h2#titleName {
@@ -131,7 +136,6 @@ p {
     display: flex;
     justify-content: center;
     padding: 10px 0;
-    border-top: 1px solid #000;
 }
 
 .pagination .pagination-btn {
