@@ -171,24 +171,6 @@ body{
     justify-content: start;
 }
 
-/* ----------- 추천하기 버튼 ----------- */
-#chochun i{
-    color: #f5f24e;
-    margin-left: 5%;
-}
-#chochun button{
-    background-color: white;
-    border-style: none;
-    color: #312f2f;
-    font-family: 'Pretendard-Regular';
-    font-size: 15px;
-    padding: 0;
-}
-#chochun button:active{
-    cursor: pointer;
-    font-size: smaller;
-}
-
 /* ----------- 수정 버튼 ------------- */
 #changeBtn button {
     width: 100px;
