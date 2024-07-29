@@ -55,7 +55,7 @@
         <div class="post-container">
              <!-- 각 게시물 블록을 반복해서 사용 -->
             {% for i in bragList %}
-                <div class="board-item">
+                <div class="board-item" onclick="location.href='/board/bragdetailPost?idx={{ i.BOARD_IDX }}'">
                     <input type="hidden" name="idx" value="{{bragList.idx}}">
                     <div class="info-section">
                         <span>{{ i.USER_NICK }}</span>
