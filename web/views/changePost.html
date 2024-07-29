@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시글 수정 📝</title>
     <script src="https://kit.fontawesome.com/71a327e855.js" crossorigin="anonymous"></script>
-		<!-- font awesome 오류 났을때 fas / fab (brand 이미지일 경우) 앞에 추가하여 해결 _버전 오류 -->
-
     <link rel="stylesheet" href="../public/changePost.css">
 </head>
 <body>
@@ -14,12 +12,8 @@
     <section id="banner">
         <div class="content">
             <header>
-                <!-- <h2>오늘의 식물 <br/></h2> -->
                 <img class="murukLogo" src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/board/2cfc7479eda4cbc7ffdecc6081f496d6" alt="">
             </header>
-            <!-- <ul class="actions">
-                <li><a href="#">자세히 보러가기 <i class="fa-solid fa-right-long"></i></a></li>
-            </ul> -->
         </div>
     </section>
    
@@ -27,8 +21,6 @@
     <aside class="leftSidebar">
         <nav>
             <ul>
-                <!-- <li><a href="/plusPost"><button id="postingBtn"><i class="fa-solid fa-pen-to-square"></i> 게시글쓰기</button></a></li> -->
-                <!-- 메인으로 돌아가는 버튼 -->
                 <li><a href="/">HOME</a></li>
                 <li class="profile">
                     <a href="#">Profile</a>
@@ -51,19 +43,13 @@
                 <li><a href="#">마이페이지</a></li>
             </ul>
         </nav>
-        
     </aside>
 
-
-    <form action="/board/upload" method="post" enctype="multipart/form-data" class="changePostForm">
-     
+    <form id="changePostForm" class="changePostForm">
         <!-- ---------------- 글쓰기 작성 폼 ---------------------- -->
         <section class="table"> 
-            <!-- {% if user %}
-            <input type="hidden" name="idx" value={{user.idx}}>
-            {% endif %} -->
             <div class="postHeader">
-                <h2>글쓰기</h2>
+                <h2>게시글 수정</h2>
                 <p>식물에 관한 정보를 다른사람과 공유해보세요.</p>
             </div>
 
@@ -71,35 +57,23 @@
             <div class="boardTitle">
                 <dl>
                     <dt>글 제목</dt>
-                    <dd><input type="text" placeholder="제목을 입력하세요" name="title" autofocus></dd>
+                    <dd><input type="text" placeholder="제목을 입력하세요" name="title" value="{{ post.BOARD_TITLE }}"></dd>
                 </dl>
             </div>
 
             <!-- ------------- 카테고리 ----------------- -->
-            <div class="categoty">
-                <select name="category">
-                    <option value="">카테고리 선택</option>
-                    <option value="자유">자유게시판</option>
-                    <option value="자랑">자랑하기</option>
-                    <option value="질문">질문게시판</option>
-                </select>
+            <div class="category">
+                <div>카테고리 선택</div>
+                <input type="text" name="category" value="{{ post.BOARD_CATE }}">
             </div>
 
             <!-- ------------- 내용 작성 ----------------- -->
             <div class="conheader">
                 <dt>Comment</dt>
-                <dd><textarea placeholder="내용을 입력하세요" name="content"></textarea></dd>
+                <dd><textarea name="content">{{ post.BOARD_CONTENT }}</textarea></dd>
             </div>
 
-            <!-- ----------- 이미지 파일 업로드 ------------ -->
-            <div class="fileUpload">
-                <dd>
-                    <input type="file" name="image" accept="image/*" onchange="loadFile(this)">
-                    <div class="addImage" id="image-show">
-                        <!-- 이미지 띄울 공간 -->
-                    </div>
-                </dd>
-            </div>
+            <input type="hidden" name="board_idx" value="{{ post.BOARD_IDX }}">
 
             <!-- 등록 버튼 -->
             <div id="footer">
@@ -107,9 +81,42 @@
                 <div id="cancelBtn"><input type="button" value="취소"></div>
             </div>
         </section>
-
     </form>
 
     <script src="../assets/js/post.js"></script>
+    <script>
+        document.getElementById('changePostForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            const data = {
+                title: formData.get('title'),
+                category: formData.get('category'),
+                content: formData.get('content'),
+                board_idx: formData.get('board_idx')
+            };
+
+            fetch('/board/change', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    alert(result.message);
+                    window.location.href = `/board/detailPost?idx=${result.board_idx}`;
+                } else {
+                    alert('게시글 수정에 실패했습니다.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('게시글 수정 중 오류가 발생했습니다.');
+            });
+        });
+    </script>
 </body>
 </html>

@@ -104,8 +104,9 @@
                     <a href="#">댓글 <span id="commentCount">{{ commentCount }}</span></a></td>
                     <td id="chochun" colspan="3"><i class="fa-regular fa-star"></i>
                         <button type="button">추천하기</button></td>
-
-                    <td id="changeBtn"><a href="/changePost" class="change_post"><button type="button">수정하기</button></a></td>
+                    {% if user.idx == post.USER_IDX %}
+                    <td id="changeBtn"><a href="/board/changePost?board_idx={{ post.BOARD_IDX }}" class="change_post"><button type="button">수정하기</button></a></td>
+                    {% endif %}
                 </div>
             </tr>
             
@@ -135,75 +136,87 @@
     <script>
         document.getElementById('commentForm').addEventListener('submit', function (e) {
             e.preventDefault();
-
+    
             const formData = new FormData(this);
             const data = {
                 user_idx: formData.get('user_idx'),
                 board_idx: formData.get('board_idx'),
                 content: formData.get('content')
             };
-
+    
             axios.post('http://localhost:3000/board/cmnt', data)
                 .then(response => {
                     if (response.data.success) {
+                        alert('댓글이 성공적으로 등록되었습니다.');
                         // 댓글 목록 업데이트
                         loadComments(data.board_idx);
                         // 댓글 수 업데이트
                         document.getElementById('commentCount').innerText = response.data.commentCount;
+                        // 댓글 입력란 초기화
+                        document.querySelector('textarea[name="content"]').value = '';
                     } else {
-                        alert('댓글 등록에 실패했습니다.');
+                        alert(response.data.message)
+                        if (response.data.message === '댓글을 작성 해주세요.') {
+                            document.querySelector('textarea[name="content"]').focus();
+                        }
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
+                    alert('댓글 등록 중 오류가 발생했습니다.');
+                    document.querySelector('textarea[name="content"]').focus();
                 });
         });
-
+    
         function loadComments(boardIdx) {
             axios.get(`http://localhost:3000/board/comments?board_idx=${boardIdx}`)
                 .then(response => {
                     const commentList = document.getElementById('commentList');
                     commentList.innerHTML = '';
-
+    
                     response.data.comments.forEach(comment => {
                         const commentDiv = document.createElement('div');
                         commentDiv.classList.add('comment');
-
+    
                         const icon = document.createElement('i');
                         icon.classList.add('fa-regular', 'fa-comment-dots');
-
+    
                         const authorDiv = document.createElement('div');
                         const authorSpan = document.createElement('span');
                         authorSpan.classList.add('author');
                         authorSpan.textContent = comment.USER_NICK;
-
+    
                         const timestampSpan = document.createElement('span');
                         timestampSpan.classList.add('timestamp');
                         timestampSpan.textContent = new Date(comment.CMNT_DATE).toLocaleString();
-
+    
                         authorDiv.appendChild(authorSpan);
                         authorDiv.appendChild(timestampSpan);
-
+    
                         const contentDiv = document.createElement('div');
                         contentDiv.classList.add('content');
                         contentDiv.textContent = comment.CMNT_CONTENT;
-
+    
                         commentDiv.appendChild(icon);
                         commentDiv.appendChild(authorDiv);
                         commentDiv.appendChild(contentDiv);
-
+    
                         commentList.appendChild(commentDiv);
                     });
                 })
                 .catch(error => {
                     console.error('Error:', error);
+                    alert('댓글 목록을 불러오는 중 오류가 발생했습니다.');
+                    document.querySelector('textarea[name="content"]').focus();
                 });
         }
-
+    
         // 페이지 로드 시 댓글 목록 로드
         const boardIdx = "{{ post.BOARD_IDX }}"; // 템플릿 변수 사용
         loadComments(boardIdx); // 해당 게시글 ID로 호출
     </script>
+    
+
 </body>
 
 </html>

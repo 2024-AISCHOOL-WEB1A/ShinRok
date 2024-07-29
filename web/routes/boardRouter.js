@@ -15,7 +15,7 @@ router.post('/upload', upload.single('image'), async (req, res) => {
     const { title, content, category, idx } = req.body
     let imageUrl = null
     const filePath = req.file ? req.file.path : null
-
+    
     try {
         if (filePath) {
             imageUrl = await uploadImage(filePath, 'board'); // 폴더명을 'board'로 지정
@@ -323,7 +323,7 @@ router.post('/cmnt', (req, res) => {
     let { user_idx, board_idx, content } = req.body;
     console.log(req.body);
     if (!user_idx || !board_idx || !content) {
-        return res.json({ success: false, message: '모든 필드를 채워주세요.' });
+        return res.json({ success: false, message: '댓글을 작성 해주세요.' });
     }
 
     const sql = `INSERT INTO SR_CMNT (BOARD_IDX, USER_IDX, CMNT_CONTENT) VALUES (?, ?, ?)`;
@@ -347,6 +347,45 @@ router.post('/cmnt', (req, res) => {
     });
 });
 
+// 수정 페이지로 이동
+router.get('/changePost', (req, res) => {
+    const board_idx = req.query.board_idx
+    // console.log(board_idx)
+    const sql = `SELECT * FROM SR_BOARD WHERE BOARD_IDX = ?`
+    
+    conn.query(sql, [board_idx], (e, r) => {
+        if(e) {
+            console.log('DB에러 : ' + e)
+            return res.status(500).json({error : 'DB 쿼리에러'})
+        } else if (r.length === 0) {
+            return res.status(404).json({errer : "페이지 없음"})
+        } else {
+            const post = r[0]
+            // console.log(r)
+            res.render('changePost', {post : post, user: req.session.user})
+        }
+    })
+})
+
+// 게시글 수정 기능
+router.post('/change', (req, res) => {
+    const {title, category, content, board_idx} = req.body
+    // log(req.body)
+    const sql = `UPDATE SR_BOARD SET BOARD_CONTENT = ? WHERE BOARD_IDX = ?`
+    
+    conn.query(sql, [content, board_idx], (e, r) => {
+        if(e) {
+            // log(e)
+            return res.status(500).json({error : "DB쿼리에러"})
+        } else if (r.length === 0) {
+            return res.status(404).json({errer : "페이지 없음"})
+        } else {
+            const post = r[0]
+            // console.log(r)
+            res.json({ success: true, message: '게시글이 성공적으로 수정되었습니다.', board_idx: board_idx })
+        }
+    })
+})
 
 
 module.exports = router
