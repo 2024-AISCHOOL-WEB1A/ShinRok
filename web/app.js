@@ -30,7 +30,7 @@ app.use(session({
     secret: 'secret',
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 36000000 }, // 1000 = 1 sec, 60000 = 1 min
+    cookie: { maxAge: 3600000 }, // 1000 = 1 sec, 60000 = 1 min
     rolling: true, // 로그인 상태 유지
     touch: false, // 로그아웃 시 세션 파일 갱신 방지
 }));

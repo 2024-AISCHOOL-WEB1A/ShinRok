@@ -47,7 +47,7 @@
         <!-- 게시글 상세페이지 -->
         <table class="table"> 
             {% if user %}
-            <input type="hidden" name="user_idx" value="{{user.idx}}">
+            <input type="hidden" name="user_idx" value="{{ user.idx }}">
             {% endif %}
             
             <!-- 게시물 제목부분 -->
@@ -100,7 +100,10 @@
                     <td id="changeBtn"><a href="/board/changePost?board_idx={{ post.BOARD_IDX }}" class="change_post">
                         <button type="button">수정하기</button></a></td>
                     {% endif %}
-                    <td id="deleteBtn"><button type="button">삭제하기</button></td>
+                    {% if user.idx == post.USER_IDX or user.category == 'admin' %}
+                    <td id="deleteBtn"><a href="/board/delete?idx={{ post.BOARD_IDX }}" class="change_post">
+                        <button type="button">삭제하기</button></a></td>
+                    {% endif %}
                 </div>
             </tr>
             
