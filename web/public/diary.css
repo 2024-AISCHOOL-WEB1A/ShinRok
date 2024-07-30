@@ -1,5 +1,11 @@
-/* styles.css */
+@import url('http://fonts.googleapis.com/earlyaccess/nanumgothic.css');
 
+@font-face {
+  font-family: 'GmarketSansMedium';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
 @font-face {
     font-family: 'Pretendard-Regular';
     src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
@@ -9,6 +15,12 @@
 
 *{
     font-family: 'Pretendard-Regular';
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    margin: 0;
 }
 
 /* --------------------------------상단 헤더---------------------------------- */
@@ -35,20 +47,6 @@ header{
     display: flex;
 }
 
-/* --------------------------------사이드---------------------------------- */
-
-#side{
-    width: 20%;
-    /* display: flex;
-    align-items: center;
-    flex-direction: column;
-    margin-top: 5%; */
-}
-/*
-.button{
-    width: 50%
-} */
-
 /* ------------ 왼쪽 사이드바 ----------------------------- */
 .leftSidebar{
     width: 13%;
@@ -71,9 +69,17 @@ header{
     text-decoration: none;
     display: block;
     padding: 10px 0;
+    padding: 5%;
+    font-family: 'GmarketSansMedium';
+
 }
 .leftSidebar nav ul li a:hover{
-    background-color: #34495e;
+    background-color: #f67878;
+    color: #f5f6f7;
+}
+
+#pointLi a{
+    background-color: #f67878;
     color: #f5f6f7;
 }
 
@@ -83,9 +89,17 @@ header{
 }
 .underSidebar li{
     border-top: solid 2px #afa8a8;
+    padding-left:0px;
 }
 
+.topsidebar ul{
+    margin-bottom: 15%;
+    margin-top: 10%;
+}
 
+.topsidebar li{
+    padding-left:0px;
+}
 
 /* --------------------------------달력---------------------------------- */
 
@@ -110,7 +124,7 @@ header{
     border-top-color: #f56a6a; /* 상단 테두리 색상 설정 */
     border-top-style: solid; /* 상단 테두리 스타일 설정 */
     border-radius: 20px 20px 20px 20px; /* 경계선 반지름 설정 */
-
+    margin-left: 20%;
 
 }
 

@@ -37,9 +37,7 @@ header{
     padding-top: 20px;
     position: fixed;
     top: 0;
-    left: 0;
     bottom: 0;
-
 }
 .leftSidebar nav ul{
     list-style-type: none;
@@ -53,10 +51,18 @@ header{
     color: #34495e;
     text-decoration: none;
     display: block;
-    padding: 10px 0;
+    /* padding: 10px 0; */
+    padding: 5%;
+    font-family: 'GmarketSansMedium';
+
 }
 .leftSidebar nav ul li a:hover{
-    background-color: #34495e;
+    background-color: #f67878;
+    color: #f5f6f7;
+}
+
+#pointLi a{
+    background-color: #f67878;
     color: #f5f6f7;
 }
 
@@ -66,6 +72,16 @@ header{
 }
 .underSidebar li{
     border-top: solid 2px #afa8a8;
+    padding-left: 0px;
+}
+
+.topsidebar ul{
+    margin-bottom: 15%;
+    margin-top: 10%;
+}
+
+.topsidebar li{
+    padding-left: 0px;
 }
 
 /* ----------------------사이드메뉴----------------------------------- */
