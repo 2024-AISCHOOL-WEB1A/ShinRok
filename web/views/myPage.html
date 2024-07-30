@@ -74,10 +74,12 @@
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2>닉네임 수정하기</h2>
-            <div class="nickModal">
-                <input type="text" placeholder="닉네임 입력" required>
-                <button type="submit">완료</button>
-            </div>
+            <form id="updateNicknameForm" action="/mypage/update" method="POST">
+                <div class="nickModal">
+                    <input type="text" name="q" placeholder="닉네임 입력" required>
+                    <button type="submit">완료</button>
+                </div>
+            </form>
         </div>
     </div>
 

@@ -50,7 +50,7 @@ router.get('/oauth', async (req, res, next) => {
 
     // 사용자 정보가 데이터베이스에 존재하는지 확인
     const selectUserQuery = `
-      SELECT USER_IDX, USER_STATUS, USER_CATE
+      SELECT USER_IDX, USER_STATUS, USER_CATE, USER_NICK
       FROM SR_USER
       WHERE AUTH_ID = ?
     `;
@@ -66,7 +66,8 @@ router.get('/oauth', async (req, res, next) => {
         req.session.user = {
           idx: user.USER_IDX,
           status: user.USER_STATUS,
-          category: user.USER_CATE
+          category: user.USER_CATE,
+          nick:user.USER_NICK
         };
         req.session.accessToken = accessToken; // Access Token 저장
         res.redirect('/'); // 메인 페이지로 이동
@@ -96,7 +97,8 @@ router.get('/oauth', async (req, res, next) => {
               req.session.user = {
                 idx: user.USER_IDX,
                 status: user.USER_STATUS,
-                category: user.USER_CATE
+                category: user.USER_CATE,
+                nick:user.USER_NICK
               };
               req.session.accessToken = accessToken; // Access Token 저장
 

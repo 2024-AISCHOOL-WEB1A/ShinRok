@@ -31,7 +31,11 @@
 									<a href="/" class="logo"><img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/test/KakaoTalk_20240722_163631321_07.png" alt="무럭이">
 										<strong>MURUK </strong> <span>by ShinRok</span></a>
 									<ul class="icons">
-										<li><a href="#">내소식 </a></li>
+										{% if user %}
+										<li><a href="#">{{user.nick}}님 환영합니다.</a></li>
+										{% else %}
+										<li><a href="#">로그인 후 이용해주세요.</a></li>
+										{% endif %}
 										<li>
 											<form id="myPageForm" action="/myPage/info" method="post">
 												<a href="#" onclick="document.getElementById('myPageForm').submit(); return false;">마이페이지</a>
