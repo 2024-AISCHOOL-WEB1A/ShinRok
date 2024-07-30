@@ -910,21 +910,66 @@ router.get('/delete', (req, res) => {
 })
 
 //게시글 추천 기능
-router.get('/recommend', (req, res) => {
-    const board_idx = req.query.idx;
-    const sql = `UPDATE SR_BOARD SET BOARD_COUNT = BOARD_COUNT + 1 WHERE BOARD_IDX = ?`
-    conn.query(sql,[board_idx],(e,r)=>{
-        if(e){
-            console.log(e)
-            return res.status(500).json({error:"DB쿼리에러"})
-        }else{
-            res.json({success:true,message:"게시글이 성공적으로 추천되었습니다.",board_idx:board_idx})
+router.post('/recommend', (req, res) => {
+    console.log(req.body)
+    console.log('추천 데이터',req.body.idx)
+    const board_idx = req.body.idx;
+    const user_idx = req.session.user.idx; // 세션에서 사용자 ID 가져오기
+
+    // 이미 추천했는지 확인
+    const checkSql = `SELECT * FROM SR_RECOMMEND WHERE USER_IDX = ? AND BOARD_IDX = ?`;
+    conn.query(checkSql, [user_idx, board_idx], (checkErr, checkResult) => {
+        if (checkErr) {
+            console.error(checkErr);
+            return res.status(500).json({ error: "DB 쿼리 에러" });
         }
-        res.render('post',{
-            post:r[0]
-        })
-    })
-})
+
+        if (checkResult.length > 0) {
+            return res.status(400).json({ error: "이미 추천한 게시글입니다." });
+        }
+
+        // 트랜잭션 시작
+        conn.beginTransaction((beginErr) => {
+            if (beginErr) {
+                console.error(beginErr);
+                return res.status(500).json({ error: "트랜잭션 시작 에러" });
+            }
+
+            // 추천 수 증가
+            const updateSql = `UPDATE SR_BOARD SET BOARD_RECOMMEND = BOARD_RECOMMEND + 1 WHERE BOARD_IDX = ?`;
+            conn.query(updateSql, [board_idx], (updateErr, updateResult) => {
+                if (updateErr) {
+                    return conn.rollback(() => {
+                        console.error(updateErr);
+                        res.status(500).json({ error: "DB 쿼리 에러" });
+                    });
+                }
+
+                // 추천 기록 저장
+                const insertSql = `INSERT INTO SR_RECOMMEND (USER_IDX, BOARD_IDX) VALUES (?, ?)`;
+                conn.query(insertSql, [user_idx, board_idx], (insertErr, insertResult) => {
+                    if (insertErr) {
+                        return conn.rollback(() => {
+                            console.error(insertErr);
+                            res.status(500).json({ error: "DB 쿼리 에러" });
+                        });
+                    }
+
+                    // 트랜잭션 커밋
+                    conn.commit((commitErr) => {
+                        if (commitErr) {
+                            return conn.rollback(() => {
+                                console.error(commitErr);
+                                res.status(500).json({ error: "트랜잭션 커밋 에러" });
+                            });
+                        }
+                        res.json({ success: true, message: "게시글이 성공적으로 추천되었습니다.", board_idx: board_idx });
+                    });
+                });
+            });
+        });
+    });
+});
 
 
 module.exports = router;

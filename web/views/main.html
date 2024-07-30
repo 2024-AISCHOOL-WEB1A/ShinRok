@@ -32,9 +32,9 @@
 										<strong>MURUK </strong> <span>by ShinRok</span></a>
 									<ul class="icons">
 										{% if user %}
-										<li><a href="#">{{user.nick}}님 환영합니다.</a></li>
+										<li><a>{{user.nick}}님 환영합니다.</a></li>
 										{% else %}
-										<li><a href="#">로그인 후 이용해주세요.</a></li>
+										<li><a>로그인 후 이용해주세요.</a></li>
 										{% endif %}
 										<li>
 											<form id="myPageForm" action="/myPage/info" method="post">

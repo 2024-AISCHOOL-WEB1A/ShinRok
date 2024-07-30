@@ -93,7 +93,8 @@
                     <td id="commendBtn"><i class="fa-regular fa-comment-dots"></i>
                         <a href="#">댓글 <span id="commentCount">{{ commentCount }}</span></a></td>
                     <td id="chochun" colspan="2"><i class="fa-regular fa-star"></i>
-                        <button type="button" onclick="window.location.href='/board/recommend?idx={{ post.BOARD_IDX }}'">추천하기</button></td>
+                        <button type="button" onclick="recommendPost('{{ post.BOARD_IDX }}')">추천하기</button>
+                    </td>
                     {% if user.idx == post.USER_IDX %}
                     <td id="changeBtn"><a href="/board/changePost?board_idx={{ post.BOARD_IDX }}" class="change_post">
                         <button type="button">수정하기</button></a></td>
@@ -215,6 +216,21 @@
                 .catch(error => {
                     console.error('Error:', error);
                 });
+        }
+
+        function recommendPost(boardIdx) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/board/recommend';
+            
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'idx';
+            input.value = boardIdx;
+            
+            form.appendChild(input);
+            document.body.appendChild(form);
+            form.submit();
         }
 
         // 페이지 로드 시 댓글 목록 로드
