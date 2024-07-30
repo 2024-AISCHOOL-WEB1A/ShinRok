@@ -65,7 +65,7 @@
                 <td rowspan="2" id="profilePic"><img src = '{{bragdetailPost.USER_PICTURE}}'></td>
                 <td id="userNick"> {{ bragdetailPost.USER_NICK }}</td>
                 <tr class="titleList">
-                    <td id="titleDate">{{ bragdetailPost.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}
+                    <td id="titleDate">{{ bragdetailPost.BOARD_DATE |  date("MM/DD HH:mm", "Asia/Seoul") }}
                         <input type="hidden" name="board_idx" value="{{bragdetailPost.BOARD_IDX}}">
                     </td>
                     <td id="titleTd">조회수<span>: {{ bragdetailPost.BOARD_COUNT }}</span></td>

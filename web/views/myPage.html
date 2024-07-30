@@ -9,11 +9,11 @@
 <body>
     <div class="container">
         <div class="sidebar">
-            <div class="profile-photo"><img src="{{ myData.USER_PICTURE}}" alt=""></div>
-            <button class="nickname">{{ myData.USER_NICK }} <span>수정</span></button>
-            <button class="linked-accounts">{{myData.USER_NAME}},{{myData.SNS_PROVIDER}}</button>
+            <div class="profile-photo"><img src="{{ userData.USER_PICTURE}}" alt=""></div>
+            <button class="nickname">{{ userData.USER_NICK }} <span>수정</span></button>
+            <button class="linked-accounts">{{userData.USER_NAME}}/{{userData.SNS_PROVIDER}}</button>
             <button class="delete-account">회원 탈퇴</button>
-            <button id="mainBack">MainPage</button>
+            <button id="mainBack" href="/">MainPage</button>
         </div>
         <div class="content">
             <div class="posts-list">
@@ -26,13 +26,15 @@
                         <td>조회수</td>
                         <td id="mycommend">댓글수</td>
                     </tr>
+                    {% for i in boardData %}
                     <tr class="myUnderList">
-                        <td>자유게시판</td>
-                        <td>오늘 오븐마루 갈 사람</td>
-                        <td>2024-07-29</td>
-                        <td>12</td>
-                        <td id="undercommend">3</td>
+                        <td>{{i.BOARD_CATE}}</td>
+                        <td>{{i.BOARD_TITLE}}</td>
+                        <td>{{i.BOARD_DATE}}</td>
+                        <td>{{i.BOARD_COUNT}}</td>
+                        <td id="undercommend">{{i.COMMENT_COUNT}}</td>
                     </tr>
+                    {% endfor %}
                 </table>
             </div>
             <div class="diagnosis-records">
