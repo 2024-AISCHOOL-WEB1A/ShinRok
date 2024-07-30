@@ -83,7 +83,7 @@
 
             <!-- 타이틀 제목 -->
             <tr>
-                <td colspan="4"><h2 id="titleName">{{ post.BOARD_TITLE }}</h2></td>
+                <td colspan="6"><h2 id="titleName">{{ post.BOARD_TITLE }}</h2></td>
             </tr>
                 
             <tr id="spaceTitle">
@@ -127,9 +127,6 @@
                 <div class="align-buttons">
                     <td id="commendBtn" colspan="2"><i class="fa-regular fa-comment-dots"></i>
                         <a href="#">댓글 <span id="commentCount">{{ commentCount }}</span></a></td>
-                    <td id="chochun" colspan="2"><i class="fa-regular fa-star"></i>
-                        <button type="button" onclick="recommendPost('{{ post.BOARD_IDX }}')">추천하기</button>
-                    </td>
                     {% if user.idx == post.USER_IDX %}
                     <td id="changeBtn"><a href="/board/changePost?board_idx={{ post.BOARD_IDX }}" class="change_post">
                         <button type="button">수정하기</button></a></td>
