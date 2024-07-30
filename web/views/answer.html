@@ -45,19 +45,20 @@
     </aside>
 
     <!-- Body 전체 -->
-    <form action="/board/answer" id="answerForm" class="answerForm" method="POST">
+    <form action="/board/answerUpload" method="POST">
         <!-- 게시글 상세페이지 -->
         <table class="table">
             
-            {% if user %}
-            <input type="hidden" name="idx" value="{{user.idx}}">
-            {% endif %}
+          
+            <input type="hidden" name="user_idx" value="{{answer.user_idx}}">
+            <input type="hidden" name="board_idx" value="{{answer.board_idx}}">
             <!-- ------------- 내용 작성 ----------------- -->
             <div class="conheader">
                 <dt><h2>답변</h2>{{question.BOARD_TITLE}}</dt>
                 <!-- 가로선 추가 -->
                 <dd colspan="4"><div class="horizontal-line"></div></dd>
                 <dd><textarea placeholder="내용을 입력하세요" name="content"></textarea></dd>
+                
             </div>
 
             <!-- ----------- 이미지 파일 업로드 ------------ -->
