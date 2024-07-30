@@ -42,25 +42,18 @@
             </aside>
         </div>
 
-
-
         <section class="calendarForm">
             <div id='calendar'></div>
+
+            <!-- 빈 날짜 모달 -->
             <div id="myModal" class="modal">
                 <div class="modal-content">
                     <span class="close">&times;</span>
-
-
                     <p id="modal-text"></p>
                     <input type="hidden" name="modalText" id="modalText">
-
-
                     <p><input type="text" placeholder="제목" name="title" id="title" size="100%"></p>
                     <textarea name="content" id="content" placeholder="내용"></textarea>
-
                     <div id="modal_bottom">
-
-
                         <div id="stk">
                             <div class="weather">날씨<br>
                                 <div class="radio-container">
@@ -140,88 +133,99 @@
                     </div>
                 </div>
             </div>
+
+            <!-- 일정이 있는 날짜 모달 -->
+            <div id="eventModal" class="modal">
+                <div class="modal-content">
+                    <span class="close event-close">&times;</span>
+                    <p id="event-modal-text"></p>
+                    <input type="hidden" name="modalText" id="eventModalText">
+                    <p><input type="text" placeholder="제목" name="title" id="eventTitle" size="100%"></p>
+                    <textarea name="content" id="eventContent" placeholder="내용"></textarea>
+                    <div id="eventModalBottom">
+                        <input type="reset" value="취소" id="eventCancel">
+                        <input type="submit" value="등록" id="eventReg">
+                        test
+                    </div>
+                </div>
+            </div>
+            <!-- 모달 끝 -->
         </section>
-
-
-
-
     </div>
 </form>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      var calendarEl = document.getElementById('calendar');
-      var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',
-        events: async function(info, successCallback, failureCallback){
-          const eventResult = await axios({
-            method:"GET",
-            url:"/diaryJson"
-          });
-  
-          console.log("조회된 다이어리 데이터:",eventResult.data);
-   
-  
-          const eventData = eventResult.data.diarys;
-          const eventArray = [];
-  
-  
-  
-          eventData.forEach((res) => {
-            eventArray.push({
-              title: res.DIARY_TITLE,
-              start: res.DIARY_DATE,
-              description: res.DIARY_CONTENT
-            });
-        });
-  
-        successCallback(eventArray);
-        
-        }
-      });
-      calendar.render();
-    });
-  </script>
-  <script src="../assets/js/diary.js"></script>
-  </body>
-  </html>
-  
-
-
-
-
-
-
-{% if diarys %}
-<script>
-    // JSON 문자열을 JavaScript 객체로 변환
-    //var diarys = {{ diarys | escape('js') }};
-    //console.log("다이어리",diarys);
-</script>
-{% else %}
-<script>
-    console.error("No diary data available.");
-</script>
-{% endif %}
-<!-- <script>
-  document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
-      initialView: 'dayGridMonth',
-      events: diarys.map(diary => ({
-        title: diary.DIARY_TITLE,
-        start: diary.DIARY_DATE,
-        description: diary.DIARY_CONTENT
-      }))
+        initialView: 'dayGridMonth',
+        events: async function(info, successCallback, failureCallback){
+            const eventResult = await axios({
+                method: "GET",
+                url: "/diaryJson"
+            });
+
+            console.log("조회된 다이어리 데이터:", eventResult.data);
+
+            const eventData = eventResult.data.diarys;
+            const eventArray = [];
+
+            eventData.forEach((res) => {
+                eventArray.push({
+                    title: res.DIARY_TITLE,
+                    start: res.DIARY_DATE,
+                    description: res.DIARY_CONTENT
+                });
+            });
+
+            successCallback(eventArray);
+        },
+        dateClick: function(info) {
+            var modal = document.getElementById("myModal");
+            var span = document.getElementsByClassName("close")[0];
+
+            modal.style.display = "block";
+            document.getElementById("modalText").value = info.dateStr;
+            document.getElementById("modal-text").innerText = info.dateStr;
+            document.getElementById("title").value = ""; // Reset title
+            document.getElementById("content").value = ""; // Reset content
+
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        },
+        eventClick: function(info) {
+            var modal = document.getElementById("eventModal");
+            var span = document.getElementsByClassName("event-close")[0];
+
+            modal.style.display = "block";
+            document.getElementById("eventModalText").value = info.event.startStr;
+            document.getElementById("event-modal-text").innerText = info.event.startStr;
+            document.getElementById("eventTitle").value = info.event.title;
+            document.getElementById("eventContent").value = info.event.extendedProps.description;
+
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
     });
+
     calendar.render();
-  });
-</script> -->
+});
+</script>
 
-
-
-
-
-
-
-
+<script src="../assets/js/diary.js"></script>
+</body>
+</html>
