@@ -15,6 +15,12 @@
 
 *{
     font-family: 'Pretendard-Regular';
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    margin: 0;
 }
 
 /* --------------------------------상단 헤더---------------------------------- */
@@ -41,20 +47,6 @@ header{
     display: flex;
 }
 
-/* --------------------------------사이드---------------------------------- */
-
-#side{
-    width: 20%;
-    /* display: flex;
-    align-items: center;
-    flex-direction: column;
-    margin-top: 5%; */
-}
-/*
-.button{
-    width: 50%
-} */
-
 /* ------------ 왼쪽 사이드바 ----------------------------- */
 .leftSidebar{
     width: 13%;
@@ -76,7 +68,7 @@ header{
     color: #34495e;
     text-decoration: none;
     display: block;
-    /* padding: 10px 0; */
+    padding: 10px 0;
     padding: 5%;
     font-family: 'GmarketSansMedium';
 
@@ -97,6 +89,7 @@ header{
 }
 .underSidebar li{
     border-top: solid 2px #afa8a8;
+    padding-left:0px;
 }
 
 .topsidebar ul{
@@ -104,7 +97,9 @@ header{
     margin-top: 10%;
 }
 
-
+.topsidebar li{
+    padding-left:0px;
+}
 
 /* --------------------------------달력---------------------------------- */
 
@@ -129,7 +124,7 @@ header{
     border-top-color: #f56a6a; /* 상단 테두리 색상 설정 */
     border-top-style: solid; /* 상단 테두리 스타일 설정 */
     border-radius: 20px 20px 20px 20px; /* 경계선 반지름 설정 */
-
+    margin-left: 20%;
 
 }
 
