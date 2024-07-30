@@ -54,8 +54,8 @@ env.addFilter('nl2br', function(str) {
   })
 
 // body-parser 미들웨어 설정(POST 허용)
-app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
 
 // 정적 파일 제공
 app.use('/public', express.static(path.join(__dirname, 'public')));

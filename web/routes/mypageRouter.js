@@ -2,15 +2,21 @@ const express = require('express');
 const router = express.Router();
 const conn = require('../config/db'); // 데이터베이스 연결 설정 파일
 
-
 // 회원 정보 보기 기능 router
 router.post('/info', (req, res) => {
-    console.log('myPage', req.body);
-    const { userId, boardId, dssId } = req.body;
+    // 사용자 인증 확인
+    console.log('요청 바디:', req.session.user.idx);
+    if (!req.session.user) {
+        return res.status(401).json({ error: '세션이 존재하지 않습니다.' });
+    }
+        
+      
+    const {userId} = req.session.user.idx;
+
 
     const sql = `
         SELECT 
-            U.USER_NAME, U.USER_NIC, U.SNS_PROVIDER, U.USER_PICTURE,
+            U.USER_NAME, U.USER_NICK, U.SNS_PROVIDER, U.USER_PICTURE,
             B.BOARD_TITLE, B.BOARD_CONTENT, B.BOARD_DATE, B.BOARD_CATE,
             D.DSS_PLANT, D.DSS_DATE, D.DSS_RES, D.DSS_PREV, D.DSS_DISC
         FROM 
@@ -18,23 +24,25 @@ router.post('/info', (req, res) => {
         JOIN 
             SR_BOARD B ON U.USER_IDX = B.USER_IDX
         JOIN 
-            SR_DSS D ON B.BOARD_IDX = D.BOARD_IDX
+            SR_DSS D ON B.USER_IDX = D.USER_IDX
         WHERE 
-            U.USER_IDX = ? AND B.BOARD_IDX = ? AND D.DSS_IDX = ?
+            U.USER_IDX = ?               
     `;
 
-    conn.query(sql, [userId, boardId, dssId], (err, rows) => {
+    conn.query(sql, [userId], (err, rows) => {
         if (err) {
-            console.error('Database query error:', err);
-            return res.status(500).json({ error: 'Database query error' });
+            console.error('데이터베이스 쿼리 오류:', err);
+            return res.status(500).json({ error: '데이터베이스 쿼리 오류' });
+        }
+        if (rows.length === 0) {
+            return res.status(404).json({ error: '데이터를 찾을 수 없습니다.' });
         }
         console.log(rows);
         res.render('myPage', {
-            myData: rows[0]
+            myData: rows[0]  // 첫 번째 결과만 전달
         });
     });
 });
-
 
 
 

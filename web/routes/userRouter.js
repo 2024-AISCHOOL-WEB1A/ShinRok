@@ -140,19 +140,7 @@ router.get('/logout', async (req, res, next) => {
 });
 
 
-// 로그인 여부 확인 미들웨어
-function isLoggedIn(req, res, next) {
-  if (req.session.user) {
-    next();
-  } else {
-    res.redirect('/user/login');
-  }
-}
 
-// 로그인 후 페이지 (예시)
-router.get('/mypage', isLoggedIn, (req, res) => {
-  // 사용자 정보를 가져와서 페이지 렌더링
-  res.render('mypage', { user: req.session.user });
-});
+
 
 module.exports = router;

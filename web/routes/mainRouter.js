@@ -72,7 +72,7 @@ router.post('/myPage', (req,res)=>{
 router.get('/search', (req,res)=>{
     res.render('search', {user: req.session.user})
 })
-
+ 
 
 
 module.exports = router
