@@ -11,9 +11,11 @@
         <div class="sidebar">
             <div class="profile-photo"><img src="{{ userData.USER_PICTURE}}" alt=""></div>
             <button class="nickname">{{ userData.USER_NICK }} <span>수정</span></button>
-            <button class="linked-accounts">{{userData.USER_NAME}}/{{userData.SNS_PROVIDER}}</button>
-            <button class="delete-account">회원 탈퇴</button>
-            <button id="mainBack" href="/">MainPage</button>
+            <button class="linked-accounts">{{userData.USER_NAME}}/{{userData.SNS_PROVIDER | upper}}</button>
+            <form action="/myPage/delete" method="POST" style="display: inline;">
+                <button type="submit" class="delete-account">회원 탈퇴</button>
+            </form>
+            <button id="mainBack" onclick="window.location.href='/'">MainPage</button>
         </div>
         <div class="content">
             <div class="posts-list">
@@ -26,29 +28,35 @@
                         <td>조회수</td>
                         <td id="mycommend">댓글수</td>
                     </tr>
-                    {% for i in boardData %}
-                    <tr class="myUnderList">
-                        <td>{{i.BOARD_CATE}}</td>
-                        <td>{{i.BOARD_TITLE}}</td>
-                        <td>{{i.BOARD_DATE}}</td>
-                        <td>{{i.BOARD_COUNT}}</td>
-                        <td id="undercommend">{{i.COMMENT_COUNT}}</td>
-                    </tr>
-                    {% endfor %}
+                    {% if boardData and boardData.length > 0 %}
+                        {% for i in boardData %}
+                        <tr class="myUnderList" onclick="window.location.href='/board/detailPost?idx={{i.BOARD_IDX}}'">
+                            <td>{{i.BOARD_CATE}}</td>
+                            <td>{{i.BOARD_TITLE}}</td>
+                            <td>{{i.BOARD_DATE| date("YYYY-MM-DD HH:mm") }}</td>
+                            <td>{{i.BOARD_COUNT}}</td>
+                            <td id="undercommend">{{i.COMMENT_COUNT}}</td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="5" style="text-align: center;">작성한 내용이 없습니다</td>
+                        </tr>
+                    {% endif %}
                 </table>
             </div>
             <div class="diagnosis-records">
                 <h2 id="myListTop2">병충해 진단 기록</h2>
                 <table class="mybugList">
                     <tr id="bugListTr">
-                        <td>카테고리</td>
-                        <td>게시글 제목</td>
-                        <td>게시날짜</td>
-                        <td>조회수</td>
-                        <td id="lasttd">댓글수</td>
+                        <td>DSS_PLANT</td>
+                        <td>DSS_STATE</td>
+                        <td>DSS_DATE</td>
+                        <td id="lasttd">DSS_DISC</td>
+                        <td>DSS_PREV</td>
                     </tr>
                     <tr class="bugUnderList">
-                        <td>자유게시판</td>
+                        <td>자유</td>
                         <td>오늘 오븐마루 갈 사람</td>
                         <td>2024-07-29</td>
                         <td>12</td>

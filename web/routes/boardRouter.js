@@ -718,7 +718,22 @@ router.get('/delete', (req, res) => {
     })
 })
 
-
+//게시글 추천 기능
+router.get('/recommend', (req, res) => {
+    const board_idx = req.query.idx;
+    const sql = `UPDATE SR_BOARD SET BOARD_COUNT = BOARD_COUNT + 1 WHERE BOARD_IDX = ?`
+    conn.query(sql,[board_idx],(e,r)=>{
+        if(e){
+            console.log(e)
+            return res.status(500).json({error:"DB쿼리에러"})
+        }else{
+            res.json({success:true,message:"게시글이 성공적으로 추천되었습니다.",board_idx:board_idx})
+        }
+        res.render('post',{
+            post:r[0]
+        })
+    })
+})
 
 
 module.exports = router;
