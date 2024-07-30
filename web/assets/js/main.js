@@ -321,3 +321,7 @@ function printPages(pageInfo) {
 
 // 페이지네이션 출력 함수 호출
 printPages(pageInfo);
+
+
+
+// ------------------ 메인페이지 배너 -------------------
