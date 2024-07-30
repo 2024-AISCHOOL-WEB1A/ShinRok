@@ -5,6 +5,7 @@ const session = require('express-session');
 const FileStore = require('session-file-store')(session);
 require('dotenv').config();
 const moment = require('moment');
+const momentTimezone = require('moment-timezone');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -14,16 +15,14 @@ const userRouter = require('./routes/userRouter');
 const boardRouter = require('./routes/boardRouter');
 const diaryRouter = require('./routes/diaryRouter');
 const dictionaryRouter = require('./routes/dictionaryRouter');
-const predictRouter = require('./routes/predictRouter')
-const searchRouter = require('./routes/searchRouter')
+const predictRouter = require('./routes/predictRouter');
+const searchRouter = require('./routes/searchRouter');
 const mypageRouter = require('./routes/mypageRouter');
-
 
 app.use('/public', express.static('public'));
 app.use('/config', express.static('config'));
 app.use('/images', express.static('images'));
 app.use('/assets', express.static('assets'));
-
 
 // 세션 미들웨어
 app.use(session({
@@ -45,16 +44,16 @@ const env = nunjucks.configure('views', {
 
 // 날짜 필터 추가
 env.addFilter('date', (date, format) => {
-  return moment(date).format(format);
+  return moment(date).add(9, 'hours').format(format);
 });
 
 // 줄바꿈 필터 추가
 env.addFilter('nl2br', function(str) {
     return str.replace(/\r\n|\n\r|\r|\n/g, '<br>');
-  })
+});
 
 // body-parser 미들웨어 설정(POST 허용)
-app.use(express.json())
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // 정적 파일 제공
@@ -72,6 +71,7 @@ app.use('/dictionary', dictionaryRouter);
 app.use('/predict', predictRouter);
 app.use('/search', searchRouter);
 app.use('/myPage', mypageRouter);
+
 // 에러 핸들링 미들웨어 추가
 app.use((err, req, res, next) => {
     console.error(err.stack);

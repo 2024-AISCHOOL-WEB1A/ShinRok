@@ -1,7 +1,7 @@
 import pymysql
 import asyncio
-from predict import predict_image
-from db import db_con
+from predict import predict_image 
+from db import db_con  
 import os
 import requests
 import tempfile
@@ -64,7 +64,7 @@ async def predict_and_update(user_idx):
         return None
 
     # 이미지 예측 수행
-    predicted_label, disease_name = await asyncio.to_thread(predict_image, local_image_path, crop_name)
+    predicted_label, disease_name_or_idx = await asyncio.to_thread(predict_image, local_image_path, crop_name)
 
     # 다운로드한 이미지 파일 삭제
     if os.path.exists(local_image_path):
@@ -75,13 +75,41 @@ async def predict_and_update(user_idx):
     cursor = connection.cursor()
 
     try:
-        # 예측 결과를 SR_DSS 테이블에 업데이트
-        query = """
-        UPDATE SR_DSS
-        SET DSS_STATE='completed', DSS_DISC=%s, DSS_PREV=%s, DSS_RES=%s
-        WHERE DSS_IDX=%s
-        """
-        cursor.execute(query, (disease_name, predicted_label, f"Prediction label: {predicted_label}", dss_idx))
+        # disease_name_or_idx가 문자열(정상 또는 병명)인지 정수형인지 확인
+        if isinstance(disease_name_or_idx, str):
+            disease_name = disease_name_or_idx
+            if disease_name == "정상":
+                query = """
+                UPDATE SR_DSS
+                SET DSS_STATE=%s, DSS_DISC='정상', DSS_PREV='정상', DSS_RES=%s
+                WHERE DSS_IDX=%s
+                """
+                cursor.execute(query, (disease_name, predicted_label, dss_idx))
+            else:
+                # DSSSTORE에서 병명으로 값을 가져오기
+                cursor.execute("SELECT DSS_DISC, DSS_PREV FROM SR_DSSSTORE WHERE DSS_STATE=%s", (disease_name,))
+                dssstore_result = cursor.fetchone()
+                if not dssstore_result:
+                    print(f"No DSSSTORE data found for disease name: {disease_name}")
+                    return None
+
+                # 예측 결과를 SR_DSS 테이블에 업데이트
+                query = """
+                UPDATE SR_DSS
+                SET DSS_STATE=%s, DSS_DISC=%s, DSS_PREV=%s, DSS_RES=%s
+                WHERE DSS_IDX=%s
+                """
+                cursor.execute(query, (disease_name, dssstore_result[0], dssstore_result[1], predicted_label, dss_idx))
+        else:
+            # disease_name_or_idx가 정수형인 경우
+            disease_idx = disease_name_or_idx
+            query = """
+            UPDATE SR_DSS
+            SET DSS_STATE=%s, DSS_PLANT=%s, DSS_DISC='정상', DSS_PREV='정상', DSS_RES=%s
+            WHERE DSS_IDX=%s
+            """
+            cursor.execute(query, (disease_idx, crop_name, predicted_label, dss_idx))
+
         connection.commit()
 
         # 업데이트된 데이터 확인 (옵션)
@@ -89,7 +117,7 @@ async def predict_and_update(user_idx):
         result = cursor.fetchone()
         print(f"Update query result: {result}")  # 업데이트된 데이터 로그 추가
         
-        return predicted_label, disease_name
+        return predicted_label, disease_name_or_idx
 
     except pymysql.MySQLError as e:
         print(f"Error while updating database: {e}")
