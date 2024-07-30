@@ -1184,15 +1184,22 @@ footer {
     padding-right: 2.75em; }
 
 .searchText{
+  width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin-left: 50%;
   /* border: #7f888f 2px solid; */
 }
 #searchIcon{
   margin-left: 2%;
   color: #f45c5c;
   font-size: larger;
+  cursor: pointer;
+}
+#searchIcon:hover{
+  color: #3d4449;
+  font-size: large;
 }
 
 .searchText input[type="text"]{
@@ -1201,9 +1208,9 @@ footer {
   -ms-appearance: none;
   appearance: none;
   background: #ffffff;
-  border-radius: 0.375em;
+  border-radius: 15px;
   border: none;
-  border: solid 1px rgba(210, 215, 217, 0.75);
+  border: solid 2px rgba(196, 202, 204, 0.75);
   color: inherit;
   display: block;
   outline: 0;
