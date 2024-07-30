@@ -111,13 +111,11 @@
                     <br><br>
                     <span>{{ post.BOARD_CONTENT | nl2br | safe }}</span>
                     <div id="chochunIcons">
-                        <a href="/board/recommend?idx={{ post.BOARD_IDX }}">
-                            <div id="chochunText">
-                                <img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/board/ca3c268ca229e08abeed21f39e37bae9" alt="">
-                                <h4><strong>추천하기</strong></h4>
-                                <h4>3</h4>
-                            </div>
-                        </a>
+                        <div id="chochunText" onclick="recommendPost('{{ post.BOARD_IDX }}')">
+                            <img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/board/ca3c268ca229e08abeed21f39e37bae9" alt="">
+                            <h4><strong>추천하기</strong></h4>
+                            <h4 id="recommendCount">{{post.BOARD_RECOMMEND}}</h4>
+                        </div>
                     </div>
                 </td>
             </tr>
@@ -249,21 +247,46 @@
                     console.error('Error:', error);
                 });
         }
-
+        //게시글 추천 함수
         function recommendPost(boardIdx) {
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = '/board/recommend';
-            
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'idx';
-            input.value = boardIdx;
-            
-            form.appendChild(input);
-            document.body.appendChild(form);
-            form.submit();
+            axios.post('/board/recommend', { idx: boardIdx })
+                .then(response => {
+                    if (response.data.success) {
+                        alert(response.data.message);
+                        document.getElementById('recommendCount').innerText = response.data.recommendCount;
+                    } else {
+                        alert(response.data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         }
+        
+
+        $(document).ready(function() {
+            $('#recommendButton').on('click', function() {
+                const boardIdx = $(this).data('board-idx');
+
+                $.ajax({
+                    url: '/recommend',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ idx: boardIdx }),
+                    success: function(response) {
+                        if (response.success) {
+                            $('#recommendCount').text(response.recommendCount);
+                            alert(response.message);
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function() {
+                        alert('서버 오류가 발생했습니다.');
+                    }
+                });
+            });
+        });
 
         // 페이지 로드 시 댓글 목록 로드
         const boardIdx = "{{ post.BOARD_IDX }}"; // 템플릿 변수 사용
