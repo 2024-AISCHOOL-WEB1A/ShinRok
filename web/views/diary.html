@@ -86,7 +86,7 @@
         </div>
       
 <!--   ----------------------달력----------------------------------- -->
-      
+        
         <section class="calendarForm">
           <div id='calendar'></div>
         
@@ -298,7 +298,17 @@
           </div> <!-- 모달상단 -->
         
         </section> <!-- 달력 -->
-      
+        {% for diary in diarys %}
+        <li>
+            <h2>{{ diary.DIARY_TITLE }}</h2>
+            <p>{{ diary.DIARY_DATE | date("YYYY-MM-DD HH:mm") }}</p>
+            <p>{{ diary.DIARY_CONTENT | nl2br | safe }}</p>
+        </li>
+        {% endfor %}
+        {% for i in icons %}
+        <img src='{{i.BEHAVE_IDX}}'>
+        {% endfor %}
+        
       </div> <!-- 컨테이너 -->
     
   </form>
