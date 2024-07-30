@@ -11,6 +11,34 @@
     <link rel="stylesheet" href="../public/quesList.css">
 </head>
 <body>
+    <!-- Header -->
+    <header id="header">
+        <a href="/" class="logo"><img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/test/KakaoTalk_20240722_163631321_07.png" alt="무럭이">
+            <strong>MURUK </strong> <span>by ShinRok</span></a>
+        <ul class="icons">
+            {% if user %}
+            <li><a href="#">{{user.nick}}님 환영합니다.</a></li>
+            {% else %}
+            <li><a href="#">로그인 후 이용해주세요.</a></li>
+            {% endif %}
+            <li>
+                <form id="myPageForm" action="/myPage/info" method="post">
+                    <a href="#" onclick="document.getElementById('myPageForm').submit(); return false;">마이페이지</a>
+                </form>
+                <!-- <li><a href="/myPage/info" id="myPageLink">마이페이지</a></li> --> 
+            </li>
+            {% if user %}
+            <div class="kakaoLogout">
+                <a href="/user/logout">로그아웃<img src=""></a>
+            </div>
+            {% else %}
+            <div class="kakaoLogin">
+                <a href="/user/login"><img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/test/kakao_login_small+(1).png"></a>
+            </div>
+            {% endif %}
+        </ul>
+    </header>
+
     <!-- ------------------- 최상단 배너 ----------------------- -->
     <section id="banner">
         <div class="content">
@@ -24,41 +52,34 @@
         </div>
     </section>
         
-    <!-- ------------------ 왼쪽 사이드바 ---------------------- -->
+  
+    <!-- 왼쪽 사이드바 -->
     <aside class="leftSidebar">
-        <nav>
+        <nav class="topsidebar">
             <ul>
-                <!-- <li><a href="/plusPost"><button id="postingBtn"><i class="fa-solid fa-pen-to-square"></i> 게시글쓰기</button></a></li> -->
-                <!-- 메인으로 돌아가는 버튼 -->
                 <li><a href="/">HOME</a></li>
-                <li class="profile">
-                    <a href="#">Profile</a>
-                </li>
-
                 <li><a href="/freeList">자유게시판</a></li>
-                <li><a href="#">자랑하기</a></li>
+                <li><a href="/board/bragList">자랑하기</a></li>
                 <li><a href="#">인기글</a></li>
                 <li><a href="#">공지사항</a></li>
-                <li><a href="#">질문게시판</a></li>
+                <li id="pointLi"><a href="/board/queslist">질문게시판</a></li>
             </ul>
         </nav>
-
-        <!-- ----------------- 아래쪽 사이드바(페이지 이동) ----------------- -->
+        <!-- 아래쪽 사이드바(페이지 이동) -->
         <nav class="underSidebar">
             <ul>
                 <li><a href="/diary">Diary</a></li>
-                <li><a href="#">병충해 진단</a></li>
-                <li><a href="#">식물 도감</a></li>
+                <li><a href="/predict">병충해 진단</a></li>
+                <li><a href="/dictionary/home">식물 도감</a></li>
                 <li><a href="/myPage">마이페이지</a></li>
             </ul>
         </nav>
-        
     </aside>
 
     <!-- -------------------------- 자유게시판 목록 ---------------------------------------------- -->
     <section id="quesSection">
         <div class="headerText">
-            <i class="fa-regular fa-pen-to-square"></i>
+            <img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/board/afabb5581959f57624eb9b2c0850c9f7" alt="">
             <h1>질문게시판</h1>
         </div>
         <table class="questable">
