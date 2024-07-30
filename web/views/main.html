@@ -123,9 +123,12 @@
 									</div>
 								</section>
     							{% endblock %}
-								<form action="/search/list" method="get">
-									<input type="text" name="q" placeholder="검색어 입력" required>
-									<button type="submit">검색</button>
+								<form action="/search/list" method="get" id="searchForm">
+									<div class="searchText">
+										<input type="text" name="q" placeholder="검색어 입력" required>
+										<div id="searchIcon"><i class="fa-solid fa-magnifying-glass"></i></div>
+										<!-- <button type="submit">검색</button> -->
+									</div>
 								</form>
 							</section>
 
