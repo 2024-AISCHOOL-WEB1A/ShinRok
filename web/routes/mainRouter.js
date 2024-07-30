@@ -30,6 +30,8 @@ router.get('/', (req, res) => {
                         SR_USER U
                         JOIN SR_BOARD B ON U.USER_IDX = B.USER_IDX
                         LEFT JOIN SR_CMNT C ON B.BOARD_IDX = C.BOARD_IDX
+                    WHERE 
+                        BOARD_CATE != '답변'
                     GROUP BY 
                         B.BOARD_IDX, 
                         U.USER_IDX, 
