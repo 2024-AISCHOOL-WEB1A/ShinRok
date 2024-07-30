@@ -30,6 +30,8 @@ router.get('/', (req, res) => {
                         SR_USER U
                         JOIN SR_BOARD B ON U.USER_IDX = B.USER_IDX
                         LEFT JOIN SR_CMNT C ON B.BOARD_IDX = C.BOARD_IDX
+                    WHERE 
+                        BOARD_CATE != '답변'
                     GROUP BY 
                         B.BOARD_IDX, 
                         U.USER_IDX, 
@@ -114,6 +116,36 @@ router.get('/diary', (req, res) => {
                 user: req.session.user,
                 diarys: diaryResult,
                 icons: imgResult
+            });
+        });
+    });
+});
+
+//다이어리 JSON 데이터 응답
+router.get('/diaryJSON', (req, res) => {
+    const user_idx = req.session.user.idx;
+    console.log(user_idx); // 디버깅 로그
+
+    const sql = `SELECT * FROM SR_DIARY WHERE USER_IDX = ?`;
+    const imgsql = `SELECT * FROM SR_DIARY_ICON WHERE USER_IDX = ?`;
+
+    conn.query(sql, [user_idx], (e, diaryResult) => {
+        if (e) {
+            console.error('DB Query Error: ', e);
+            return res.status(500).json({ error: 'DB Query Error' });
+        }
+
+        conn.query(imgsql, [user_idx], (e, imgResult) => {
+            if (e) {
+                console.error('DB Query Error: ', e);
+                return res.status(500).json({ error: 'DB Query Error' });
+            }
+            log(diaryResult)
+            log(imgResult)
+            res.json({
+                
+                diarys: diaryResult
+            
             });
         });
     });
