@@ -64,24 +64,28 @@ router.post('/info', (req, res) => {
 }); // 이 닫는 괄호가 추가되어야 합니다.
 
 // 회원 수정 기능 router
-router.post('/update',(req,res)=>{
-   
+router.post('/update', (req, res) => {
     const userId = req.session.user.idx;
+    const newNickname = req.body.q;
 
-    let sql = `UPDATE SR_USER SET USER_NICK = ? 
-                WHERE USER_IDX=?`
-    conn.query(sql, [userId], (err, rows)=> {
-        if(rows.affectedRows > 0){
-            // 수정 성공시 새로고침
-            res.render('myPage',{
-                mypage:rows
-            })
-        } else{
-            // 수정 실패 시
-            res.send('<script>alert("다시 한번 시도해주세요.")</script>')
+    let sql = `UPDATE SR_USER SET USER_NICK = ? WHERE USER_IDX = ?`;
+    
+    conn.query(sql, [newNickname, userId], (err, result) => {
+        if (err) {
+            console.error('닉네임 업데이트 오류:', err);
+            return res.status(500).json({ error: '서버 오류가 발생했습니다.' });
         }
-    })
-})
+        
+        if (result.affectedRows > 0) {
+            // 수정 성공
+            req.session.user.nick = newNickname; // 세션 업데이트
+            res.redirect('/');
+        } else {
+            // 수정 실패
+            res.status(400).json({ success: false, message: '닉네임 업데이트에 실패했습니다.' });
+        }
+    });
+});
 
 // 회원 삭제 기능 router
 router.post('/delete', (req, res) => {

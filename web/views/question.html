@@ -78,7 +78,10 @@
                     <td colspan="4"><div class="horizontal-line"></div></td>
                 </tr>
             <!-- ------------------- 게시물 내용이 보이는 부분 ----------------- -->
-                <tr>
+                <tr class="but">
+                    {% if user %}
+                    <input type="hidden" name="idx" value={{user.idx}}>
+                    {% endif %}
                     <td class="addImage" colspan="5">
                         <!-- 이미지 혹은 내용을 넣을 공간 -->
                         {% if question.BOARD_IMG %}
@@ -86,15 +89,8 @@
                         {% endif %}
                         <br> <br>
                         <span>{{ question.BOARD_CONTENT }}</span>
-
-            <!-- 가로선 추가 -->
-            <tr>
-                <td colspan="4"><div class="horizontal-line"></div></td>
-            </tr>
-
-
-            <!-- 게시물 내용이 보이는 부분 -->
-
+                    </td>
+                </tr>
             
             <!-- 게시글 작성한 유저가 접속시 수정하기 버튼 생성 -->
             <tr>
@@ -108,31 +104,33 @@
             
             <!-- 답변 목록 & 작성하기 부분 -->
             <tr>
-                <td colspan="5">
+                <td colspan="4">
                     <div class="comment-section">
                         <div id="commentTitle">
                             <h3>전체 답변</h3> 
                         </div>
                         
                         <!-- 답변 목록 -->
-                        {% for i in quesPost %}
-                        <tr>
-                            <td colspan="4"><h2 id="titleName">{{ i.BOARD_TITLE }}</h2></td>
-                        </tr>
-                            
-                        <tr id="spaceTitle">
-            
-                            <td rowspan="2" id="profilePic"><img src = '{{i.USER_PICTURE}}'></td>
-                            <td id="userNick"> {{ i.USER_NICK }}</td>
-                            <tr class="titleList">
-                                <td id="titleDate">{{ i.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}
-                                    <input type="hidden" name="board_idx" value="{{i.BOARD_IDX}}">
-                                </td>
-                                <td id="titleTd">조회수<span>: {{ i.BOARD_COUNT }}</span></td>
-                                <td id="titleTd" colspan="2"><i class="fa-regular fa-comment-dots">답변 수</i><span>: {{ commentCount }}</span></td>
+                        <div id="commentList">
+                            <!-- {% for i in quesTans %}
+                            <tr>
+                                <td colspan="4"><h2 id="titleName">{{ i.BOARD_TITLE }}</h2></td>
                             </tr>
-                        </tr>
-                        {% endfor %}
+
+                            <tr id="spaceTitle">
+                            
+                                <td rowspan="2" id="profilePic"><img src = '{{i.USER_PICTURE}}'></td>
+                                <td id="userNick"> {{ i.USER_NICK }}</td>
+                                <tr class="titleList">
+                                    <td id="titleDate">{{ i.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}
+                                        <input type="hidden" name="board_idx" value="{{i.BOARD_IDX}}">
+                                    </td>
+                                    <td id="titleTd">조회수<span>: {{ i.BOARD_COUNT }}</span></td>
+                                    <td id="titleTd" colspan="2"><i class="fa-regular fa-comment-dots">답변 수</i><span>: {{ commentCount }}</span></td>
+                                </tr>
+                            </tr>
+                            {% endfor %} -->
+                        </div>
                     </div>
                 </td>
             </tr>
@@ -141,17 +139,19 @@
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-        document.getElementById('commentForm').addEventListener('submit', function (e) {
+        document.getElementById('quesDetailForm').addEventListener('submit', function (e) {
             e.preventDefault();
 
             const formData = new FormData(this);
             const data = {
                 user_idx: formData.get('user_idx'),
                 board_idx: formData.get('board_idx'),
-                content: formData.get('content')
+                title: formData.get('title'),
+                content: formData.get('content'),
+                img: formData.get('img')
             };
 
-            axios.post('http://localhost:3000/board/cmnt', data)
+            axios.post('http://localhost:3000/board/answerComment', data)
                 .then(response => {
                     if (response.data.success) {
                         // 댓글 목록 업데이트
@@ -168,45 +168,75 @@
         });
 
         function loadComments(boardIdx) {
-            axios.get(`http://localhost:3000/board/comments?board_idx=${boardIdx}`)
-                .then(response => {
-                    const commentList = document.getElementById('commentList');
-                    commentList.innerHTML = '';
+    axios.get(`http://localhost:3000/board/asr?board_idx=${boardIdx}`)
+        .then(response => {
+            const commentList = document.getElementById('commentList');
+            commentList.innerHTML = '';
 
-                    response.data.comments.forEach(comment => {
-                        const commentDiv = document.createElement('div');
-                        commentDiv.classList.add('comment');
+            response.data.comments.forEach(comment => {
+                // Title Row
+                const trTitle = document.createElement('tr');
+                const tdTitle = document.createElement('td');
+                tdTitle.colSpan = '4';
+                const h2Title = document.createElement('h2');
+                h2Title.id = 'titleName';
+                h2Title.textContent = comment.BOARD_TITLE;
+                tdTitle.appendChild(h2Title);
+                trTitle.appendChild(tdTitle);
 
-                        const icon = document.createElement('i');
-                        icon.classList.add('fa-regular', 'fa-comment-dots');
+                // Space Title Row
+                const trSpaceTitle = document.createElement('tr');
+                trSpaceTitle.id = 'spaceTitle';
 
-                        const authorDiv = document.createElement('div');
-                        const authorSpan = document.createElement('span');
-                        authorSpan.classList.add('author');
-                        authorSpan.textContent = comment.USER_NICK;
+                const tdProfilePic = document.createElement('td');
+                tdProfilePic.rowSpan = '2';
+                tdProfilePic.id = 'profilePic';
+                const imgProfilePic = document.createElement('img');
+                imgProfilePic.src = comment.USER_PICTURE;
+                tdProfilePic.appendChild(imgProfilePic);
+                trSpaceTitle.appendChild(tdProfilePic);
 
-                        const timestampSpan = document.createElement('span');
-                        timestampSpan.classList.add('timestamp');
-                        timestampSpan.textContent = new Date(comment.CMNT_DATE).toLocaleString();
+                const tdUserNick = document.createElement('td');
+                tdUserNick.id = 'userNick';
+                tdUserNick.textContent = comment.USER_NICK;
+                trSpaceTitle.appendChild(tdUserNick);
 
-                        authorDiv.appendChild(authorSpan);
-                        authorDiv.appendChild(timestampSpan);
+                // Title List Row
+                const trTitleList = document.createElement('tr');
+                trTitleList.classList.add('titleList');
 
-                        const contentDiv = document.createElement('div');
-                        contentDiv.classList.add('content');
-                        contentDiv.textContent = comment.CMNT_CONTENT;
+                const tdTitleDate = document.createElement('td');
+                tdTitleDate.id = 'titleDate';
+                tdTitleDate.textContent = new Date(comment.BOARD_DATE).toLocaleString();
+                const inputHidden = document.createElement('input');
+                inputHidden.type = 'hidden';
+                inputHidden.name = 'board_idx';
+                inputHidden.value = comment.BOARD_IDX;
+                tdTitleDate.appendChild(inputHidden);
+                trTitleList.appendChild(tdTitleDate);
 
-                        commentDiv.appendChild(icon);
-                        commentDiv.appendChild(authorDiv);
-                        commentDiv.appendChild(contentDiv);
+                const tdTitleTd1 = document.createElement('td');
+                tdTitleTd1.id = 'titleTd';
+                tdTitleTd1.textContent = `조회수: ${comment.BOARD_COUNT}`;
+                trTitleList.appendChild(tdTitleTd1);
 
-                        commentList.appendChild(commentDiv);
-                    });
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        }
+                const tdTitleTd2 = document.createElement('td');
+                tdTitleTd2.id = 'titleTd';
+                tdTitleTd2.colSpan = '2';
+                tdTitleTd2.innerHTML = `<i class="fa-regular fa-comment-dots"></i> 답변 수: ${comment.commentCount}`;
+                trTitleList.appendChild(tdTitleTd2);
+
+                // Append all rows to commentList
+                commentList.appendChild(trTitle);
+                commentList.appendChild(trSpaceTitle);
+                commentList.appendChild(trTitleList);
+            });
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
 
         // 페이지 로드 시 댓글 목록 로드
         const boardIdx = "{{ question.BOARD_IDX }}"; // 템플릿 변수 사용

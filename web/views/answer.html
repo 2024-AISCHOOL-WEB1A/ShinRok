@@ -48,12 +48,15 @@
     <form action="/board/answer" id="answerForm" class="answerForm" method="POST">
         <!-- 게시글 상세페이지 -->
         <table class="table">
+            
             {% if user %}
-            <input type="hidden" name="user_idx" value="{{user.idx}}">
+            <input type="hidden" name="idx" value="{{user.idx}}">
             {% endif %}
             <!-- ------------- 내용 작성 ----------------- -->
             <div class="conheader">
-                <dt>답변</dt>
+                <dt><h2>답변</h2>{{question.BOARD_TITLE}}</dt>
+                <!-- 가로선 추가 -->
+                <dd colspan="4"><div class="horizontal-line"></div></dd>
                 <dd><textarea placeholder="내용을 입력하세요" name="content"></textarea></dd>
             </div>
 

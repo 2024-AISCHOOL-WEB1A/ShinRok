@@ -443,19 +443,20 @@ function quest(postId, req, res) {
 
 // 답변 
 router.post('/answer', upload.single('image'), async (req, res) => {
-    const { content, category, idx } = req.body
+    log(req.body)
+    const { title, content, category, idx } = req.body
     let imageUrl = null
     const filePath = req.file ? req.file.path : null
-    
+    log(idx)
     try {
         if (filePath) {
             imageUrl = await uploadImage(filePath, 'ans'); // 폴더명을 'ans'로 지정
         }
 
         // 데이터베이스에 게시물 정보와 이미지 URL 저장
-        const sql = `INSERT INTO SR_BOARD (USER_IDX, BOARD_CONTENT, BOARD_CATE, BOARD_IMG) 
-                    VALUES (?, ?, '답변', ?)`
-        const values = [idx, content, category, imageUrl]
+        const sql = `INSERT INTO SR_BOARD ( USER_IDX, BOARD_TITLE, BOARD_IMG, BOARD_CATE, BOARD_CONTENT) 
+                    VALUES (?, '1', ?, '답변', ?)`
+        const values = [idx, title, content, category, imageUrl]
         conn.query(sql, values, (err, result) => {
             if (err) {
                 console.error('DB Insert Error: ', err);
@@ -473,6 +474,139 @@ router.post('/answer', upload.single('image'), async (req, res) => {
         }
     }
 })
+
+router.get('/quesTans',(req,res)=> {
+    const page = parseInt(req.query.page) || 1; // 현재 페이지 번호 (기본값: 1)
+    const limit = 15; // 페이지 당 게시글 수
+    const offset = (page - 1) * limit;
+    
+    const countSql = `SELECT COUNT(*) AS total FROM SR_BOARD WHERE BOARD_CATE = '답변'`;
+    const sql = `SELECT 
+                    U.USER_IDX,
+                    U.USER_NICK,
+                    U.USER_PICTURE,
+                    B.BOARD_IDX,
+                    B.BOARD_TITLE,
+                    B.BOARD_CONTENT,
+                    B.BOARD_COUNT,
+                    B.BOARD_DATE,
+                    B.BOARD_IMG,
+                    B.BOARD_CATE,
+                    COUNT(C.CMNT_CONTENT) AS COMMENT_COUNT
+                FROM 
+                    SR_USER U
+                    JOIN SR_BOARD B ON U.USER_IDX = B.USER_IDX
+                    LEFT JOIN SR_CMNT C ON B.BOARD_IDX = C.BOARD_IDX
+                WHERE 
+                    B.BOARD_CATE = '답변'
+                GROUP BY 
+                    B.BOARD_IDX, 
+                    U.USER_IDX, 
+                    U.USER_NICK, 
+                    U.USER_PICTURE, 
+                    B.BOARD_TITLE, 
+                    B.BOARD_CONTENT, 
+                    B.BOARD_COUNT, 
+                    B.BOARD_DATE, 
+                    B.BOARD_IMG`
+
+    conn.query(countSql, (err, countResult) => {
+        if (err) {
+            console.error('DB Count Error: ', err);
+            return res.status(500).json({ error: 'DB Count Error' });
+        }
+        
+        const totalPosts = countResult[0].total;
+        const totalPages = Math.ceil(totalPosts / limit);
+
+        conn.query(sql, [offset, limit], (err, dataResult) => {
+            if (err) {
+                console.error('DB Query Error: ', err);
+                return res.status(500).json({ error: 'DB Query Error' });
+            }
+        res.render('quesTans', {quesTans : dataResult, currentPage: page, totalPages: totalPages})
+        })
+    })
+})
+
+// 댓글기능
+router.post('/answerComment', async (req, res) => {
+    let { user_idx, board_idx, content } = req.body;
+    let imageUrl = null;
+    const filePath = req.file ? req.file.path : null;
+
+    try {
+        if (filePath) {
+            imageUrl = await uploadImage(filePath, 'ans'); // 폴더명을 'ans'로 지정
+        }
+
+        console.log(req.body);
+        if (!user_idx || !board_idx || !content) {
+            return res.json({ success: false, message: '댓글을 작성 해주세요.' });
+        }
+
+        const sql = `INSERT INTO SR_BOARD (BOARD_IDX, USER_IDX, BOARD_CONTENT, BOARD_IMG) VALUES (?, ?, ?, ?)`;
+        const values = [board_idx, user_idx, content, imageUrl]; // imageUrl 추가
+
+        conn.query(sql, values, (err, rows) => {
+            if (err) {
+                console.error('Insert Error: ', err);
+                return res.json({ success: false, message: '댓글 삽입에 실패했습니다.' });
+            }
+
+            // 삽입 성공
+            res.json({ success: true, message: '댓글이 성공적으로 등록되었습니다.', board_idx: board_idx });
+        });
+    } catch (err) {
+        console.error('Error: ', err);
+        res.send(`<script>alert('댓글 삽입에 실패했습니다.');</script>`);
+    } finally {
+        // 임시 파일 삭제
+        if (filePath) {
+            fs.unlinkSync(filePath);
+        }
+    }
+});
+
+router.post('/asr', async (req, res) => {
+    let { user_idx, board_idx, content } = req.body;
+    console.log(req.body);
+    let imageUrl = null;
+    const filePath = req.file ? req.file.path : null;
+
+    try {
+        if (filePath) {
+            imageUrl = await uploadImage(filePath, 'ans'); // 폴더명을 'ans'로 지정
+        }
+
+        if (!user_idx || !board_idx || !content) {
+            return res.json({ success: false, message: '댓글을 작성 해주세요.' });
+        }
+
+        const sql = `INSERT INTO SR_CMNT (BOARD_IDX, USER_IDX, BOARD_CONTENT, BOARD_IMG) VALUES (?, ?, ?, ?)`;
+        const values = [board_idx, user_idx, content, imageUrl];
+
+        conn.query(sql, values, (err, rows) => {
+            if (err) {
+                console.error('Insert Error: ', err);
+                return res.json({ success: false, message: '댓글 삽입에 실패했습니다.' });
+            }
+
+            // 삽입 성공
+            res.json({ success: true, message: '댓글이 성공적으로 등록되었습니다.', board_idx: board_idx });
+        });
+    } catch (err) {
+        console.error('Error: ', err);
+        res.send(`<script>alert('댓글 삽입에 실패했습니다.');</script>`);
+    } finally {
+        // 임시 파일 삭제
+        if (filePath) {
+            fs.unlinkSync(filePath);
+        }
+    }
+});
+
+
 
 // 게시글 상세보기 페이지
 router.get('/detailPost', (req, res) => {
