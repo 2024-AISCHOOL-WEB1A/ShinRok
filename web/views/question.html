@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ question.BOARD_TITLE }}</title> 
+    <title>{{ question.BOARD_TITLE }}</title>
     <script src="https://kit.fontawesome.com/71a327e855.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../public/question.css">
 </head>
@@ -13,11 +14,12 @@
     <section id="banner">
         <div class="content">
             <header>
-                <img class="murukLogo" src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/board/63f25f8a5b4f5ebf2c08e948eaa4ded2" alt="">
+                <img class="murukLogo"
+                    src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/board/63f25f8a5b4f5ebf2c08e948eaa4ded2" alt="">
             </header>
         </div>
     </section>
-  
+
     <!-- 왼쪽 사이드바 -->
     <aside class="leftSidebar">
         <nav>
@@ -45,100 +47,92 @@
     <!-- Body 전체 -->
     <form action="/board/question" id="quesDetailForm" class="quesdetailForm" method="POST">
         <!-- 게시글 상세페이지 -->
-        <table class="table"> 
+        <table class="table">
             {% if user %}
             <input type="hidden" name="user_idx" value="{{user.idx}}">
             {% endif %}
-            
+
             <!-- 게시물 제목부분 -->
             <tr>
-                <td colspan="4"><h4 id="category">카테고리>{{question.BOARD_CATE}}  </h4></td>
+                <td colspan="4">
+                    <h4 id="category">카테고리>{{question.BOARD_CATE}} </h4>
+                </td>
             </tr>
 
             <!-- 타이틀 제목 -->
             <tr>
-                <td colspan="4"><h2 id="titleName">{{ question.BOARD_TITLE }}</h2></td>
+                <td colspan="4">
+                    <h2 id="titleName">{{ question.BOARD_TITLE }}</h2>
+                </td>
             </tr>
-                
+
             <tr id="spaceTitle">
 
-                <td rowspan="2" id="profilePic"><img src = '{{question.USER_PICTURE}}'></td>
+                <td rowspan="2" id="profilePic"><img src='{{question.USER_PICTURE}}'></td>
                 <td id="userNick"> {{ question.USER_NICK }}</td>
-                <tr class="titleList">
-                    <td id="titleDate">{{ question.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}
-                        <input type="hidden" name="board_idx" value="{{question.BOARD_IDX}}">
-                    </td>
-                    <td id="titleTd">조회수<span>: {{ question.BOARD_COUNT }}</span></td>
-                    <td id="titleTd" colspan="2"><i class="fa-regular fa-comment-dots">답변 수</i><span>: {{ commentCount }}</span></td>
-                </tr>
+            <tr class="titleList">
+                <td id="titleDate">{{ question.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}
+                    <input type="hidden" name="board_idx" value="{{question.BOARD_IDX}}">
+                </td>
+                <td id="titleTd">조회수<span>: {{ question.BOARD_COUNT }}</span></td>
+                <td id="titleTd" colspan="2"><i class="fa-regular fa-comment-dots">답변 수</i><span>: {{ commentCount
+                        }}</span></td>
+            </tr>
             </tr>
 
-                <!-- 가로선 추가 -->
-                <tr>
-                    <td colspan="4"><div class="horizontal-line"></div></td>
-                </tr>
+            <!-- 가로선 추가 -->
+            <tr>
+                <td colspan="4">
+                    <div class="horizontal-line"></div>
+                </td>
+            </tr>
             <!-- ------------------- 게시물 내용이 보이는 부분 ----------------- -->
-                <tr class="but">
-                    {% if user %}
-                    <input type="hidden" name="idx" value={{user.idx}}>
+            <tr class="but">
+                {% if user %}
+                <input type="hidden" name="idx" value={{user.idx}}>
+                {% endif %}
+                <td class="addImage" colspan="5">
+                    <!-- 이미지 혹은 내용을 넣을 공간 -->
+                    {% if question.BOARD_IMG %}
+                    <img src="{{ question.BOARD_IMG }}" alt="게시글 이미지" id="postImg">
                     {% endif %}
-                    <td class="addImage" colspan="5">
-                        <!-- 이미지 혹은 내용을 넣을 공간 -->
-                        {% if question.BOARD_IMG %}
-                            <img src="{{ question.BOARD_IMG }}" alt="게시글 이미지" id="postImg">
-                        {% endif %}
-                        <br> <br>
-                        <span>{{ question.BOARD_CONTENT }}</span>
-                    </td>
-                </tr>
-            
+                    <br> <br>
+                    <span>{{ question.BOARD_CONTENT }}</span>
+                </td>
+            </tr>
+
             <!-- 게시글 작성한 유저가 접속시 수정하기 버튼 생성 -->
             <tr>
                 <div>
                     <td id="answer"><a href="/answer" class="answer"><button type="button">답변하기</button></a></td>
                 </div>
                 <div class="align-buttons">
-                    <td id="changeBtn"><a href="/changePost" class="change_post"><button type="button">수정하기</button></a></td>
+                    <td id="changeBtn"><a href="/changePost" class="change_post"><button type="button">수정하기</button></a>
+                    </td>
                 </div>
             </tr>
-            
-            <!-- 답변 목록 & 작성하기 부분 -->
-            <tr>
-                <td colspan="4">
-                    <div class="comment-section">
-                        <div id="commentTitle">
-                            <h3>전체 답변</h3> 
-                        </div>
-                        
-                        <!-- 답변 목록 -->
-                        <div id="commentList">
-                            <!-- {% for i in quesTans %}
-                            <tr>
-                                <td colspan="4"><h2 id="titleName">{{ i.BOARD_TITLE }}</h2></td>
-                            </tr>
 
-                            <tr id="spaceTitle">
-                            
-                                <td rowspan="2" id="profilePic"><img src = '{{i.USER_PICTURE}}'></td>
-                                <td id="userNick"> {{ i.USER_NICK }}</td>
-                                <tr class="titleList">
-                                    <td id="titleDate">{{ i.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}
-                                        <input type="hidden" name="board_idx" value="{{i.BOARD_IDX}}">
-                                    </td>
-                                    <td id="titleTd">조회수<span>: {{ i.BOARD_COUNT }}</span></td>
-                                    <td id="titleTd" colspan="2"><i class="fa-regular fa-comment-dots">답변 수</i><span>: {{ commentCount }}</span></td>
-                                </tr>
-                            </tr>
-                            {% endfor %} -->
-                        </div>
-                    </div>
-                </td>
+            <!-- 답변 목록 & 작성하기 부분 -->
+            <div id="answerFormContainer" style="display: none;">
+                <form id="answerForm" enctype="multipart/form-data">
+                    <input type="hidden" name="board_idx" value="{{ question.BOARD_IDX }}">
+                    <input type="hidden" name="user_idx" value="{{ user.idx }}">
+                    <textarea name="content" placeholder="내용을 입력하세요"></textarea>
+                    <input type="file" name="image" accept="image/*">
+                    <button type="submit">등록하기</button>
+                </form>
+            </div>
+            </td>
             </tr>
         </table>
     </form>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
+        document.getElementById('answerBtn').addEventListener('click', function () {
+            document.getElementById('answerFormContainer').style.display = 'block';
+        });
+
         document.getElementById('quesDetailForm').addEventListener('submit', function (e) {
             e.preventDefault();
 
@@ -151,15 +145,14 @@
                 img: formData.get('img')
             };
 
-            axios.post('http://localhost:3000/board/answerComment', data)
+            axios.post('http://localhost:3000/board/answerComment', formData)
                 .then(response => {
                     if (response.data.success) {
-                        // 댓글 목록 업데이트
-                        loadComments(data.board_idx);
-                        // 댓글 수 업데이트
-                        document.getElementById('commentCount').innerText = response.data.commentCount;
+                        // 답변 목록 업데이트
+                        loadAnswers(formData.get('board_idx'));
+                        document.getElementById('answerFormContainer').style.display = 'none';
                     } else {
-                        alert('댓글 등록에 실패했습니다.');
+                        alert('답변 등록에 실패했습니다.');
                     }
                 })
                 .catch(error => {
@@ -168,74 +161,41 @@
         });
 
         function loadComments(boardIdx) {
-    axios.get(`http://localhost:3000/board/asr?board_idx=${boardIdx}`)
-        .then(response => {
-            const commentList = document.getElementById('commentList');
-            commentList.innerHTML = '';
+            axios.get(`http://localhost:3000/board/asr?board_idx=${boardIdx}`)
+                .then(response => {
+                    const commentList = document.getElementById('commentList');
+                    commentList.innerHTML = '';
 
-            response.data.comments.forEach(comment => {
-                // Title Row
-                const trTitle = document.createElement('tr');
-                const tdTitle = document.createElement('td');
-                tdTitle.colSpan = '4';
-                const h2Title = document.createElement('h2');
-                h2Title.id = 'titleName';
-                h2Title.textContent = comment.BOARD_TITLE;
-                tdTitle.appendChild(h2Title);
-                trTitle.appendChild(tdTitle);
+                    response.data.comments.forEach(comment => {
+                        const tr = document.createElement('tr');
+                        const td = document.createElement('td');
+                        td.className = 'addImage';
+                        td.colSpan = '5';
 
-                // Space Title Row
-                const trSpaceTitle = document.createElement('tr');
-                trSpaceTitle.id = 'spaceTitle';
+                        if (comment.BOARD_IMG) {
+                            const img = document.createElement('img');
+                            img.src = comment.BOARD_IMG;
+                            img.alt = '게시글 이미지';
+                            img.id = 'postImg';
+                            td.appendChild(img);
+                        }
 
-                const tdProfilePic = document.createElement('td');
-                tdProfilePic.rowSpan = '2';
-                tdProfilePic.id = 'profilePic';
-                const imgProfilePic = document.createElement('img');
-                imgProfilePic.src = comment.USER_PICTURE;
-                tdProfilePic.appendChild(imgProfilePic);
-                trSpaceTitle.appendChild(tdProfilePic);
+                        const br = document.createElement('br');
+                        td.appendChild(br);
+                        td.appendChild(br.cloneNode());
 
-                const tdUserNick = document.createElement('td');
-                tdUserNick.id = 'userNick';
-                tdUserNick.textContent = comment.USER_NICK;
-                trSpaceTitle.appendChild(tdUserNick);
+                        const span = document.createElement('span');
+                        span.textContent = comment.BOARD_CONTENT;
+                        td.appendChild(span);
 
-                // Title List Row
-                const trTitleList = document.createElement('tr');
-                trTitleList.classList.add('titleList');
-
-                const tdTitleDate = document.createElement('td');
-                tdTitleDate.id = 'titleDate';
-                tdTitleDate.textContent = new Date(comment.BOARD_DATE).toLocaleString();
-                const inputHidden = document.createElement('input');
-                inputHidden.type = 'hidden';
-                inputHidden.name = 'board_idx';
-                inputHidden.value = comment.BOARD_IDX;
-                tdTitleDate.appendChild(inputHidden);
-                trTitleList.appendChild(tdTitleDate);
-
-                const tdTitleTd1 = document.createElement('td');
-                tdTitleTd1.id = 'titleTd';
-                tdTitleTd1.textContent = `조회수: ${comment.BOARD_COUNT}`;
-                trTitleList.appendChild(tdTitleTd1);
-
-                const tdTitleTd2 = document.createElement('td');
-                tdTitleTd2.id = 'titleTd';
-                tdTitleTd2.colSpan = '2';
-                tdTitleTd2.innerHTML = `<i class="fa-regular fa-comment-dots"></i> 답변 수: ${comment.commentCount}`;
-                trTitleList.appendChild(tdTitleTd2);
-
-                // Append all rows to commentList
-                commentList.appendChild(trTitle);
-                commentList.appendChild(trSpaceTitle);
-                commentList.appendChild(trTitleList);
-            });
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-}
+                        tr.appendChild(td);
+                        commentList.appendChild(tr);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
 
 
         // 페이지 로드 시 댓글 목록 로드
@@ -244,4 +204,5 @@
     </script>
 
 </body>
+
 </html>
