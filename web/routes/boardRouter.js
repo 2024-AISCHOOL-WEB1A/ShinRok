@@ -250,7 +250,7 @@ function bragPost(postId, req, res) {
         }
 
         const post = postResult[0]
-        res.render('bragdetailPost', { post: post, user: req.session.user })
+        res.render('bragdetailPost', { bragdetailPost: post, user: req.session.user })
     })
 }
 //d
@@ -345,7 +345,7 @@ router.get('/quesList',(req,res)=> {
     })
 })
 
-router.get('/question',(req,res)=> {
+router.get('/answer',(req,res)=> {
     const postId = req.query.idx
 
     // 세션에 조회한 게시글 ID 저장
@@ -399,10 +399,11 @@ function questPost(postId, req, res) {
         }
 
         const post = postResult[0]
-        res.render('question', { question: post, user: req.session.user })
+        res.render('answer', { answer: post, user: req.session.user })
     })
 }
 
+// 질문게시판 답변
 router.post('/questionAnswer', upload.single('image'), async (req, res) => {
     const { content, category, idx  } = req.body
     let imageUrl = null
@@ -433,6 +434,43 @@ router.post('/questionAnswer', upload.single('image'), async (req, res) => {
             fs.unlinkSync(filePath)
         }
     }
+})
+
+// 답변 
+router.get('/question', (req, res) => {
+    const sql = `SELECT 
+                    U.USER_IDX,
+                    U.USER_NICK,
+                    U.USER_PICTURE,
+                    B.BOARD_IDX,
+                    B.BOARD_TITLE,
+                    B.BOARD_CONTENT,
+                    B.BOARD_COUNT,
+                    B.BOARD_DATE,
+                    B.BOARD_IMG,
+                    B.BOARD_CATE,
+                    COUNT(C.CMNT_CONTENT) AS COMMENT_COUNT
+                FROM 
+                    SR_USER U
+                    JOIN SR_BOARD B ON U.USER_IDX = B.USER_IDX
+                    LEFT JOIN SR_CMNT C ON B.BOARD_IDX = C.BOARD_IDX
+                WHERE 
+                    B.BOARD_CATE = '답변'
+                GROUP BY 
+                    B.BOARD_IDX, 
+                    U.USER_IDX, 
+                    U.USER_NICK, 
+                    U.USER_PICTURE, 
+                    B.BOARD_TITLE, 
+                    B.BOARD_CONTENT, 
+                    B.BOARD_COUNT, 
+                    B.BOARD_DATE, 
+                    B.BOARD_IMG`
+
+    conn.query(sql, (e, r) => {
+        console.log(r)
+        res.render('question', { question: r})
+    })
 })
 
 // 게시글 상세보기 페이지

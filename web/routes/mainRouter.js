@@ -78,6 +78,9 @@ router.get('/search', (req,res)=>{
     res.render('search', {user: req.session.user})
 })
  
-
+// 답변 이동
+router.get('/answer', (req,res)=>{
+    res.render('answer', {user: req.session.user})
+})
 
 module.exports = router
