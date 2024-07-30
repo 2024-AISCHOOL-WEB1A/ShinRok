@@ -3,56 +3,37 @@
 {% block content %}
 
 <section id="bragSection">
-    <table class="bragtable">
-
-        <tr class="postHead">
-            <th>번호</th>
-            <th>구분</th>
-            <th class="postTitle">제목</th>
-            <th>작성자</th>
-            <th>작성날짜</th>
-            <th>조회수</th>
-            <th>댓글수</th>
-            <th>-</th>
-        </tr>
-
-
+    <div class="post-container">
         {% for i in bragPost %}
-
-            <tr class="contentBody" onclick="location.href='/board/bragdetailPost?idx={{ i.BOARD_IDX }}'">
-                <td>{{ loop.index }}</td>
-                <td>{{i.BOARD_CATE}}</td>
-                <td class="content">{{ i.BOARD_TITLE }}</td>
-                <td>{{ i.USER_NICK }}</td>
-                <td>{{ i.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}</td>
-                <td>{{ i.BOARD_COUNT }}</td>
-                <td>{{ i.COMMENT_COUNT }}</td> 
-                <td>
-                    <input type="hidden" value="{{ i.BOARD_IDX }}">
-                </td>
-            </tr>
+            <div class="board-item" onclick="location.href='/board/bragdetailPost?idx={{ i.BOARD_IDX }}'">
+                <div class="info-section">
+                    <span>
+                        <img src="{{i.BOARD_IMG}}" alt="">
+                    </span>
+                </div>
+                <h2 class="post-title">{{ i.BOARD_TITLE }}</h2>
+            </div>
         {% endfor %}
-    </table>
-</section>
-
-    <!-- 하단 페이징 -->
-    <div class="bragPaging">
-        {% if currentPage > 1 %}
-            <a href="?page={{ currentPage - 1 }}">이전</a>
-        {% endif %}
-        
-        {% for page in range(1, totalPages + 1) %}
-            {% if page == currentPage %}
-                <span>{{ page }}</span>
-            {% else %}
-                <a href="?page={{ page }}">{{ page }}</a>
-            {% endif %}
-        {% endfor %}
-        
-        {% if currentPage < totalPages %}
-            <a href="?page={{ currentPage + 1 }}">다음</a>
-        {% endif %}
     </div>
 </section>
 
-{% endblock%}
+<!-- 하단 페이징 -->
+<div class="bragPaging">
+    {% if currentPage > 1 %}
+        <a href="?page={{ currentPage - 1 }}">이전</a>
+    {% endif %}
+    
+    {% for page in range(1, totalPages + 1) %}
+        {% if page == currentPage %}
+            <span>{{ page }}</span>
+        {% else %}
+            <a href="?page={{ page }}">{{ page }}</a>
+        {% endif %}
+    {% endfor %}
+    
+    {% if currentPage < totalPages %}
+        <a href="?page={{ currentPage + 1 }}">다음</a>
+    {% endif %}
+</div>
+
+{% endblock %}

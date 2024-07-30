@@ -271,3 +271,24 @@ header{
     
     /* margin: 3% 10% 3% 0%; */
 }
+
+
+
+#eventTitle{
+    padding: 2%;
+    font-size: 3em;
+    background-color: #f1f1f1;
+}
+
+#eventContent{
+    font-size: 1.5em;
+    height: 80%;
+    line-height: 2;
+    background-color: #f1f1f1;
+}
+
+#pictureArea{
+    width: 100%;
+    height: fit-content;
+
+}
