@@ -35,15 +35,25 @@
 #left{
     width: 40%;
     height: 70%;
+    /* justify-content: center;
+    align-content: center; */
+
 }
 
 .plantImage{
-    width: 80%;
-    aspect-ratio: 1;
-    background-color: rgb(210, 210, 210);
     margin: 10%;
-    place-items: center;
+    width: 50vw; /* 너비를 줄임 */
+    height: 50vh; /* 높이를 줄임 */
+    display: flex;
+    overflow: hidden;
+    object-fit: fill;
+    align-content: center;
 }
+
+/* img{
+    object-fit: contain;
+}
+ */
 
 /* ----------------------증상/방제법---------------------- */
 

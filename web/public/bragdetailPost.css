@@ -1,3 +1,11 @@
+@import url('http://fonts.googleapis.com/earlyaccess/nanumgothic.css');
+
+@font-face {
+  font-family: 'GmarketSansMedium';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
 @font-face {
     font-family: 'Pretendard-Regular';
     src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
@@ -114,7 +122,6 @@ body{
   }
 }
 
-/* ------------ 왼쪽 사이드바 ----------------------------- */
 .leftSidebar{
     width: 13%;
     background-color: #f5f6f7;
@@ -135,10 +142,18 @@ body{
     color: #34495e;
     text-decoration: none;
     display: block;
-    padding: 10px 0;
+    /* padding: 10px 0; */
+    padding: 5%;
+    font-family: 'GmarketSansMedium';
+
 }
 .leftSidebar nav ul li a:hover{
-    background-color: #34495e;
+    background-color: #f67878;
+    color: #f5f6f7;
+}
+
+#pointLi a{
+    background-color: #f67878;
     color: #f5f6f7;
 }
 
@@ -148,6 +163,11 @@ body{
 }
 .underSidebar li{
     border-top: solid 2px #afa8a8;
+}
+
+.topsidebar ul{
+    margin-bottom: 15%;
+    margin-top: 10%;
 }
 
 /* ----------- 댓글 버튼 ------------ */
