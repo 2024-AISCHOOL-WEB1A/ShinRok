@@ -51,19 +51,19 @@
                 <h2 id="myListTop2">병충해 진단 기록</h2>
                 <table class="mybugList">
                     <tr id="bugListTr">
-                        <td>DSS_PLANT</td>
-                        <td>DSS_STATE</td>
-                        <td>DSS_DATE</td>
-                        <td id="lasttd">DSS_DISC</td>
-                        <td>DSS_PREV</td>
+                        <td>작물명</td>
+                        <td>병명</td>
+                        <td>증상</td>
+                        <td id="lasttd">시간</td>    
                     </tr>
+                    {% for i in dssData %}
                     <tr class="bugUnderList">
-                        <td>자유</td>
-                        <td>오늘 오븐마루 갈 사람</td>
-                        <td>2024-07-29</td>
-                        <td>12</td>
-                        <td id="lasttd2">3</td>
+                        <td>{{i.DSS_PLANT}}</td>
+                        <td>{{i.DSS_STATE}}</td>
+                        <td>{{i.DSS_DISC}}</td>
+                        <td>{{i.DSS_DATE | date("YY-MM-DD HH:mm")}}</td>
                     </tr>
+                    {% endfor %}
                 </table>
             </div>
         </div>

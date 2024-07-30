@@ -29,7 +29,7 @@ router.post('/info', (req, res) => {
         if (userRows.length === 0) {
             return res.status(404).json({ error: '데이터를 찾을 수 없습니다.' });
         }
-        console.log('userRows',userRows);
+        console.log('userRows', userRows);
         
         const boardSql = `
             SELECT 
@@ -51,17 +51,28 @@ router.post('/info', (req, res) => {
                 console.error('데이터베이스 보드 쿼리 오류:', err);
                 return res.status(500).json({ error: '데이터베이스 보드 쿼리 오류' });
             }
-            console.log('boardRows',boardRows);
+            console.log('boardRows', boardRows);
 
-            res.render('myPage', {
-                userData: userRows[0],  // 첫 번째 결과만 전달
-                boardData: boardRows || []
+            const dssSql = `
+                SELECT * FROM SR_DSS WHERE USER_IDX = ?
+                        ORDER BY DSS_DATE DESC`
+            conn.query(dssSql, [userId], (err, dssRows) => {
+                if (err) {
+                    console.error('데이터베이스 DSS 쿼리 오류:', err);
+                    return res.status(500).json({ error: '데이터베이스 DSS 쿼리 오류' });
+                }
+                console.log('dssRows', dssRows);
+
+                res.render('myPage', {
+                    userData: userRows[0],  // 첫 번째 결과만 전달
+                    boardData: boardRows || [],
+                    dssData: dssRows || []
+                });
             });
         });
-        
-    }); // 여기에 닫는 괄호 추가
+    });
+});
 
-}); // 이 닫는 괄호가 추가되어야 합니다.
 
 // 회원 수정 기능 router
 router.post('/update', (req, res) => {
