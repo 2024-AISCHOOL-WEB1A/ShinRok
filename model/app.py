@@ -23,7 +23,7 @@ async def predict():
             print(f"Prediction: {prediction}, Disease Name: {disease_name}")  # 예측 결과 로그 추가
 
             # 예측이 완료되면 localhost:3000/로 리다이렉트
-            return jsonify({"redirect": "http://localhost:3000/"})
+            return jsonify({"redirect": "http://localhost:3000//predict/result"})
         except Exception as e:
             print(f"Exception occurred: {e}")  # 예외 로그 추가
             return jsonify({"error": str(e)}), 500
