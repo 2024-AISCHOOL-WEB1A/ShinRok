@@ -399,9 +399,41 @@ function questPost(postId, req, res) {
         }
 
         const post = postResult[0]
-        res.render('question', { post: post, user: req.session.user })
+        res.render('question', { question: post, user: req.session.user })
     })
 }
+
+router.post('/questionAnswer', upload.single('image'), async (req, res) => {
+    const { content, category, idx  } = req.body
+    let imageUrl = null
+    const filePath = req.file ? req.file.path : null
+    
+    try {
+        if (filePath) {
+            imageUrl = await uploadImage(filePath, 'answer'); // 폴더명을 'answer'로 지정
+        }
+
+        // 데이터베이스에 게시물 정보와 이미지 URL 저장
+        const sql = `INSERT INTO SR_BOARD (USER_IDX, BOARD_CONTENT, BOARD_CATE, BOARD_IMG) 
+                    VALUES (?, ?, ?, ?)`
+        const values = [idx, content, category, imageUrl]
+        conn.query(sql, values, (err, result) => {
+            if (err) {
+                console.error('DB Insert Error: ', err);
+                return res.status(500).json({ error: 'DB Insert Error' })
+            } 
+            console.log('게시글 작성 완료')
+            res.redirect('/')
+        })
+    } catch (err) {
+        res.status(500).json({ error: err.message })
+    } finally {
+        // 임시 파일 삭제
+        if (filePath) {
+            fs.unlinkSync(filePath)
+        }
+    }
+})
 
 // 게시글 상세보기 페이지
 router.get('/detailPost', (req, res) => {

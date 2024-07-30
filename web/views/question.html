@@ -61,7 +61,6 @@
             <!-- 게시물 제목부분 -->
             <tr>
                 <td colspan="4"><h4 id="category">카테고리>{{question.BOARD_CATE}}  </h4></td>
-                1234
             </tr>
 
             <!-- 타이틀 제목 -->
@@ -122,6 +121,11 @@
                     <div class="comment-section">
                         <!-- 댓글 작성 -->
                         <h4><i class="fa-solid fa-plus">답변쓰기</i></h4>
+                        <div class="fileUpload">
+                            <dd>
+                                <input type="file" name="image" accept="image/*" onchange="loadFile(this)">
+                            </dd>
+                        </div>
                         <div id="plusCommend">
                             <textarea placeholder="내용을 입력하세요" name="content"></textarea>
                             <button type="submit">등록하기</button>
@@ -131,7 +135,24 @@
                         </div>
                         
                         <!-- 댓글 목록 -->
-                        <div id="commentList"></div>
+                        {% for i in questionAnswer %}
+                        <tr>
+                            <td colspan="4"><h2 id="titleName">{{ i.BOARD_TITLE }}</h2></td>
+                        </tr>
+                            
+                        <tr id="spaceTitle">
+            
+                            <td rowspan="2" id="profilePic"><img src = '{{question.USER_PICTURE}}'></td>
+                            <td id="userNick"> {{ i.USER_NICK }}</td>
+                            <tr class="titleList">
+                                <td id="titleDate">{{ i.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}
+                                    <input type="hidden" name="board_idx" value="{{question.BOARD_IDX}}">
+                                </td>
+                                <td id="titleTd">조회수<span>: {{ i.BOARD_COUNT }}</span></td>
+                                <td id="titleTd" colspan="2"><i class="fa-regular fa-comment-dots">답변 수</i><span>: {{ commentCount }}</span></td>
+                            </tr>
+                        </tr>
+                        {% endfor %}
                     </div>
                 </td>
             </tr>

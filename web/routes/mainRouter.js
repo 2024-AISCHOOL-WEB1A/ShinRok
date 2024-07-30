@@ -32,6 +32,11 @@ router.get('/bragList', (req, res)=>{
     res.render('bragList', {user: req.session.user})
 })
 
+// 질문게시판 List로 이동
+router.get('/quesList', (req, res)=>{
+    res.render('quesList', {user: req.session.user})
+})
+
 // 다이어리 페이지 이동
 router.get('/diary', (req, res) => {
     const user_idx = req.session.user.idx
