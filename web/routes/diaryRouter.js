@@ -1,5 +1,7 @@
 const express = require('express');
+const app = express();
 const router = express.Router();
+const nunjucks = require('nunjucks');
 const conn = require('../config/db');
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' });
@@ -12,6 +14,19 @@ router.get('/list', (req, res) => {
     
 })
 
+// Nunjucks 설정
+nunjucks.configure('views', {
+    autoescape: true,
+    express: app
+});
+
+
+app.get('/diaryJson', (req, res) => {
+    // JSON 문자열로 변환
+    const diarysJson = JSON.stringify(diarys);
+    // res.render('diary.html', { diarysJson: diarysJson });
+    res.json({ diarysJson: diarysJson });
+});
 
 
 // 다이어리 작성 기능
