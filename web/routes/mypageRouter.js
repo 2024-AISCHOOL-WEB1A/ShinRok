@@ -21,6 +21,8 @@ router.post('/info', (req, res) => {
         WHERE 
             USER_IDX = ?               
     `;
+
+    //작성글 보기 기능
     conn.query(usersql, [userId], (err, userRows) => {
         if (err) {
             console.error('데이터베이스 유저 쿼리 오류:', err);
@@ -62,6 +64,19 @@ router.post('/info', (req, res) => {
     }); // 여기에 닫는 괄호 추가
 
 }); // 이 닫는 괄호가 추가되어야 합니다.
+
+//진단기록 보기 기능
+router.post('/diagnosis',(req,res)=>{
+    console.log('진단기록 보기 기능 요청 바디:', req.body);
+    const idx = req.body.idx;
+     const dssSql= `SELECT DSS 
+                    `
+
+    res.render('myPage',{
+
+    })
+})
+
 
 // 회원 수정 기능 router
 router.post('/update', (req, res) => {
