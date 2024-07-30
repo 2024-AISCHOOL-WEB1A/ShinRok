@@ -115,18 +115,18 @@
                         </div>
                         
                         <!-- 답변 목록 -->
-                        {% for i in questionAnswer %}
+                        {% for i in quesPost %}
                         <tr>
                             <td colspan="4"><h2 id="titleName">{{ i.BOARD_TITLE }}</h2></td>
                         </tr>
                             
                         <tr id="spaceTitle">
             
-                            <td rowspan="2" id="profilePic"><img src = '{{question.USER_PICTURE}}'></td>
+                            <td rowspan="2" id="profilePic"><img src = '{{i.USER_PICTURE}}'></td>
                             <td id="userNick"> {{ i.USER_NICK }}</td>
                             <tr class="titleList">
                                 <td id="titleDate">{{ i.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}
-                                    <input type="hidden" name="board_idx" value="{{question.BOARD_IDX}}">
+                                    <input type="hidden" name="board_idx" value="{{i.BOARD_IDX}}">
                                 </td>
                                 <td id="titleTd">조회수<span>: {{ i.BOARD_COUNT }}</span></td>
                                 <td id="titleTd" colspan="2"><i class="fa-regular fa-comment-dots">답변 수</i><span>: {{ commentCount }}</span></td>
