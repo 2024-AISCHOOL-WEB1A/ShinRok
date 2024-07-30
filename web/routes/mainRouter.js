@@ -70,14 +70,14 @@ router.get('/predict', (req, res) => {
 })
 
 // 마이페이지 이동
-router.get('/myPage', (req,res)=>{
+router.post('/myPage', (req,res)=>{
     res.render('myPage', {user: req.session.user})
 })
 
 router.get('/search', (req,res)=>{
     res.render('search', {user: req.session.user})
 })
-
+ 
 
 
 module.exports = router

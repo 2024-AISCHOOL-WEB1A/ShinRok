@@ -9,9 +9,9 @@
 <body>
     <div class="container">
         <div class="sidebar">
-            <div class="profile-photo">{{ mypage.USER_PICTURE}}</div>
-            <button class="nickname">{{ USER_NICK }} 워니워니 <span>수정</span></button>
-            <button class="linked-accounts">{{ SNS_PROVIDER }} kakaotalk</button>
+            <div class="profile-photo"><img src="{{ myData.USER_PICTURE}}" alt=""></div>
+            <button class="nickname">{{ myData.USER_NICK }} <span>수정</span></button>
+            <button class="linked-accounts">{{myData.USER_NAME}},{{myData.SNS_PROVIDER}}</button>
             <button class="delete-account">회원 탈퇴</button>
             <button id="mainBack">MainPage</button>
         </div>
