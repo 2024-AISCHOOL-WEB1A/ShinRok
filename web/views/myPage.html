@@ -9,11 +9,11 @@
 <body>
     <div class="container">
         <div class="sidebar">
-            <div class="profile-photo"><img src="{{ userData.USER_PICTURE}}" alt=""></div>
+            <img src="{{ userData.USER_PICTURE}}" alt="프로필사진" class="profile-photo">
             <button class="nickname">{{ userData.USER_NICK }} <span>수정</span></button>
             <button class="linked-accounts">{{userData.USER_NAME}}/{{userData.SNS_PROVIDER}}</button>
             <button class="delete-account">회원 탈퇴</button>
-            <button id="mainBack" href="/">MainPage</button>
+            <button id="mainBack">MainPage</button>
         </div>
         <div class="content">
             <div class="posts-list">
@@ -59,11 +59,43 @@
         </div>
     </div>
 
+    <!-- 수정 클릭시 뜨는 Modal  -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>닉네임 수정하기</h2>
+            <div class="nickModal">
+                <input type="text" placeholder="닉네임 입력" required>
+                <button type="submit">완료</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         document.getElementById("mainBack").addEventListener("click",(e)=>{
             e.preventDefault(); 
             window.location.href="/"
         })
+
+        // 모달 요소 가져오기
+        var modal = document.getElementById("myModal");
+        var btn = document.querySelector(".nickname");
+        var span = document.querySelector(".modal .close");
+
+        // 모달 열기
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+        // x 클릭 시 모달 닫기
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+        // 모달 외부 클릭 시 닫기
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
     </script>
 </body>
 </html>

@@ -131,7 +131,7 @@ input[type="submit"]:active {
 
 /* ---- 카테고리 ----------------------------------------- */
 .categoty{
-    padding-top: 3%;
+    padding-top: 2%;
     padding-bottom: 3%;
     border-bottom: 1px solid #79747493; 
     /* background-color: whitesmoke; */
@@ -190,6 +190,7 @@ dd{
     display: flex;
     justify-content: flex-end;
     margin-bottom: 10%;
+    margin-top: 2%;
 }
 
 /* ------------- 취소버튼 --------------------- */
