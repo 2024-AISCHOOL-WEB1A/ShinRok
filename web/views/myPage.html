@@ -13,8 +13,8 @@
             <button class="nickname">{{ userData.USER_NICK }} <span>수정</span></button>
 
             <button class="linked-accounts">{{userData.USER_NAME}}/{{userData.SNS_PROVIDER | upper}}</button>
-            <form action="/myPage/delete" method="POST" style="display: inline;">
-                <button type="submit" class="delete-account">회원 탈퇴</button>
+            <form action="/myPage/delete" method="POST" style="display: inline;" class="delete-account">
+                <button type="submit" >회원 탈퇴</button>
             </form>
             <button id="mainBack" onclick="window.location.href='/'">MainPage</button>
 

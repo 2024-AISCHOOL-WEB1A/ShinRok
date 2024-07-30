@@ -66,7 +66,7 @@ body{
 /* ----------------------------- freeList.html 부분의 자유게시판 ----------------------------------- */
 .headerText{
     text-align: center;
-    padding: 3% 0 3% 0;
+    padding: 0.5% 0 3% 0;
     /* border-top: solid 2px #afa8a8; */
     display: flex;
     flex-direction: row;
@@ -76,11 +76,11 @@ body{
 .headerText h1{
     margin-left: 1%;
     margin-right: 5%;
-    border-bottom: dotted 3px #eea8a8;
+    /* border-bottom: dotted 3px #eea8a8; */
+    padding-top: 2%;
 }
-.headerText i{
-    color: #f56a6a;
-    font-size: 2em;
+.headerText img{
+    height: 80px;
 }
 
 #freeSection{

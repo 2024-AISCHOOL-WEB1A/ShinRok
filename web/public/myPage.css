@@ -53,7 +53,7 @@ body {
     border-radius: 90%;
 }
 
-.nickname, .linked-accounts, .delete-account, #mainBack{
+.nickname, .linked-accounts, #mainBack{
     width: 100%;
     padding: 10px;
     margin-top: 20px;
@@ -65,10 +65,36 @@ body {
     border-radius: 15px;
 }
 
-.sidebar button:hover{
+.delete-account{
+    width: 100%;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    margin-top: 20px;
+    background-color: #ffffff;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    border-radius: 15px;
+}
+
+.delete-account button{
+    text-decoration: none;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+}
+.delete-account:hover{
     background-color: #ff7e7e;
 }
 
+
+.nickname:hover{
+    background-color: #ff7e7e;
+}
+.linked-accounts:hover{
+    background-color: #ff7e7e;
+}
 #mainBack:hover{
     background-color: #ff7e7e;
 }
