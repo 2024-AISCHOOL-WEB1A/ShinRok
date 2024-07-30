@@ -72,11 +72,16 @@ header{
 }
 .underSidebar li{
     border-top: solid 2px #afa8a8;
+    padding-left: 0px;
 }
 
 .topsidebar ul{
     margin-bottom: 15%;
     margin-top: 10%;
+}
+
+.topsidebar li{
+    padding-left: 0px;
 }
 
 /* ----------------------사이드메뉴----------------------------------- */
