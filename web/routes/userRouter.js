@@ -8,7 +8,9 @@ const REDIRECT_URI = process.env.REDIRECT_URI;
 
 // 카카오 로그인 페이지로 이동
 router.get('/login', (req, res) => {
-  const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_APP_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+  // const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_APP_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`; // 자동로그인
+  // const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${KAKAO_APP_KEY}&redirect_uri=${REDIRECT_URI}&prompt=login`;  //무조건 재로그인 
+  const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${KAKAO_APP_KEY}&redirect_uri=${REDIRECT_URI}&prompt=select_account`; // 재로그인 선택
   res.redirect(kakaoAuthURL);
 });
 
@@ -115,34 +117,30 @@ router.get('/oauth', async (req, res, next) => {
   }
 });
 
-// 로그아웃
-router.get('/logout', (req, res, next) => {
-  req.session.destroy((err) => {
-    if (err) {
+router.get('/logout', async (req, res, next) => {
+  try {
+ 
+    // 로그아웃 후 세션 및 쿠키 삭제
+    req.session.destroy((err) => {
+      if (err) {
         console.error('세션 삭제 중 에러 발생:', err);
         return res.status(500).send('세션 삭제 중 에러가 발생했습니다.');
-    } else {
-      res.clearCookie('connect.sid');
-      res.redirect('/');
-      console.log('로그아웃')
-    }
-    // res.send("<script>window.location.href='/'</script>");
-})
-});
-
-// 로그인 여부 확인 미들웨어
-function isLoggedIn(req, res, next) {
-  if (req.session.user) {
-    next();
-  } else {
-    res.redirect('/user/login');
+      } else {
+        res.clearCookie('connect.sid'); // 세션 쿠키 삭제
+        console.log('로그아웃 완료');
+        // 로그아웃 후 메인 페이지로 리다이렉트
+        res.redirect('/');
+      }
+    });
+  } catch (error) {
+    console.error('로그아웃 처리 중 에러 발생:', error);
+    res.status(500).send('Internal Server Error'); // 에러 메시지 전달
+    next(error);
   }
-}
-
-// 로그인 후 페이지 (예시)
-router.get('/mypage', isLoggedIn, (req, res) => {
-  // 사용자 정보를 가져와서 페이지 렌더링
-  res.render('mypage', { user: req.session.user });
 });
+
+
+
+
 
 module.exports = router;

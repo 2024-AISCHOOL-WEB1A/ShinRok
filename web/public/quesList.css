@@ -1,0 +1,150 @@
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+*{
+    font-family: 'Pretendard-Regular';
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    margin: 0;
+}
+
+/* ------- 상단 배너 이미지 크기 조절 ---------- */
+#banner header{
+    text-align: center;
+}
+#banner .murukLogo{
+    width: 75vw;
+    margin-bottom: 1vw;
+    margin-left: 12%;
+}
+
+
+/* ------------ 왼쪽 사이드바 ----------------------------- */
+.leftSidebar{
+    width: 13%;
+    background-color: #f5f6f7;
+    padding-top: 20px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+}
+.leftSidebar nav ul{
+    list-style-type: none;
+    padding-left: 0;
+    text-align: center;
+}
+.leftSidebar nav ul li{
+    margin: 20px 0;
+}
+.leftSidebar nav ul li a{
+    color: #34495e;
+    text-decoration: none;
+    display: block;
+    padding: 10px 0;
+}
+.leftSidebar nav ul li a:hover{
+    background-color: #34495e;
+    color: #f5f6f7;
+}
+
+.underSidebar a{
+    font-size: smaller;
+    margin-top: 5%;
+}
+.underSidebar li{
+    border-top: solid 2px #afa8a8;
+}
+
+
+/* ----------------------------- freeList.html 부분의 자유게시판 ----------------------------------- */
+.headerText{
+    text-align: center;
+    padding: 3% 0 3% 0;
+    /* border-top: solid 2px #afa8a8; */
+    display: flex;
+    flex-direction: row;
+    /* align-items: center; */
+    justify-content: center;
+}
+.headerText h1{
+    margin-left: 1%;
+    margin-right: 5%;
+    border-bottom: dotted 3px #eea8a8;
+}
+.headerText i{
+    color: #f56a6a;
+    font-size: 2em;
+}
+
+#quesSection{
+    width: 100%;
+    padding-left: 18%;
+    padding-right: 6.5%;
+    margin-bottom: 10%;
+}
+
+.questable{
+    width: 100%;
+    /* margin-top: 1%; */
+    border-collapse: collapse;
+    border-top: 1px solid #3D4449;
+    margin-bottom: 3%;
+}
+
+.questable *{
+    font-family: 'Pretendard-Regular';
+    text-align: center;
+    height: 5.5vh;
+}
+
+/*  테이블 헤더  */
+.questable th{
+    color:#3D4449;
+    /* border: 1px solid #3D4449 */
+}
+
+/*  테이블 행 테두리 */
+.questable tr{
+    border-bottom: 1px solid #3D4449;
+}
+
+.questable .postHead{
+    background-color: #ffa6a6;
+}
+
+.questable th{
+    color: #3D4449;
+}
+
+/* 게시물 클릭 시 이벤트 속성 */
+.questable .contentBody:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+
+
+/* 하단 페이징 */
+.quesPaging {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-right: 5%;
+}
+
+.quesPaging a, span{
+    margin-left: 1%;
+    font-size: 15px;
+    text-decoration: none;
+    color: #34495e;
+}
+
+.quesPaging a:hover{
+    color: #f56a6a;
+}

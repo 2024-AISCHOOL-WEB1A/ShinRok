@@ -13,28 +13,27 @@
 </head>
 
 <body>
-    
-    
-    <!-- ----------------------------- Body 전체 ------------------------------------------------------------------------------------------------------------------------------ -->
 
-    
-    
-    <!-- ----------------------헤더----------------------------------- -->
-    
-    
+
+<!-- ----------------------------- Body 전체 ------------------------------------------------------------------------------------------------------------------------------ -->
+
+
+
+
+<!-- ----------------------헤더----------------------------------- -->
+
+
     <header>
-        
+
         <a href="/" id="logo"><img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/test/KakaoTalk_20240722_111546767_01.png" alt=""></a>
-        
+
         <section id="search" class="alt">
-            
             <form action="/search/plant" method="get" class="detailForm">
                 <input type="text" name="q" placeholder="식물 검색" />
                 <button id="searchbtn"> 검색 </button>
             </form>
-            
         </section>
-        
+
     </header>
 
     <div id="con">
@@ -82,7 +81,7 @@
             <div></div>
 
 
-            {% for i in specificPlant %} 
+            {% for i in searchResults %} 
             <div class="item">
                 <a href="/dictionary/detail?idx{{i.PLANT_IDX}}">
                     <img src="{{i.PLANT_IMG}}" alt="{{i.PLANT_NAME}}">
@@ -90,21 +89,6 @@
                 </a>
             </div>
             {% endfor %}
-
-            <div class="pagination">
-                {% if currentPage > 1 %} 
-                <a href="/dictionary?page={{ currentPage - 1 }}"><button>Previous</button></a>
-                {% endif %}
-        
-                {% for page in range(1, totalPages + 1) %}
-                <a href="/dictionary?page={{ page }}"><button {% if page == currentPage %}disabled{% endif %}>{{ page }}</button></a>
-                {% endfor %}
-        
-                {% if currentPage < totalPages %}
-                <a href="/dictionary?page={{ currentPage + 1 }}"><button>Next</button></a>
-                {% endif %}
-            </div>
-         
 
 
             <div></div>
@@ -128,6 +112,7 @@
 
 
     </div>
+
 
     <script src="../assets/js/dictionary.js"></script>
 </body>

@@ -13,3 +13,42 @@ function loadFile(input) {
     let container = document.getElementById('image-show');
     container.appendChild(newImage);
 }
+
+// document.getElementById("changeBtn").addEventListener("click", (e)=>{
+//     e.preventDefault();
+//     window.location.href="/changePost"
+// })
+
+// 게시판 등록에서 취소버튼을 클릭할 시 메인으로 돌아가는 이벤트 ----------
+document.getElementById("cancelBtn").addEventListener("click", (e)=> {
+    e.preventDefault();
+    window.location.href="/"
+})
+
+// 등록 버튼을 클릭할 시 등록한 게시물의 상세페이지로 이동하게 함
+// document.getElementById("uploadBtn").addEventListener("click", (e)=> {
+//     e.preventDefault();
+//     window.location.href="/board/detailPost"
+// })
+
+
+// 모달 열기
+var modal = document.getElementById("commentModal");
+var btn = document.getElementById("openModal");
+var span = document.getElementsByClassName("close")[0];
+
+btn.onclick = function() {
+    modal.style.display = "block";
+}
+
+// 모달 닫기
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+// 모달 외부 클릭 시 닫기
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}

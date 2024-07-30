@@ -27,6 +27,7 @@ html{
 #banner .murukLogo{
     width: 75vw;
     margin-bottom: 1vw;
+    margin-left: 12%;
 }
 /* ----------------------- 상세페이지 보이는 부분 -------------- */
 #container{
@@ -35,30 +36,191 @@ html{
 
 table {
     width: 100%;
-    border: 1px, solid;
-    height: 80vh;
+    height: 50vh;
+
 }
 
 .bragList{
     display: inline-flex;
+    flex-direction: column;
     width: 100%;
+    justify-content: space-between;
+}
+
+.head-content{
+    display:flex;
+    flex-direction: column;
 }
 /* ------------------- 자랑list -------------------------- */
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
 
+.post-container{
+    flex: 1;
+    display: grid;
+    padding-bottom: 80px;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+    padding: 20px;
+    padding-bottom: 80px;
+    width: 75%;
+    margin-left: 17.2%;
+}
 
+.board-item {
+    border: 1.5px #f78c8c solid; /* 전체 테두리 설정 */
+    border-top-width: calc(1.5px + 20px); /* 상단 테두리 두께를 1.5px + 50px으로 설정 */
+    border-top-color: #f56a6a; /* 상단 테두리 색상 설정 */
+    border-top-style: solid; /* 상단 테두리 스타일 설정 */
+    border-radius: 20px 20px 20px 20px; /* 경계선 반지름 설정 */
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
 
+.board-item:hover{
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+
+.board-content{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+/* 게시물 */
+.info-section {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9em;
+    margin: 10px 0;
+}
+
+.info-section span {
+    margin: 0;
+    flex-basis: 24%;
+    text-align: center;
+}
+
+.imgList{
+    width: 30vw;
+}
+.addImage {
+    text-align: center;
+    /* margin-bottom: 10px; */
+    flex: 1;
+    /* width: 100%;
+    height: 100%; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* 이미지가 컨테이너를 넘지 않도록 설정 */
+}
+.addImage img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+h2#titleName {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    height: 40px; /* 고정 높이 설정 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+p {
+    margin: 0;
+    height: 50px; /* 고정 높이 설정 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+/* 페이지 변환하는 칸 */
+.pagination{
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    /* position: fixed ; */
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+}
+
+.pagination .pagination-btn {
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: 1px solid #000;
+    background-color: #fff;
+    cursor: pointer;
+}
+.pagination .pagination-btn.active {
+    font-weight: bold;
+    background-color: #ddd;
+}
+.pagination .pagination-btn.disabled {
+    cursor: not-allowed;
+    color: #999;
+}
+
+.pagination a {
+    margin: 0 5px;
+    padding: 8px 16px;
+    text-decoration: none;
+    color: #007BFF;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.pagination a:hover {
+    background-color: #007BFF;
+    color: white;
+}
 /* ------------ 왼쪽 사이드바 ----------------------------- */
 .leftSidebar{
-    width: 15%;
+    width: 13%;
+    background-color: #f5f6f7;
+    padding-top: 20px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
 }
-.leftSidebar li{
+.leftSidebar nav ul{
     list-style-type: none;
-}
-.leftSidebar a{
-    text-decoration: none;
-}
-.leftSidebar ul{
     padding-left: 0;
+    text-align: center;
+}
+.leftSidebar nav ul li{
+    margin: 20px 0;
+}
+.leftSidebar nav ul li a{
+    color: #34495e;
+    text-decoration: none;
+    display: block;
+    padding: 10px 0;
+}
+.leftSidebar nav ul li a:hover{
+    background-color: #34495e;
+    color: #f5f6f7;
+}
+
+.underSidebar a{
+    font-size: smaller;
+    margin-top: 5%;
+}
+.underSidebar li{
+    border-top: solid 2px #afa8a8;
 }
 
 /* -------------- 오른쪽 사이드바  -------------------------- */

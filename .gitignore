@@ -71,3 +71,6 @@ sessions/
 sessions
 .vscode
 model_resnet50.pth
+
+node_modules/
+/node_modules/

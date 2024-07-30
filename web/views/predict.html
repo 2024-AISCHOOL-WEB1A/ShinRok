@@ -5,79 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        .container {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        <!-- .custom-radio {
-            position: relative;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .custom-radio input[type="radio"] {
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            border: 2px solid black;
-            border-radius: 3px;
-            outline: none;
-            cursor: pointer;
-        }
-
-        .custom-radio input[type="radio"]:checked::before {
-            content: '';
-            position: absolute;
-            top: 3px; /* 조정된 위치 */
-            left: 4px; /* 조정된 위치 */
-            width: 6px;
-            height: 14px;
-            border: solid blue;
-            border-width: 0 2px 2px 0;
-            transform: rotate(45deg);
-        }
-
-        .custom-radio label {
-            margin-left: 30px;
-        } -->
-        .custom-radio input {
-            padding: 15px 10px;
-        }
-        .custom-radio input[type=radio]{
-            display: none;
-        }
-        .custom-radio input[type=radio]+label{
-            display: inline-block;
-            cursor: pointer;
-            height: 24px;
-            width: 90px;
-            border: 1px solid #333;
-            line-height: 24px;
-            text-align: center;
-            font-weight:bold;
-            font-size:13px;
-        }
-        .custom-radio input[type=radio]+label{
-            background-color: #fff;
-            color: #333;
-        }
-        .custom-radio input[type=radio]:checked+label{
-            background-color: #333;
-            color: #fff;
-        }
-    </style>
+    <link rel="stylesheet" href="../public/predict.css">
 </head>
 
 <body>
-    <form action="" method="post">
+    <form id="predictForm" action="/predict/start" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="idx" value="{{user.idx}}">
         <div>진단</div>
+        <div class="image-preview" id="imagePreview"></div>
+        <br>
         <br>
         <div class="container">
             <div class="custom-radio">
@@ -130,8 +66,48 @@
             </div>
         </div>
         <br>
-        <button type="submit">전송</button>
+        <div class="file-upload-wrapper">
+            <input type="file" name="image" id="imageUpload" accept="image/*">
+            <label for="imageUpload" class="custom-file-upload">파일 선택</label>
+            <span id="fileName">선택된 파일 없음</span>
+        </div>
+        <br>
+        <div class="button">
+            <button type="button" class="cancel-button" onclick="window.location.href='/'">취소</button>
+            <button type="submit">전송</button>
+        </div>
     </form>
+    <script>
+        const imageUpload = document.getElementById('imageUpload')
+        const imagePreview = document.getElementById('imagePreview')
+        const fileNameSpan = document.getElementById('fileName')
+        const cancelButton = document.querySelector('.cancel-button')
+
+        imageUpload.addEventListener('change', function() {
+            const file = this.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.addEventListener('load', function() {
+                    imagePreview.innerHTML = '<img src="' + this.result + '" />';
+                });
+
+                reader.readAsDataURL(file);
+
+                // 파일 이름 표시
+                fileNameSpan.textContent = file.name;
+            } else {
+                fileNameSpan.textContent = '선택된 파일 없음';
+            }
+        });
+
+        cancelButton.addEventListener('click', function() {
+            imageUpload.value = '';
+            imagePreview.innerHTML = '';
+            fileNameSpan.textContent = '선택된 파일 없음';
+        });
+    </script>
 </body>
 
 </html>

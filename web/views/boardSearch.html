@@ -14,8 +14,6 @@
 		<link rel="stylesheet" href="../public/freePost.css">
 		<!-- 자랑게시판 CSS -->
 		<link rel="stylesheet" href="../public/bragPost.css">
-		<!-- 질문게시판 CSS -->
-		<link rel="stylesheet" href="../public/quesPost.css">
 	</head>
 	<body class="is-preload">
 		
@@ -32,12 +30,7 @@
 										<strong>MURUK </strong> <span>by ShinRok</span></a>
 									<ul class="icons">
 										<li><a href="#">내소식 </a></li>
-										<li>
-											<form id="myPageForm" action="/myPage/info" method="post">
-												<a href="#" onclick="document.getElementById('myPageForm').submit(); return false;">마이페이지</a>
-											</form>
-											<!-- <li><a href="/myPage/info" id="myPageLink">마이페이지</a></li> --> 
-										</li>
+										<li><a href="/myPage">마이페이지</a></li>
 										{% if user %}
 										<div class="kakaoLogout">
 											<a href="/user/logout">로그아웃<img src=""></a>
@@ -70,7 +63,7 @@
 									<a href="/board/freePost"><i class="fa-regular fa-pen-to-square"></i><h3>자유게시판</h3></a>
 									<a href="#"><i class="fa-regular fa-heart"></i> <h3>인기글</h3></a>
 									<a href="#"><i class="fa-regular fa-bell"></i> <h3>공지사항</h3></a>
-									<a href="/board/quesPost"><i class="fa-regular fa-comments"></i> <h3>질문게시판</h3></a>
+									<a href="#"><i class="fa-regular fa-comments"></i> <h3>질문게시판</h3></a>
 								</header>
 								{% block content %}
 								<section id="freeSection">
@@ -86,7 +79,7 @@
 											<th></th>
 										</tr>
 								
-										{% for i in boardFree %}
+										{% for i in searchResults %}
 											<tr class="contentBody" onclick="location.href='/board/detailPost?idx={{ i.BOARD_IDX }}'">
 												<td>{{ loop.index + ((currentPage - 1) * 15) }}</td>
 												<td>{{ i.BOARD_CATE }}</td>
@@ -153,7 +146,7 @@
 												<li><a href="/board/freeList">자유게시판</a></li>
 												<li><a href="/board/bragList">자랑게시판</a></li>
 
-												<li><a href="/board/queslist">질문게시판</a></li>
+												<li><a href="#">질문게시판</a></li>
 											</ul>
 										</li>
 										<li><a href="/diary">Diary</a></li>
@@ -192,8 +185,6 @@
 			<!-- 자랑게시판 JS 파일 -->
 		    <script src="../assets/js/post.js"></script>
     		<script src="../assets/js/bragPost.js"></script>
-    		<script src="../assets/js/quesPost.js"></script>
-			
 
 	</body>
 </html>

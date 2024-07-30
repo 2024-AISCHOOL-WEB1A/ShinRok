@@ -14,11 +14,16 @@ const userRouter = require('./routes/userRouter');
 const boardRouter = require('./routes/boardRouter');
 const diaryRouter = require('./routes/diaryRouter');
 const dictionaryRouter = require('./routes/dictionaryRouter');
+const predictRouter = require('./routes/predictRouter')
+const searchRouter = require('./routes/searchRouter')
+const mypageRouter = require('./routes/mypageRouter');
+
 
 app.use('/public', express.static('public'));
 app.use('/config', express.static('config'));
 app.use('/images', express.static('images'));
 app.use('/assets', express.static('assets'));
+
 
 // 세션 미들웨어
 app.use(session({
@@ -26,7 +31,7 @@ app.use(session({
     secret: 'secret',
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 36000000 }, // 1000 = 1 sec, 60000 = 1 min
+    cookie: { maxAge: 3600000 }, // 1000 = 1 sec, 60000 = 1 min
     rolling: true, // 로그인 상태 유지
     touch: false, // 로그아웃 시 세션 파일 갱신 방지
 }));
@@ -43,7 +48,13 @@ env.addFilter('date', (date, format) => {
   return moment(date).format(format);
 });
 
+// 줄바꿈 필터 추가
+env.addFilter('nl2br', function(str) {
+    return str.replace(/\r\n|\n\r|\r|\n/g, '<br>');
+  })
+
 // body-parser 미들웨어 설정(POST 허용)
+app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 
 // 정적 파일 제공
@@ -58,7 +69,9 @@ app.use('/user', userRouter);
 app.use('/board', boardRouter);
 app.use('/diary', diaryRouter);
 app.use('/dictionary', dictionaryRouter);
-
+app.use('/predict', predictRouter);
+app.use('/search', searchRouter);
+app.use('/myPage', mypageRouter);
 // 에러 핸들링 미들웨어 추가
 app.use((err, req, res, next) => {
     console.error(err.stack);
