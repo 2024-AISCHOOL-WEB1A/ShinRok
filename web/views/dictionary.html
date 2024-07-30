@@ -91,6 +91,21 @@
             </div>
             {% endfor %}
 
+            <div class="pagination">
+                {% if currentPage > 1 %} 
+                <a href="/dictionary?page={{ currentPage - 1 }}"><button>Previous</button></a>
+                {% endif %}
+        
+                {% for page in range(1, totalPages + 1) %}
+                <a href="/dictionary?page={{ page }}"><button {% if page == currentPage %}disabled{% endif %}>{{ page }}</button></a>
+                {% endfor %}
+        
+                {% if currentPage < totalPages %}
+                <a href="/dictionary?page={{ currentPage + 1 }}"><button>Next</button></a>
+                {% endif %}
+            </div>
+         
+
 
             <div></div>
             <!-- 페이징 컨트롤 추가 -->
