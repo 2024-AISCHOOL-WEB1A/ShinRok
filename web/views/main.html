@@ -31,7 +31,11 @@
 									<a href="/" class="logo"><img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/test/KakaoTalk_20240722_163631321_07.png" alt="무럭이">
 										<strong>MURUK </strong> <span>by ShinRok</span></a>
 									<ul class="icons">
-										<li><a href="#">내소식 </a></li>
+										{% if user %}
+										<li><a href="#">{{user.nick}}님 환영합니다.</a></li>
+										{% else %}
+										<li><a href="#">로그인 후 이용해주세요.</a></li>
+										{% endif %}
 										<li>
 											<form id="myPageForm" action="/myPage/info" method="post">
 												<a href="#" onclick="document.getElementById('myPageForm').submit(); return false;">마이페이지</a>
@@ -56,7 +60,7 @@
 									<div class="content">
 										<header>
 											<!-- <h2>오늘의 식물 <br/></h2> -->
-											<img class="murukLogo" src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/board/44556b4abaf0e13f2ab09f6cedaad2f6" alt="">
+											<img class="murukLogo" src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/board/aa356578d3e553e85173f43dd7f02a2f" alt="">
 										</header>
 										<ul class="actions">
 											<li><a href="#" class="button big">자세히 보러가기 <i class="fa-solid fa-right-long"></i></a></li>
@@ -124,12 +128,18 @@
 									</div>
 								</section>
     							{% endblock %}
+
+								<div id="mainPlusBtn">
+									<a href="/plusPost"><button type="button">글쓰기</button></a>
+								</div>
+
 								<form action="/search/list" method="get" id="searchForm">
 									<div class="searchText">
 										<input type="text" name="q" placeholder="검색어 또는 단어 입력" required>
 										<div id="searchIcon"><i class="fa-solid fa-magnifying-glass"></i></div>
 										<!-- <button type="submit">검색</button> -->
 									</div>
+									
 								</form>
 							</section>
 

@@ -91,20 +91,34 @@ router.get('/quesList', (req, res)=>{
 
 // 다이어리 페이지 이동
 router.get('/diary', (req, res) => {
-    const user_idx = req.session.user_idx
-    const sql = `SELECT * FROM SR_DIARY WHERE USER_IDX = ?`
+    const user_idx = req.session.user.idx;
+    console.log(user_idx); // 디버깅 로그
 
-    conn.query(sql, [user_idx], (e, r) => {
-        if(e) {
-            console.error('DB Query Error: ', e)
-            return res.status(500).json({ error: 'DB Query Error' })
-        } else {
-            console.log(r)
-            res.render('diary', {user: req.session.user, diaries : r})
+    const sql = `SELECT * FROM SR_DIARY WHERE USER_IDX = ?`;
+    const imgsql = `SELECT * FROM SR_DIARY_ICON WHERE USER_IDX = ?`;
+
+    conn.query(sql, [user_idx], (e, diaryResult) => {
+        if (e) {
+            console.error('DB Query Error: ', e);
+            return res.status(500).json({ error: 'DB Query Error' });
         }
-    })
 
-})
+        conn.query(imgsql, [user_idx], (e, imgResult) => {
+            if (e) {
+                console.error('DB Query Error: ', e);
+                return res.status(500).json({ error: 'DB Query Error' });
+            }
+            log(diaryResult)
+            log(imgResult)
+            res.render('diary', {
+                user: req.session.user,
+                diarys: diaryResult,
+                icons: imgResult
+            });
+        });
+    });
+});
+
 
 // 사전 페이지 이동
 router.get('/dictionary', (req, res)=>{

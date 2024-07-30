@@ -27,7 +27,7 @@ body{
     display: table;
     width: 80%;
     /* margin-right: 3%; */
-    margin-top: 2%;
+    margin-top: 1%;
 }
 
 .detailForm{
@@ -40,7 +40,7 @@ body{
 }
 /* --- 게시글 제목 부분 ---- */
 #titleName{
-    margin-top: 3%;
+    margin-left: 1%;
 }
 #profilePic{
     width: 10%;

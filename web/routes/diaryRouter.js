@@ -8,7 +8,9 @@ const fs = require('fs');
 const { log } = require('console')
 
 // 다이어리 정보 불러오기
-router.get('/list', (req, res) => {})
+router.get('/list', (req, res) => {
+    
+})
 
 
 

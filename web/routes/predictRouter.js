@@ -6,6 +6,7 @@ const upload = multer({ dest: 'uploads/' });
 const uploadImage = require('../config/uploadImage'); // S3 업로드 함수
 const fs = require('fs');
 const axios = require('axios');
+const { log } = require('console')
 
 // 모델 예측
 router.post('/start', upload.single('image'), async (req, res) => {
@@ -39,7 +40,7 @@ router.post('/start', upload.single('image'), async (req, res) => {
 
                 if (predictResponse.status === 200) {
                     // 예측이 완료되면 클라이언트를 리다이렉트
-                    return res.redirect('http://localhost:3000/');
+                    return res.redirect('http://localhost:3000/predict/result');
                 } else {
                     return res.status(500).json({ error: 'Failed to start prediction' });
                 }
@@ -56,6 +57,26 @@ router.post('/start', upload.single('image'), async (req, res) => {
             fs.unlinkSync(filePath);
         }
     }
-});
+})
+
+// 결과창
+router.get('/result', (req, res) => {
+    const idx = req.session.user.idx
+    // log(idx)
+    const sql = `SELECT * FROM SR_DSS 
+                WHERE USER_IDX = ? ORDER BY DSS_DATE DESC LIMIT 1`
+
+    conn.query(sql, [idx], (e, r) => {
+        if(e) {
+            console.error('DB 에러', e)
+            return res.status(500).json({error : 'DB쿼리 에러'})
+        } else {
+            log(r)
+            res.render('result', {res : r})
+        }
+    })            
+
+})
+
 
 module.exports = router;
