@@ -79,7 +79,7 @@ router.post('/update', (req, res) => {
         if (result.affectedRows > 0) {
             // 수정 성공
             req.session.user.nick = newNickname; // 세션 업데이트
-            res.redirect('/');
+            res.json({ success: true, newNicㅐkname: newNickname });
         } else {
             // 수정 실패
             res.status(400).json({ success: false, message: '닉네임 업데이트에 실패했습니다.' });

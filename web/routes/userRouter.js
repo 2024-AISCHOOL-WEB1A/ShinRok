@@ -121,7 +121,15 @@ router.get('/oauth', async (req, res, next) => {
 
 router.get('/logout', async (req, res, next) => {
   try {
- 
+    // 카카오 로그아웃 처리
+    if (req.session.accessToken) {
+      await axios.post('https://kapi.kakao.com/v1/user/logout', {}, {
+        headers: {
+          'Authorization': `Bearer ${req.session.accessToken}`
+        }
+      });
+    }
+
     // 로그아웃 후 세션 및 쿠키 삭제
     req.session.destroy((err) => {
       if (err) {
@@ -140,9 +148,5 @@ router.get('/logout', async (req, res, next) => {
     next(error);
   }
 });
-
-
-
-
 
 module.exports = router;
