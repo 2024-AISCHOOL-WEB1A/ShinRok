@@ -695,7 +695,7 @@ router.get('/freeList', (req, res) => {
                 console.error('DB Query Error: ', err);
                 return res.status(500).json({ error: 'DB Query Error' });
             }
-            res.render('plantList', { boardFree: dataResult, currentPage: page, totalPages: totalPages });
+            res.render('freeList', { boardFree: dataResult, currentPage: page, totalPages: totalPages });
         });
     });
 });
@@ -721,6 +721,6 @@ router.get('/delete', (req, res) => {
 
 
 
-module.exports = router
+module.exports = router;
 
 
