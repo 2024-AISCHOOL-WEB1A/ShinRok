@@ -103,43 +103,61 @@ router.get('/freePost', (req, res) => {
 
 // 메인페이지에 자랑게시판을 불러옴
 
-router.get('/bragPost',(req,res)=> {
-    const sql = `SELECT 
-                    U.USER_IDX,
-                    U.USER_NICK,
-                    U.USER_PICTURE,
-                    B.BOARD_IDX,
-                    B.BOARD_TITLE,
-                    B.BOARD_CONTENT,
-                    B.BOARD_COUNT,
-                    B.BOARD_DATE,
-                    B.BOARD_IMG,
-                    B.BOARD_CATE,
-                    COUNT(C.CMNT_CONTENT) AS COMMENT_COUNT
-                FROM 
-                    SR_USER U
-                    JOIN SR_BOARD B ON U.USER_IDX = B.USER_IDX
-                    LEFT JOIN SR_CMNT C ON B.BOARD_IDX = C.BOARD_IDX
-                WHERE 
-                    B.BOARD_CATE = '자랑'
-                GROUP BY 
-                    B.BOARD_IDX, 
-                    U.USER_IDX, 
-                    U.USER_NICK, 
-                    U.USER_PICTURE, 
-                    B.BOARD_TITLE, 
-                    B.BOARD_CONTENT, 
-                    B.BOARD_COUNT, 
-                    B.BOARD_DATE, 
-                    B.BOARD_IMG
-                ORDER BY B.BOARD_DATE DESC
-                    `
+router.get('/bragPost', (req, res) => {
+    const page = parseInt(req.query.page) || 1; // 현재 페이지 번호 (기본값: 1)
+    const limit = 15; // 페이지 당 게시글 수
+    const offset = (page - 1) * limit;
 
-    conn.query(sql, (e, r) => {
-        console.log(r)
-        res.render('bragPost', {bragPost : r, user: req.session.user})
-    })
-})
+    const countSql = `SELECT COUNT(*) AS total FROM SR_BOARD WHERE BOARD_CATE = '자랑'`;
+    const dataSql = `SELECT 
+                        U.USER_IDX,
+                        U.USER_NICK,
+                        U.USER_PICTURE,
+                        B.BOARD_IDX,
+                        B.BOARD_TITLE,
+                        B.BOARD_CONTENT,
+                        B.BOARD_COUNT,
+                        B.BOARD_DATE,
+                        B.BOARD_IMG,
+                        B.BOARD_CATE,
+                        COUNT(C.CMNT_CONTENT) AS COMMENT_COUNT
+                    FROM 
+                        SR_USER U
+                        JOIN SR_BOARD B ON U.USER_IDX = B.USER_IDX
+                        LEFT JOIN SR_CMNT C ON B.BOARD_IDX = C.BOARD_IDX
+                    WHERE 
+                        B.BOARD_CATE = '자랑'
+                    GROUP BY 
+                        B.BOARD_IDX, 
+                        U.USER_IDX, 
+                        U.USER_NICK, 
+                        U.USER_PICTURE, 
+                        B.BOARD_TITLE, 
+                        B.BOARD_CONTENT, 
+                        B.BOARD_COUNT, 
+                        B.BOARD_DATE, 
+                        B.BOARD_IMG
+                    ORDER BY B.BOARD_DATE DESC
+                    LIMIT ?, ?`;
+
+    conn.query(countSql, (err, countResult) => {
+        if (err) {
+            console.error('DB Count Error: ', err);
+            return res.status(500).json({ error: 'DB Count Error' });
+        }
+        
+        const totalPosts = countResult[0].total;
+        const totalPages = Math.ceil(totalPosts / limit);
+
+        conn.query(dataSql, [offset, limit], (err, dataResult) => {
+            if (err) {
+                console.error('DB Query Error: ', err);
+                return res.status(500).json({ error: 'DB Query Error' });
+            }
+            res.render('bragPost', { bragPost: dataResult, currentPage: page, totalPages: totalPages, user: req.session.user });
+        });
+    });
+});
 
 // 세부 목록페이지 (+그림포함, 사이드바 통해서)
 router.get('/bragList',(req,res)=> {
@@ -256,40 +274,60 @@ function bragPost(postId, req, res) {
 //d
 // 질문 게시판
 router.get('/quesPost', (req, res) => {
-    const sql = `SELECT 
-                    U.USER_IDX,
-                    U.USER_NICK,
-                    U.USER_PICTURE,
-                    B.BOARD_IDX,
-                    B.BOARD_TITLE,
-                    B.BOARD_CONTENT,
-                    B.BOARD_COUNT,
-                    B.BOARD_DATE,
-                    B.BOARD_IMG,
-                    B.BOARD_CATE,
-                    COUNT(C.CMNT_CONTENT) AS COMMENT_COUNT
-                FROM 
-                    SR_USER U
-                    JOIN SR_BOARD B ON U.USER_IDX = B.USER_IDX
-                    LEFT JOIN SR_CMNT C ON B.BOARD_IDX = C.BOARD_IDX
-                WHERE 
-                    B.BOARD_CATE = '질문'
-                GROUP BY 
-                    B.BOARD_IDX, 
-                    U.USER_IDX, 
-                    U.USER_NICK, 
-                    U.USER_PICTURE, 
-                    B.BOARD_TITLE, 
-                    B.BOARD_CONTENT, 
-                    B.BOARD_COUNT, 
-                    B.BOARD_DATE, 
-                    B.BOARD_IMG`
+    const page = parseInt(req.query.page) || 1; // 현재 페이지 번호 (기본값: 1)
+    const limit = 15; // 페이지 당 게시글 수
+    const offset = (page - 1) * limit;
 
-    conn.query(sql, (e, r) => {
-        console.log(r)
-        res.render('quesPost', { quesPost: r})
-    })
-})
+    const countSql = `SELECT COUNT(*) AS total FROM SR_BOARD WHERE BOARD_CATE = '질문'`;
+    const dataSql = `SELECT 
+                        U.USER_IDX,
+                        U.USER_NICK,
+                        U.USER_PICTURE,
+                        B.BOARD_IDX,
+                        B.BOARD_TITLE,
+                        B.BOARD_CONTENT,
+                        B.BOARD_COUNT,
+                        B.BOARD_DATE,
+                        B.BOARD_IMG,
+                        B.BOARD_CATE,
+                        COUNT(C.CMNT_CONTENT) AS COMMENT_COUNT
+                    FROM 
+                        SR_USER U
+                        JOIN SR_BOARD B ON U.USER_IDX = B.USER_IDX
+                        LEFT JOIN SR_CMNT C ON B.BOARD_IDX = C.BOARD_IDX
+                    WHERE 
+                        B.BOARD_CATE = '질문'
+                    GROUP BY 
+                        B.BOARD_IDX, 
+                        U.USER_IDX, 
+                        U.USER_NICK, 
+                        U.USER_PICTURE, 
+                        B.BOARD_TITLE, 
+                        B.BOARD_CONTENT, 
+                        B.BOARD_COUNT, 
+                        B.BOARD_DATE, 
+                        B.BOARD_IMG
+                    ORDER BY B.BOARD_DATE DESC
+                    LIMIT ?, ?`;
+
+    conn.query(countSql, (err, countResult) => {
+        if (err) {
+            console.error('DB Count Error: ', err);
+            return res.status(500).json({ error: 'DB Count Error' });
+        }
+        
+        const totalPosts = countResult[0].total;
+        const totalPages = Math.ceil(totalPosts / limit);
+
+        conn.query(dataSql, [offset, limit], (err, dataResult) => {
+            if (err) {
+                console.error('DB Query Error: ', err);
+                return res.status(500).json({ error: 'DB Query Error' });
+            }
+            res.render('quesPost', { quesPost: dataResult, currentPage: page, totalPages: totalPages, user: req.session.user });
+        });
+    });
+});
 
 router.get('/quesList',(req,res)=> {
     const page = parseInt(req.query.page) || 1; // 현재 페이지 번호 (기본값: 1)
@@ -345,7 +383,7 @@ router.get('/quesList',(req,res)=> {
     })
 })
 
-router.get('/answer',(req,res)=> {
+router.get('/question',(req,res)=> {
     const postId = req.query.idx
 
     // 세션에 조회한 게시글 ID 저장
@@ -364,14 +402,14 @@ router.get('/answer',(req,res)=> {
                 return res.status(500).json({ error: 'DB Update Error' })
             }
 
-            questPost(postId, req, res)
+            quest(postId, req, res)
         })
     } else {
-        questPost(postId, req, res)
+        quest(postId, req, res)
     }
 });
 
-function questPost(postId, req, res) {
+function quest(postId, req, res) {
     const postSql = `SELECT 
                         U.USER_IDX,
                         U.USER_NICK,
@@ -399,24 +437,24 @@ function questPost(postId, req, res) {
         }
 
         const post = postResult[0]
-        res.render('answer', { answer: post, user: req.session.user })
+        res.render('question', { question: post, user: req.session.user })
     })
 }
 
-// 질문게시판 답변
-router.post('/questionAnswer', upload.single('image'), async (req, res) => {
-    const { content, category, idx  } = req.body
+// 답변 
+router.post('/answer', upload.single('image'), async (req, res) => {
+    const { content, category, idx } = req.body
     let imageUrl = null
     const filePath = req.file ? req.file.path : null
     
     try {
         if (filePath) {
-            imageUrl = await uploadImage(filePath, 'answer'); // 폴더명을 'answer'로 지정
+            imageUrl = await uploadImage(filePath, 'ans'); // 폴더명을 'ans'로 지정
         }
 
         // 데이터베이스에 게시물 정보와 이미지 URL 저장
         const sql = `INSERT INTO SR_BOARD (USER_IDX, BOARD_CONTENT, BOARD_CATE, BOARD_IMG) 
-                    VALUES (?, ?, ?, ?)`
+                    VALUES (?, ?, '답변', ?)`
         const values = [idx, content, category, imageUrl]
         conn.query(sql, values, (err, result) => {
             if (err) {
@@ -434,43 +472,6 @@ router.post('/questionAnswer', upload.single('image'), async (req, res) => {
             fs.unlinkSync(filePath)
         }
     }
-})
-
-// 답변 
-router.get('/question', (req, res) => {
-    const sql = `SELECT 
-                    U.USER_IDX,
-                    U.USER_NICK,
-                    U.USER_PICTURE,
-                    B.BOARD_IDX,
-                    B.BOARD_TITLE,
-                    B.BOARD_CONTENT,
-                    B.BOARD_COUNT,
-                    B.BOARD_DATE,
-                    B.BOARD_IMG,
-                    B.BOARD_CATE,
-                    COUNT(C.CMNT_CONTENT) AS COMMENT_COUNT
-                FROM 
-                    SR_USER U
-                    JOIN SR_BOARD B ON U.USER_IDX = B.USER_IDX
-                    LEFT JOIN SR_CMNT C ON B.BOARD_IDX = C.BOARD_IDX
-                WHERE 
-                    B.BOARD_CATE = '답변'
-                GROUP BY 
-                    B.BOARD_IDX, 
-                    U.USER_IDX, 
-                    U.USER_NICK, 
-                    U.USER_PICTURE, 
-                    B.BOARD_TITLE, 
-                    B.BOARD_CONTENT, 
-                    B.BOARD_COUNT, 
-                    B.BOARD_DATE, 
-                    B.BOARD_IMG`
-
-    conn.query(sql, (e, r) => {
-        console.log(r)
-        res.render('question', { question: r})
-    })
 })
 
 // 게시글 상세보기 페이지
