@@ -15,7 +15,7 @@ router.post('/upload', upload.single('image'), async (req, res) => {
     const { title, content, category, idx } = req.body
     let imageUrl = null
     const filePath = req.file ? req.file.path : null
-    
+
     try {
         if (filePath) {
             imageUrl = await uploadImage(filePath, 'board'); // 폴더명을 'board'로 지정
@@ -29,7 +29,7 @@ router.post('/upload', upload.single('image'), async (req, res) => {
             if (err) {
                 console.error('DB Insert Error: ', err);
                 return res.status(500).json({ error: 'DB Insert Error' })
-            } 
+            }
             console.log('게시글 작성 완료')
             res.redirect('/')
         })
@@ -87,7 +87,7 @@ router.get('/freePost', (req, res) => {
             console.error('DB Count Error: ', err);
             return res.status(500).json({ error: 'DB Count Error' });
         }
-        
+
         const totalPosts = countResult[0].total;
         const totalPages = Math.ceil(totalPosts / limit);
 
@@ -145,7 +145,7 @@ router.get('/bragPost', (req, res) => {
             console.error('DB Count Error: ', err);
             return res.status(500).json({ error: 'DB Count Error' });
         }
-        
+
         const totalPosts = countResult[0].total;
         const totalPages = Math.ceil(totalPosts / limit);
 
@@ -160,11 +160,11 @@ router.get('/bragPost', (req, res) => {
 });
 
 // 세부 목록페이지 (+그림포함, 사이드바 통해서)
-router.get('/bragList',(req,res)=> {
+router.get('/bragList', (req, res) => {
     const page = parseInt(req.query.page) || 1; // 현재 페이지 번호 (기본값: 1)
     const limit = 15; // 페이지 당 게시글 수
     const offset = (page - 1) * limit;
-    
+
     const countSql = `SELECT COUNT(*) AS total FROM SR_BOARD WHERE BOARD_CATE = '자랑'`;
     const sql = `SELECT 
                     U.USER_IDX,
@@ -200,7 +200,7 @@ router.get('/bragList',(req,res)=> {
             console.error('DB Count Error: ', err);
             return res.status(500).json({ error: 'DB Count Error' });
         }
-        
+
         const totalPosts = countResult[0].total;
         const totalPages = Math.ceil(totalPosts / limit);
 
@@ -209,12 +209,12 @@ router.get('/bragList',(req,res)=> {
                 console.error('DB Query Error: ', err);
                 return res.status(500).json({ error: 'DB Query Error' });
             }
-        res.render('bragList', {bragList : dataResult, currentPage: page, totalPages: totalPages})
+            res.render('bragList', { bragList: dataResult, currentPage: page, totalPages: totalPages })
         })
     })
 })
 
-router.get('/bragdetailPost',(req,res)=> {
+router.get('/bragdetailPost', (req, res) => {
     const postId = req.query.idx
 
     // 세션에 조회한 게시글 ID 저장
@@ -315,7 +315,7 @@ router.get('/quesPost', (req, res) => {
             console.error('DB Count Error: ', err);
             return res.status(500).json({ error: 'DB Count Error' });
         }
-        
+
         const totalPosts = countResult[0].total;
         const totalPages = Math.ceil(totalPosts / limit);
 
@@ -329,11 +329,11 @@ router.get('/quesPost', (req, res) => {
     });
 });
 
-router.get('/quesList',(req,res)=> {
+router.get('/quesList', (req, res) => {
     const page = parseInt(req.query.page) || 1; // 현재 페이지 번호 (기본값: 1)
     const limit = 15; // 페이지 당 게시글 수
     const offset = (page - 1) * limit;
-    
+
     const countSql = `SELECT COUNT(*) AS total FROM SR_BOARD WHERE BOARD_CATE = '질문'`;
     const sql = `SELECT 
                     U.USER_IDX,
@@ -369,7 +369,7 @@ router.get('/quesList',(req,res)=> {
             console.error('DB Count Error: ', err);
             return res.status(500).json({ error: 'DB Count Error' });
         }
-        
+
         const totalPosts = countResult[0].total;
         const totalPages = Math.ceil(totalPosts / limit);
 
@@ -378,12 +378,14 @@ router.get('/quesList',(req,res)=> {
                 console.error('DB Query Error: ', err);
                 return res.status(500).json({ error: 'DB Query Error' });
             }
-        res.render('quesList', {quesList : dataResult, currentPage: page, totalPages: totalPages})
+            res.render('quesList', { quesList: dataResult, currentPage: page, totalPages: totalPages })
         })
     })
 })
 
-router.get('/question',(req,res)=> {
+router.get('/question', (req, res) => {
+    console.log('쿼리', req.query)
+
     const postId = req.query.idx
 
     // 세션에 조회한 게시글 ID 저장
@@ -435,91 +437,37 @@ function quest(postId, req, res) {
         if (postResult.length === 0) {
             return res.status(404).json({ error: 'Post not found' })
         }
-
+        console.log('포스트', postResult[0])
         const post = postResult[0]
         res.render('question', { question: post, user: req.session.user })
     })
 }
-router.get('/commentmol', (req, res) => {
-    const postId = req.query.idx
 
-    // 세션에 조회한 게시글 ID 저장
-    if (!req.session.viewedPosts) {
-        req.session.viewedPosts = {}
-    }
 
-    if (!req.session.viewedPosts[postId]) {
-        req.session.viewedPosts[postId] = true;
-
-        const updateCountSql = `UPDATE SR_BOARD SET BOARD_COUNT = BOARD_COUNT + 1 WHERE BOARD_IDX = ?`
-
-        conn.query(updateCountSql, [postId], (err, result) => {
-            if (err) {
-                console.error('DB Update Error: ', err)
-                return res.status(500).json({ error: 'DB Update Error' })
-            }
-
-            com(postId, req, res)
-        })
-    } else {
-        com(postId, req, res)
-    }
-});
-
-function com(postId, req, res) {
-    const postSql = `SELECT 
-                        U.USER_IDX,
-                        U.USER_NICK,
-                        U.USER_PICTURE,
-                        B.BOARD_IDX,
-                        B.BOARD_TITLE,
-                        B.BOARD_CONTENT,
-                        B.BOARD_COUNT,
-                        B.BOARD_DATE,
-                        B.BOARD_IMG,
-                        B.BOARD_CATE
-                    FROM 
-                        SR_USER U
-                        JOIN SR_BOARD B ON U.USER_IDX = B.USER_IDX
-                    WHERE 
-                        B.BOARD_IDX = ?`
-
-    conn.query(postSql, [postId], (err, postResult) => {
-        if (err) {
-            console.error('DB Query Error: ', err)
-            return res.status(500).json({ error: 'DB Query Error' })
-        }
-        if (postResult.length === 0) {
-            return res.status(404).json({ error: 'Post not found' })
-        }
-        const post = postResult[0]
-        // log(post)
-        res.render('commentmol', { post: post, user: req.session.user })
-    })
-}
-// 답변 
-router.post('/answer', upload.single('image'), async (req, res) => {
-    log(req.body)
-    const { title, content, category, idx } = req.body
+router.post('/answerUpload', upload.single('image'), async (req, res) => {
+    console.log('바디', req.body)
+    console.log('board_idx', req.body.board_idx)
+    console.log('user_idx', req.body.user_idx)
+    const { content, image, idx } = req.body
     let imageUrl = null
     const filePath = req.file ? req.file.path : null
-    log(idx)
+    console.log('idx', idx)
     try {
         if (filePath) {
-            imageUrl = await uploadImage(filePath, 'ans'); // 폴더명을 'ans'로 지정
+            imageUrl = await uploadImage(filePath, 'answer'); // 폴더명을 'ans'로 지정
         }
 
         // 데이터베이스에 게시물 정보와 이미지 URL 저장
-        const sql = `INSERT INTO SR_BOARD ( USER_IDX, BOARD_TITLE, BOARD_IMG, BOARD_CATE, BOARD_CONTENT) 
-                    VALUES (?, '1', ?, '답변', ?)`
-        const values = [idx, title, content, category, imageUrl]
+        const sql = `INSERT INTO SR_BOARD ( USER_IDX, BOARD_TITLE, BOARD_IMG, BOARD_CATE, BOARD_CONTENT,BOARD_ANSWER) 
+                    VALUES (?, '답변', ?, '답변', ?, ?)`
+
+        const values = [req.body.user_idx, req.body.image, req.body.content, req.body.board_idx]
         conn.query(sql, values, (err, result) => {
             if (err) {
                 console.error('DB Insert Error: ', err);
                 return res.status(500).json({ error: 'DB Insert Error' })
-            } 
+            }
             console.log('게시글 작성 완료')
-            res.redirect('/board/queslist')
         })
     } catch (err) {
         res.status(500).json({ error: err.message })
@@ -529,13 +477,38 @@ router.post('/answer', upload.single('image'), async (req, res) => {
             fs.unlinkSync(filePath)
         }
     }
+    selectsql = `SELECT B.USER_IDX, B.BOARD_TITLE, B.BOARD_IMG, B.BOARD_CONTENT,
+                U.USER_PICTURE, U.USER_NICK
+            FROM SR_BOARD B
+            JOIN SR_USER U ON B.USER_IDX = U.USER_IDX
+            WHERE B.BOARD_ANSWER = ?`
+
+    conn.query(selectsql, req.body.board_idx, (err, result) => {
+        if (err) {
+            console.error('DB Select Error: ', err);
+            return res.status(500).json({ error: 'Select sql Error' })
+        }
+        console.log('result', result[0])
+        res.render('question', { answer: result[0] })
+    })
+
+
+})
+router.post('/answer', (req, res) => {
+    console.log('board_idx', req.body.board_idx)
+    console.log('바디', req.body)
+
+    res.render('answer', { answer: req.body })
+
 })
 
-router.get('/quesTans',(req,res)=> {
+
+//질문답변 페이지화인가?
+router.get('/quesTans', (req, res) => {
     const page = parseInt(req.query.page) || 1; // 현재 페이지 번호 (기본값: 1)
     const limit = 15; // 페이지 당 게시글 수
     const offset = (page - 1) * limit;
-    
+
     const countSql = `SELECT COUNT(*) AS total FROM SR_BOARD WHERE BOARD_CATE = '답변'`;
     const sql = `SELECT 
                     U.USER_IDX,
@@ -571,7 +544,7 @@ router.get('/quesTans',(req,res)=> {
             console.error('DB Count Error: ', err);
             return res.status(500).json({ error: 'DB Count Error' });
         }
-        
+
         const totalPosts = countResult[0].total;
         const totalPages = Math.ceil(totalPosts / limit);
 
@@ -580,88 +553,10 @@ router.get('/quesTans',(req,res)=> {
                 console.error('DB Query Error: ', err);
                 return res.status(500).json({ error: 'DB Query Error' });
             }
-        res.render('quesTans', {quesTans : dataResult, currentPage: page, totalPages: totalPages})
+            res.render('quesTans', { quesTans: dataResult, currentPage: page, totalPages: totalPages })
         })
     })
 })
-
-// 댓글기능
-router.post('/answerComment',  upload.single('image'), async (req, res) => {
-    const { user_idx, board_idx, content } = req.body;
-    let imageUrl = null;
-    const filePath = req.file ? req.file.path : null;
-
-    try {
-        if (filePath) {
-            imageUrl = await uploadImage(filePath, 'ans'); // 폴더명을 'ans'로 지정
-        }
-
-        console.log(req.body);
-        if (!user_idx || !board_idx || !content) {
-            return res.json({ success: false, message: '댓글을 작성 해주세요.' });
-        }
-
-        const sql = `INSERT INTO SR_BOARD (BOARD_IDX, USER_IDX, BOARD_CONTENT, BOARD_IMG) VALUES (?, ?, ?, ?)`;
-        const values = [board_idx, user_idx, content, imageUrl]; // imageUrl 추가
-
-        conn.query(sql, values, (err, rows) => {
-            if (err) {
-                console.error('Insert Error: ', err);
-                return res.json({ success: false, message: '댓글 삽입에 실패했습니다.' });
-            }
-
-            // 삽입 성공
-            res.json({ success: true, message: '댓글이 성공적으로 등록되었습니다.', board_idx: board_idx });
-        });
-    } catch (err) {
-        console.error('Error: ', err);
-        res.send(`<script>alert('댓글 삽입에 실패했습니다.');</script>`);
-    } finally {
-        // 임시 파일 삭제
-        if (filePath) {
-            fs.unlinkSync(filePath);
-        }
-    }
-});
-
-router.post('/asr', async (req, res) => {
-    let { user_idx, board_idx, content } = req.body;
-    console.log(req.body);
-    let imageUrl = null;
-    const filePath = req.file ? req.file.path : null;
-
-    try {
-        if (filePath) {
-            imageUrl = await uploadImage(filePath, 'ans'); // 폴더명을 'ans'로 지정
-        }
-
-        if (!user_idx || !board_idx || !content) {
-            return res.json({ success: false, message: '댓글을 작성 해주세요.' });
-        }
-
-        const sql = `INSERT INTO SR_CMNT (BOARD_IDX, USER_IDX, BOARD_CONTENT, BOARD_IMG) VALUES (?, ?, ?, ?)`;
-        const values = [board_idx, user_idx, content, imageUrl];
-
-        conn.query(sql, values, (err, rows) => {
-            if (err) {
-                console.error('Insert Error: ', err);
-                return res.json({ success: false, message: '댓글 삽입에 실패했습니다.' });
-            }
-
-            // 삽입 성공
-            res.json({ success: true, message: '댓글이 성공적으로 등록되었습니다.', board_idx: board_idx });
-        });
-    } catch (err) {
-        console.error('Error: ', err);
-        res.send(`<script>alert('댓글 삽입에 실패했습니다.');</script>`);
-    } finally {
-        // 임시 파일 삭제
-        if (filePath) {
-            fs.unlinkSync(filePath);
-        }
-    }
-});
-
 
 
 // 게시글 상세보기 페이지
@@ -728,7 +623,7 @@ function getPost(postId, req, res) {
 router.get('/comments', (req, res) => {
     const { board_idx } = req.query;
     console.log(req.session.user);
-    
+
     // 댓글 목록 조회
     const commentsSql = `SELECT 
                             C.CMNT_IDX,
@@ -759,7 +654,7 @@ router.get('/comments', (req, res) => {
                 console.error('Count Query Error: ', countErr);
                 return res.status(500).json({ error: 'Count Query Error' });
             }
-           
+
             res.json({ success: true, comments: commentsResult, commentCount: countResult[0].COMMENT_COUNT, user: req.session.user });
         });
     });
@@ -775,7 +670,7 @@ router.post('/cmnt', (req, res) => {
     }
 
     const sql = `INSERT INTO SR_CMNT (BOARD_IDX, USER_IDX, CMNT_CONTENT) VALUES (?, ?, ?)`
-    
+
     conn.query(sql, [board_idx, user_idx, content], (err, rows) => {
         if (err) {
             console.error('Insert Error: ', err)
@@ -783,10 +678,10 @@ router.post('/cmnt', (req, res) => {
         }
 
 
-        if(err) {
+        if (err) {
             res.send(`<script>alert('댓글 삽입에 실패했습니다.'); </script>`)
         }
-        
+
         // 삽입 성공
         res.json({ success: true, message: '댓글이 성공적으로 등록되었습니다.', board_idx: board_idx })
 
@@ -799,33 +694,33 @@ router.get('/changePost', (req, res) => {
     const board_idx = req.query.board_idx
     // console.log(board_idx)
     const sql = `SELECT * FROM SR_BOARD WHERE BOARD_IDX = ?`
-    
+
     conn.query(sql, [board_idx], (e, r) => {
-        if(e) {
+        if (e) {
             console.log('DB에러 : ' + e)
-            return res.status(500).json({error : 'DB 쿼리에러'})
+            return res.status(500).json({ error: 'DB 쿼리에러' })
         } else if (r.length === 0) {
-            return res.status(404).json({errer : "페이지 없음"})
+            return res.status(404).json({ errer: "페이지 없음" })
         } else {
             const post = r[0]
             // console.log(r)
-            res.render('changePost', {post : post, user: req.session.user})
+            res.render('changePost', { post: post, user: req.session.user })
         }
     })
 })
 
 // 게시글 수정 기능
 router.post('/change', (req, res) => {
-    const {title, category, content, board_idx} = req.body
+    const { title, category, content, board_idx } = req.body
     // log(req.body)
     const sql = `UPDATE SR_BOARD SET BOARD_CONTENT = ? WHERE BOARD_IDX = ? `
-    
+
     conn.query(sql, [content, board_idx], (e, r) => {
-        if(e) {
+        if (e) {
             // log(e)
-            return res.status(500).json({error : "DB쿼리에러"})
+            return res.status(500).json({ error: "DB쿼리에러" })
         } else if (r.length === 0) {
-            return res.status(404).json({errer : "페이지 없음"})
+            return res.status(404).json({ errer: "페이지 없음" })
         } else {
             const post = r[0]
             // console.log(r)
@@ -877,7 +772,7 @@ router.get('/freeList', (req, res) => {
             console.error('DB Count Error: ', err);
             return res.status(500).json({ error: 'DB Count Error' });
         }
-        
+
         const totalPosts = countResult[0].total;
         const totalPages = Math.ceil(totalPosts / limit);
 
@@ -912,7 +807,7 @@ router.get('/delete', (req, res) => {
 //게시글 추천 기능
 router.post('/recommend', (req, res) => {
     console.log(req.body)
-    console.log('추천 데이터',req.body.idx)
+    console.log('추천 데이터', req.body.idx)
     const board_idx = req.body.idx;
     const user_idx = req.session.user.idx; // 세션에서 사용자 ID 가져오기
 
