@@ -48,23 +48,32 @@ router.post('/submit', upload.single('image'), async (req, res)=>{
         // DB에 다이어리 정보와 이미지 URL 저장
         const sql = `INSERT INTO SR_DIARY (USER_IDX, DIARY_NAME, DIARY_DATE, DIARY_TITLE, DIARY_CONTENT, DIARY_IMG)
                     VALUES (?, ?, ?, ?, ?, ?)`
-        const values = [idx, query, modalText, title, content, imageUrl]
+        const values = [
+            idx, 
+            query, 
+            modalText[0],  // 배열의 첫 번째 값 사용
+            title[0],      // 배열의 첫 번째 값 사용
+            content[0],    // 배열의 첫 번째 값 사용
+            imageUrl
+        ];
+        
         conn.query(sql, values, (err, result)=>{
             if(err) {
                 console.error('DB Insert Error: ', err);
-                return res.status(500).json({error: 'DB Insert Error'})
+                return res.status(500).json({error: 'DB Insert Error'});
             }
             console.log('내용 작성 완료');
-            res.redirect('/diary')
-        })
+            res.redirect('/diary');
+        });
     } catch (err){
-        res.status(500).json({error: err.message})
-    } finally{
+        res.status(500).json({error: err.message});
+    } finally {
         if (filePath){
-            fs.unlinkSync(filePath)
+            fs.unlinkSync(filePath);
         }
     }
-})
+});
+
 
 module.exports = router
 
