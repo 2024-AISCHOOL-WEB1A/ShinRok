@@ -3,114 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>세부정보</title> 
+    <script src="https://kit.fontawesome.com/71a327e855.js" crossorigin="anonymous"></script>
+    <!-- font awesome 오류 났을때 fas / fab (brand 이미지일 경우) 앞에 추가하여 해결 _버전 오류 -->
+
+    <link rel="stylesheet" href="../public/dictDetail.css">
+
+    <link rel="stylesheet" href="../public/main.css" />
 </head>
+
 <body>
-    
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>세부정보</title> 
-        <script src="https://kit.fontawesome.com/71a327e855.js" crossorigin="anonymous"></script>
-        <!-- font awesome 오류 났을때 fas / fab (brand 이미지일 경우) 앞에 추가하여 해결 _버전 오류 -->
-    
-        <link rel="stylesheet" href="../public/dictDetail.css">
+<!-- Header -->
+<header id="header">
+    <a href="/" class="logo"><img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/test/KakaoTalk_20240722_163631321_07.png" alt="무럭이">
+        <strong>MURUK </strong> <span>by ShinRok</span></a>
+    <ul class="icons">
+        {% if user %}
+        <li><a href="#">{{user.nick}}님 환영합니다.</a></li>
+        {% else %}
+        <li><a href="#">로그인 후 이용해주세요.</a></li>
+        {% endif %}
+        <li>
+            <form id="myPageForm" action="/myPage/info" method="post">
+                <a href="#" onclick="document.getElementById('myPageForm').submit(); return false;">마이페이지</a>
+            </form>
+            <!-- <li><a href="/myPage/info" id="myPageLink">마이페이지</a></li> --> 
+        </li>
+        {% if user %}
+        <div class="kakaoLogout">
+            <a href="/user/logout">로그아웃<img src=""></a>
+        </div>
+        {% else %}
+        <div class="kakaoLogin">
+            <a href="/user/login"><img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/test/kakao_login_small+(1).png"></a>
+        </div>
+        {% endif %}
+    </ul>
+</header>
 
-        <link rel="stylesheet" href="../public/main.css" />
-    </head>
-    
-    <body>
-    
-    
-<!-- ----------------------------- Body 전체 ------------------------------------------------------------------------------------------------------------------------------ -->
-    
-    <form action="/board/upload" method="post" class="detailForm">
-    
-    
-<!-- ----------------------헤더----------------------------------- -->
-    
-    
+<!-- ------------------- 최상단 배너 ----------------------- -->
+<section id="banner">
+    <div class="content">
         <header>
-    
-            <a href="/" id="logo"><img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/test/KakaoTalk_20240722_111546767_01.png" alt=""></a>
-    
-            <section id="search" class="alt">
-                <form method="post" action="#">
-                    <input type="text" name="query" id="query" placeholder="Content Search" />
-                    <button id="searchbtn"> 검색 </button>
-                </form>
-            </section>
-    
+            <!-- <h2>오늘의 식물 <br/></h2> -->
+            <img class="murukLogo" src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/board/63f25f8a5b4f5ebf2c08e948eaa4ded2" alt="">
         </header>
+        <!-- <ul class="actions">
+            <li><a href="#">자세히 보러가기 <i class="fa-solid fa-right-long"></i></a></li>
+        </ul> -->
+    </div>
+</section>
     
-        <div id="con">
 
-
-<!-- ----------------------------------사이드바---------------------------------- -->
-
-
+<!-- 왼쪽 사이드바 -->
 <aside class="leftSidebar">
-    <nav>
+    <nav class="topsidebar">
         <ul>
-            <!-- <li><a href="/plusPost"><button id="postingBtn"><i class="fa-solid fa-pen-to-square"></i> 게시글쓰기</button></a></li> -->
-            <!-- 메인으로 돌아가는 버튼 -->
             <li><a href="/">HOME</a></li>
-            <li class="profile">
-                <a href="#">Profile</a>
-            </li>
-
-            <li><a href="/board/freePost">자유게시판</a></li>
-            <li><a href="/board/bragPost">자랑하기</a></li>
+            <li><a href="/freeList">자유게시판</a></li>
+            <li><a href="/board/bragList">자랑하기</a></li>
             <li><a href="#">인기글</a></li>
             <li><a href="#">공지사항</a></li>
-            <li><a href="#">질문게시판</a></li>
+            <li><a href="/board/queslist">질문게시판</a></li>
         </ul>
     </nav>
-
-    <!-- ----------------- 아래쪽 사이드바(페이지 이동) ----------------- -->
-    <nav>
+    <!-- 아래쪽 사이드바(페이지 이동) -->
+    <nav class="underSidebar">
         <ul>
             <li><a href="/diary">Diary</a></li>
             <li><a href="/predict">병충해 진단</a></li>
-            <li><a href="/dictionary/home">식물 도감</a></li>
-            <li><a href="#">마이페이지</a></li>
-</ul>
+            <li id="pointLi"><a href="/dictionary/home">식물 도감</a></li>
+            <li><a href="/myPage">마이페이지</a></li>
+        </ul>
     </nav>
-    
 </aside>
 
+<!-- ----------------------------- Body 전체 ------------------------------------------------------------------------------------------------------------------------------ -->
+<form action="/board/upload" method="post" class="detailForm">
 
+
+<!-- ----------------------헤더----------------------------------- -->
+    <header>
+        <a href="/" id="logo"><img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/test/KakaoTalk_20240722_111546767_01.png" alt=""></a>
+
+        <section id="search" class="alt">
+            <form method="post" action="#">
+                <input type="text" name="query" id="query" placeholder="Content Search" />
+                <button id="searchbtn"> 검색 </button>
+            </form>
+        </section>
+    </header>
+
+    <div id="con">
+        <!-- ----------------------도감----------------------------------- -->
 
     
-<!-- ----------------------도감----------------------------------- -->
-    
-        
-            <div id="container">
+        <div id="container">
 
-                <div id="left">
-                    <div id="pict"><img src="{{plantData.PLANT_IMG}}" alt="{{plantData.PLANT_NAME}}">  </div>
-                    <div id="name">{{plantData.PLANT_NAME}}</div>
+            <div id="left">
+                <div id="pict"><img src="{{plantData.PLANT_IMG}}" alt="{{plantData.PLANT_NAME}}">  </div>
+                <div id="name">{{plantData.PLANT_NAME}}</div>
 
-                </div>
-            
-                
-                <div id="right">
-                    <div id="sebu">[설명]</div>
-                    <div>{{plantData.PLANT_EXPL}}</div><br>
-                    <div id="care">[관리]</div>
-                    <div>{{plantData.PLANT_CARE}}</div><br>
-                </div>
-                <div id="bottom"><button id="btn"><a href="/dictionary/home">목록</a></button></div> 
             </div>
-
+        
             
-    
-    
-        <script src="../assets/js/dictDetail.js"></script>
-    </body>
-    </html>
+            <div id="right">
+                <div id="sebu">[설명]</div>
+                <div>{{plantData.PLANT_EXPL}}</div><br>
+                <div id="care">[관리]</div>
+                <div>{{plantData.PLANT_CARE}}</div><br>
+            </div>
+            <div id="bottom"><button id="btn"><a href="/dictionary/home">목록</a></button></div> 
+        </div>
+    </div>
+        
+
+
+    <script src="../assets/js/dictDetail.js"></script>
+
 
 </body>
 </html>

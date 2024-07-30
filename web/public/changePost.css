@@ -1,3 +1,13 @@
+@import url(fontawesome-all.min.css);
+/* @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600,400italic,600italic|Roboto+Slab:400,700"); */
+@import url('http://fonts.googleapis.com/earlyaccess/nanumgothic.css');
+
+@font-face {
+  font-family: 'GmarketSansMedium';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
 @font-face {
     font-family: 'Pretendard-Regular';
     src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
@@ -39,16 +49,44 @@ body{
     width: 93%;
 }
 
+/* postHeader */
+.postHeader{
+    display: flex;
+    flex-direction: row;
+}
+.postHeader img{
+    margin-right: 3%;
+    margin-bottom: 3%;
+}
+
+#headerPOST{
+    display: flex;
+    flex-direction: column;
+}
+#postWrite {
+    padding-left: 2%;
+}
+
 .postHeader h2{
     margin-bottom: 3%;
-    width: 10vw;
+    width: 15vw;
     border-left: 4px solid #f56a6a;
     padding-left: 1%;
 }
 .postHeader p {
     margin-bottom: 3%;
+    margin-top: 3%;
     padding-bottom: 1%;
     border-bottom: 1px solid #79747493; 
+}
+
+/* 제목 입력  */
+input[type="text"] {
+    border: 1.5px #f56a6a solid;
+    width: 56vw;
+    height: 45px;
+    border-radius: 5px;
+    padding-left: 10px;
 }
 
 /* 제목 입력  */
@@ -91,7 +129,7 @@ input[type="submit"] {
 }
 
 /* 수정버튼 클릭 시 이벤트 */
-input[type="submit"]:active {
+input[type="submit"]:hover {
     width: 100px;
     height: 40px;
     font-size: 15px;
@@ -100,6 +138,7 @@ input[type="submit"]:active {
     outline: 1.5px #f56a6a solid;
     padding-left: 10px;
     background-color: #f56a6a;
+    cursor: pointer;
 }
 
 /* 추가한 이미지 보여주기 */
@@ -206,7 +245,7 @@ input[type="button"] {
 }
 
 /* 취소버튼 클릭 시 이벤트 */
-input[type="button"]:active {
+input[type="button"]:hover {
     width: 100px;
     height: 40px;
     font-size: 15px;
@@ -215,10 +254,12 @@ input[type="button"]:active {
     outline: 1.5px #f56a6a solid;
     padding-left: 10px;
     background-color: #f56a6a;
+    cursor: pointer;
 }
 #cancelBtn{
     margin-left: 1.5%;
 }
+
 
 /* ------------ 왼쪽 사이드바 ----------------------------- */
 .leftSidebar{
@@ -241,12 +282,20 @@ input[type="button"]:active {
     color: #34495e;
     text-decoration: none;
     display: block;
-    padding: 10px 0;
+    /* padding: 10px 0; */
+    padding: 5%;
+    font-family: 'GmarketSansMedium';
+
 }
 .leftSidebar nav ul li a:hover{
-    background-color: #34495e;
+    background-color: #f67878;
     color: #f5f6f7;
 }
+/* 
+#pointLi a{
+    background-color: #f67878;
+    color: #f5f6f7;
+} */
 
 .underSidebar a{
     font-size: smaller;
@@ -255,3 +304,98 @@ input[type="button"]:active {
 .underSidebar li{
     border-top: solid 2px #afa8a8;
 }
+
+.topsidebar ul{
+    margin-bottom: 15%;
+    margin-top: 10%;
+}
+
+
+  /* Header */
+  #header {
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    border-bottom: solid 5px #f56a6a;
+    padding: 2.1vw 0 1em 0;
+    width: 76%;
+    margin-left: 18%;
+    position: relative; }
+    #header > * {
+      -moz-flex: 1;
+      -webkit-flex: 1;
+      -ms-flex: 1;
+      flex: 1;
+      margin-bottom: 0; }
+    #header .logo {
+      display: flex;
+      align-items: center;
+      border-bottom: 0;
+      color: inherit;
+      text-decoration: none;
+      font-weight: 400;
+      line-height: 2vh;
+      font-family: 'GmarketSansMedium';
+      font-size: 1.125em; }
+
+    #header .logo strong:hover{
+        color: #f67878;
+    }
+
+    #header .icons {
+      text-align: right; }
+    
+    #header ul.icons a{
+      font-family: 'GmarketSansMedium';
+      color: #f56a6a;
+      text-decoration: none;
+    }
+    #header .logo strong{
+      font-size: 1em;
+      margin-left: 1%;
+    }
+    #header .logo span{
+      font-family: 'GmarketSansMedium';
+      font-size: 0.8em;
+      padding-left: 0.5vw;
+      padding-top: 1vh;
+    }
+    #header .logo span:hover{
+        color: #f67878;
+    }
+  
+    @media screen and (max-width: 1680px) {
+      #header {
+        padding-top: 2.1vw; } }
+    @media screen and (max-width: 736px) {
+      #header {
+        padding-top: 6.5em; }
+        #header .logo {
+          font-size: 1.25em;
+          margin: 0; }
+        #header .icons {
+          height: 5em;
+          line-height: 5em;
+          position: absolute;
+          right: -0.5em;
+          top: 0; } 
+    }
+
+/* Icons */
+ul.icons {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    cursor: default;
+    font-size: 0.9em;
+    list-style: none; }
+    ul.icons li {
+      display: inline-block;
+      padding: 0 1em 0 0; }
+      ul.icons li:last-child {
+        padding-right: 0; }
+      ul.icons li .icon {
+        color: inherit; }
+        ul.icons li .icon:before {
+          font-size: 1.25em; }
