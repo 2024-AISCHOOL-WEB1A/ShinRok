@@ -91,7 +91,7 @@ router.get('/quesList', (req, res)=>{
 
 // 다이어리 페이지 이동
 router.get('/diary', (req, res) => {
-    const user_idx = req.session.user.idx
+    const user_idx = req.session.user_idx
     const sql = `SELECT * FROM SR_DIARY WHERE USER_IDX = ?`
 
     conn.query(sql, [user_idx], (e, r) => {
