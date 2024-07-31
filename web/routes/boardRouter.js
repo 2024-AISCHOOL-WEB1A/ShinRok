@@ -296,7 +296,8 @@ router.get('/quesPost', (req, res) => {
                         B.BOARD_DATE,
                         B.BOARD_IMG,
                         B.BOARD_CATE,
-                        COUNT(C.CMNT_CONTENT) AS COMMENT_COUNT
+                        COUNT(C.CMNT_CONTENT) AS COMMENT_COUNT,
+                        B.BOARD_RECOMMEND
                     FROM 
                         SR_USER U
                         JOIN SR_BOARD B ON U.USER_IDX = B.USER_IDX
@@ -312,7 +313,8 @@ router.get('/quesPost', (req, res) => {
                         B.BOARD_CONTENT, 
                         B.BOARD_COUNT, 
                         B.BOARD_DATE, 
-                        B.BOARD_IMG
+                        B.BOARD_IMG,
+                        B.BOARD_RECOMMEND
                     ORDER BY B.BOARD_DATE DESC
                     LIMIT ?, ?`;
 
@@ -352,7 +354,8 @@ router.get('/quesList', (req, res) => {
                     B.BOARD_DATE,
                     B.BOARD_IMG,
                     B.BOARD_CATE,
-                    COUNT(DISTINCT C.CMNT_IDX) AS COMMENT_COUNT
+                    COUNT(DISTINCT C.CMNT_IDX) AS COMMENT_COUNT,
+                    B.BOARD_RECOMMEND
                 FROM 
                     SR_USER U
                     JOIN SR_BOARD B ON U.USER_IDX = B.USER_IDX

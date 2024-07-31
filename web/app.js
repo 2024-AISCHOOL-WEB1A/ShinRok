@@ -8,6 +8,7 @@ const moment = require('moment');
 const momentTimezone = require('moment-timezone');
 const app = express();
 const PORT = process.env.PORT || 3000;
+const fs = require('fs');
 
 // 라우터 설정
 const mainRouter = require('./routes/mainRouter');
@@ -26,13 +27,17 @@ app.use('/assets', express.static('assets'));
 
 // 세션 미들웨어
 app.use(session({
-    store: new FileStore({ path: path.join(__dirname, 'sessions') }),
+    store: new FileStore({ 
+        path: path.join(__dirname, 'sessions'),
+        ttl: 86400, // 24시간 후 세션 파일 삭제 (초 단위)
+        reapInterval: 3600 // 1시간마다 만료된 세션 검사 및 삭제 (초 단위)
+    }),
     secret: 'secret',
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 7200000 }, // 1000 = 1 sec, 60000 = 1 min
-    rolling: true, // 로그인 상태 유지
-    touch: false, // 로그아웃 시 세션 파일 갱신 방지
+    cookie: { maxAge: 7200000 }, // 2시간
+    rolling: true,
+    touch: false,
 }));
 
 // 넌적스 세팅
@@ -72,11 +77,25 @@ app.use('/predict', predictRouter);
 app.use('/search', searchRouter);
 app.use('/myPage', mypageRouter);
 
-// 에러 핸들링 미들웨어 추가
 app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).send('Something broke!');
+    console.error('에러 발생:', err);
+    if (err.code === 'ENOENT' && err.message.includes('sessions')) {
+        console.error('세션 파일 접근 오류. 세션 디렉토리를 확인하세요.');
+    }
+    res.status(500).send('서버 오류가 발생했습니다.');
 });
+
+function checkSessionStore() {
+    fs.readdir(path.join(__dirname, 'sessions'), (err, files) => {
+        if (err) {
+            console.error('세션 디렉토리 읽기 오류:', err);
+        } else {
+            console.log(`현재 세션 파일 수: ${files.length}`);
+        }
+    });
+}
+
+setInterval(checkSessionStore, 7200000); // 1시간마다 세션 저장소 확인
 
 // 서버 시작
 app.listen(PORT, () => {

@@ -12,7 +12,7 @@
             <th>작성자</th>
             <th>작성날짜</th>
             <th>조회</th>
-            <th>답변</th>
+            <th>추천</th>
             <th></th>
 
         </tr>
@@ -27,7 +27,7 @@
                 <td>{{ i.USER_NICK }}</td>
                 <td>{{ i.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}</td>
                 <td>{{ i.BOARD_COUNT }}</td>
-                <td>{{ i.COMMENT_COUNT }}</td> 
+                <td>{{ i.BOARD_RECOMMEND }}</td> 
                 <td>
                     <input type="hidden" value="{{ i.BOARD_IDX }}">
                 </td>
