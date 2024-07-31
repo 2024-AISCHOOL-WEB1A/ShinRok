@@ -43,116 +43,102 @@
     </aside>
 
     <!-- Body 전체 -->
-    <form action="/board/answer" id="quesDetailForm" class="quesdetailForm" method="POST">
-        <!-- 게시글 상세페이지 -->
-        <table class="table">
-            {% if user %}
-            <input type="hidden" name="user_idx" value="{{user.idx}}">
-            {% endif %}
-
-
-            <!-- 게시물 제목부분 -->
-            <tr>
-                <td colspan="4">
-                    <h4 id="category">카테고리>{{question.BOARD_CATE}} </h4>
-                </td>
-            </tr>
-
-            <!-- 타이틀 제목 -->
-            <tr>
-                <td colspan="4">
-                    <h2 id="titleName">{{ question.BOARD_TITLE }}</h2>
-                </td>
-            </tr>
-
-            <tr id="spaceTitle">
-
-                <td rowspan="2" id="profilePic"><img src='{{question.USER_PICTURE}}'></td>
-                <td id="userNick"> {{ question.USER_NICK }}</td>
-            <tr class="titleList">
-                <td id="titleDate">{{ question.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}
-                    <input type="hidden" name="board_idx" value="{{question.BOARD_IDX}}">
-                </td>
-                <td id="titleTd">조회수<span>: {{ question.BOARD_COUNT }}</span></td>
-                <td id="titleTd" colspan="2"><i class="fa-regular fa-comment-dots">답변 수</i><span>: {{ commentCount
-                        }}</span></td>
-            </tr>
-            </tr>
-
-            <!-- 가로선 추가 -->
-            <tr>
-                <td colspan="6">
-                    <div class="horizontal-line"></div>
-                </td>
-            </tr>
-            <!-- ------------------- 게시물 내용이 보이는 부분 ----------------- -->
-            <!-- 질문자 내용-->
-            <tr class="but">
+    <div class="main-content">
+        <!-- 질문 내용 -->
+        <div class="question-section">
+            <table class="table">
                 {% if user %}
-                <input type="hidden" name="idx" value={{user.idx}}>
+                <input type="hidden" name="user_idx" value="{{user.idx}}">
                 {% endif %}
-                <td class="addImage" colspan="5">
-                    <!-- 이미지 혹은 내용을 넣을 공간 -->
-                    {% if question.BOARD_IMG %}
-                    <img src="{{ question.BOARD_IMG }}" alt="게시글 이미지" id="postImg">
+
+
+                <!-- 게시물 제목부분 -->
+                <tr>
+                    <td colspan="4">
+                        <h4 id="category">카테고리>{{question.BOARD_CATE}} </h4>
+                    </td>
+                </tr>
+
+                <!-- 타이틀 제목 -->
+                <tr>
+                    <td colspan="4">
+                        <h2 id="titleName">{{ question.BOARD_TITLE }}</h2>
+                    </td>
+                </tr>
+
+                <tr id="spaceTitle">
+
+                    <td rowspan="2" id="profilePic"><img src='{{question.USER_PICTURE}}'></td>
+                    <td id="userNick"> {{ question.USER_NICK }}</td>
+                <tr class="titleList">
+                    <td id="titleDate">{{ question.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}
+                        <input type="hidden" name="board_idx" value="{{question.BOARD_IDX}}">
+                    </td>
+                    <td id="titleTd">조회수<span>: {{ question.BOARD_COUNT }}</span></td>
+                    <td id="titleTd" colspan="2"><i class="fa-regular fa-comment-dots">답변 수</i><span>: {{ commentCount
+                            }}</span></td>
+                </tr>
+                </tr>
+
+                <!-- 가로선 추가 -->
+                <tr>
+                    <td colspan="6">
+                        <div class="horizontal-line"></div>
+                    </td>
+                </tr>
+                <!-- ------------------- 게시물 내용이 보이는 부분 ----------------- -->
+                <!-- 질문자 내용-->
+                <tr class="but">
+                    {% if user %}
+                    <input type="hidden" name="idx" value={{user.idx}}>
                     {% endif %}
-                    <br> <br>
-                    <span>{{ question.BOARD_CONTENT }}</span>
-                </td>
-            </tr>
+                    <td class="addImage" colspan="5">
+                        <!-- 이미지 혹은 내용을 넣을 공간 -->
+                        {% if question.BOARD_IMG %}
+                        <img src="{{ question.BOARD_IMG }}" alt="게시글 이미지" id="postImg">
+                        {% endif %}
+                        <br> <br>
+                        <span>{{ question.BOARD_CONTENT }}</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
 
-
-            <!-- 게시글 작성한 유저가 접속시 수정하기 버튼 생성 -->
-            <tr>
-                <td id="answer">
-                    <button type="submit">답변하기</button>
-                </td>
-                <td id="changeBtn">
-                    <a href="/changePost" class="change_post"><button type="button">수정하기</button></a>
-                </td>
-            </tr>
-
-
+        <!-- 답변 작성 폼 -->
+        <form action="/board/answerUpload" id="quesDetailForm" class="quesdetailForm" method="POST">
+            <div class="answer-section">
+                <h3>답변 작성</h3>
+                <textarea placeholder="답변을 입력하세요" name="content"></textarea>
+                <button type="submit">답변하기</button>
             </div>
-            </td>
-            </tr>
-        </table>
-    </form>
-    <!-- 답변자 내용-->
+        </form>
 
-    {%for i in answer%}
-     <table>
-    <tr id="spaceTitle1">
-
-        <td rowspan="2" id="profilePic1"><img src='{{answer.USER_PICTURE}}'></td>
-        <td id="userNick1"> {{ answer.USER_NICK }}</td>
-    <tr class="titleList1">
-        <td id="titleDate1">{{ answer.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}
-            <input type="hidden" name="board_idx" value="{{answer.BOARD_IDX}}">
-        </td>
-        <td id="titleTd1">조회수<span>: {{ answer.BOARD_COUNT }}</span></td>
-        <td id="titleTd1" colspan="2"><i class="fa-regular fa-comment-dots">답변 수</i><span>: {{ commentCount
-                }}</span></td>
-    </tr>
-    </tr>
-
-
-    <tr class="but">
-        {% if user %}
-        <input type="hidden" name="idx" value={{user.idx}}>
-        {% endif %}
-        <td class="addImage" colspan="5">
-            <!-- 이미지 혹은 내용을 넣을 공간 -->
-            {% if answer.BOARD_IMG %}
-            <img src="{{ answer.BOARD_IMG }}" alt="게시글 이미지" id="postImg">
-            {% endif %}
-            <br> <br>
-            <span>{{ answer.BOARD_CONTENT }}</span>
-        </td>
-    </tr>
-    {%endfor%}
-</table>
-
+        <!-- 답변 목록 -->
+        <div class="answers-section">
+            <h3>답변 목록</h3>
+            {% for answer in answers %}
+            <div class="answer">
+                <table>
+                    <tr>
+                        <td rowspan="2" class="profilePic"><img src='{{answer.USER_PICTURE}}' alt="프로필 사진"></td>
+                        <td class="userNick">{{ answer.USER_NICK }}</td>
+                    </tr>
+                    <tr>
+                        <td class="answerDate">{{ answer.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="answerContent">
+                            {% if answer.BOARD_IMG %}
+                            <img src="{{ answer.BOARD_IMG }}" alt="답변 이미지" class="answerImg">
+                            {% endif %}
+                            <p>{{ answer.BOARD_CONTENT }}</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
