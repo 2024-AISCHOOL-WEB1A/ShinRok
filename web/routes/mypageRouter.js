@@ -109,6 +109,7 @@ router.post('/resultdetail',(req,res)=>{
 router.post('/update', (req, res) => {
     const userId = req.session.user.idx;
     const newNickname = req.body.q;
+    
 
     let sql = `UPDATE SR_USER SET USER_NICK = ? WHERE USER_IDX = ?`;
     
@@ -121,7 +122,13 @@ router.post('/update', (req, res) => {
         if (result.affectedRows > 0) {
             // 수정 성공
             req.session.user.nick = newNickname; // 세션 업데이트
-            res.json({ success: true, newNickname: newNickname });
+
+            res.json({
+                success: true,
+                message: '닉네임 변경이 완료되었습니다.',
+                newNickname:newNickname
+            });
+            
         } else {
             // 수정 실패
             res.status(400).json({ success: false, message: '닉네임 업데이트에 실패했습니다.' });
