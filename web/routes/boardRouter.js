@@ -990,7 +990,7 @@ router.post('/recommend', async (req, res) => {
             return res.json({ success: false, message: "게시글을 찾을 수 없습니다." });
         }
 
-        if (postResult[0].USER_IDX === user_idx) {
+        if (postResult[0].USER_IDX == user_idx) {
             return res.json({ success: false, message: "자신의 게시글은 추천할 수 없습니다." });
         }
         // 이미 추천했는지 확인

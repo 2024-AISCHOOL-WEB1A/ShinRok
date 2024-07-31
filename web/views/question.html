@@ -129,7 +129,15 @@
                     <tr class="titleList">
                         <td id="titleDate" rowspan="2">{{ question.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}</td>
                     </tr>
-                    <td></td>
+                    <td>{% if user.idx == question.USER_IDX %}
+                        <td id="changeBtn"><a href="/board/changePost?board_idx={{ question.BOARD_IDX }}" class="change_post">
+                            <button type="button">수정하기</button></a></td>
+                        {% endif %}
+                        {% if user.idx == question.USER_IDX or user.category == 'admin' %}
+                        <td id="deleteBtn">
+                            <button type="button" onclick="deletePost('{{ question.BOARD_IDX }}')">삭제하기</button>
+                        </td>
+                        {% endif %}</td>
                 </tr>
 
                 <!-- 가로선 추가 -->
@@ -153,6 +161,7 @@
                         <span>{{ question.BOARD_CONTENT }}</span>
                     </td>
                 </tr>
+                
                 
                 <tr><td colspan="6" >
                 <div id="commentListForm">
@@ -208,7 +217,24 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
+    <script>
+        
+        function deletePost(boardIdx) {
+            axios.get(`http://localhost:3000/board/delete?idx=${boardIdx}`)
+                .then(response => {
+                    if (response.data.success) {
+                        alert(response.data.message);
+                        // 성공적으로 삭제된 경우, 메인 페이지로 이동하거나 다른 적절한 페이지로 이동
+                        window.location.href = '/';
+                    } else {
+                        alert('게시글 삭제에 실패했습니다.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    </script>
 </body>
 
 </html>
