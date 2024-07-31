@@ -938,6 +938,7 @@ button,
 
 .footerContent {
   font-size: 1em;
+  height: 10vh;
 }
 footer {
   overflow: hidden;
