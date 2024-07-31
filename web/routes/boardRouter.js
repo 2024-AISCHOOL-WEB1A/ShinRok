@@ -437,7 +437,8 @@ function quest(postId, req, res) {
                         const answerSql = `
                         SELECT 
                             A.*,
-                            U.USER_PICTURE
+                            U.USER_PICTURE,
+                            U.USER_NICK
                         FROM 
                             SR_ANSWER A
                         JOIN 
