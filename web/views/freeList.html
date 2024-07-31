@@ -6,7 +6,7 @@
     <title>자유게시판🐌</title>
 
     <script src="https://kit.fontawesome.com/71a327e855.js" crossorigin="anonymous"></script>
-		<!-- font awesome 오류 났을때 fas / fab (brand 이미지일 경우) 앞에 추가하여 해결 _버전 오류 -->
+    <!-- font awesome 오류 났을때 fas / fab (brand 이미지일 경우) 앞에 추가하여 해결 _버전 오류 -->
 
     <link rel="stylesheet" href="../public/freeList.css">
 </head>
@@ -58,20 +58,20 @@
             <ul>
                 <!-- <li><a href="/plusPost"><button id="postingBtn"><i class="fa-solid fa-pen-to-square"></i> 게시글쓰기</button></a></li> -->
                 <!-- 메인으로 돌아가는 버튼 -->
-                <li><a href="/">HOME</a></li>
-                <li id="pointLi"><a href="/board/freeList">자유게시판</a></li>
-                <li><a href="/board/bragList">자랑하기</a></li>
-                <li><a href="/board/hot">인기글</a></li>
-                <li><a href="/board/queslist">질문게시판</a></li>
+                <li><a href="/" id="homeLink">HOME</a></li>
+                <li><a href="/board/freeList" id="freeListLink">자유게시판</a></li>
+                <li><a href="/board/bragList" id="bragListLink">자랑하기</a></li>
+                <li><a href="/board/hot" id="hotListLink">인기글</a></li>
+                <li><a href="/board/queslist" id="quesListLink">질문게시판</a></li>
             </ul>
         </nav>
 
         <!-- ----------------- 아래쪽 사이드바(페이지 이동) ----------------- -->
         <nav class="underSidebar">
             <ul>
-                <li><a href="/diary">Diary</a></li>
-                <li><a href="/predict">병충해 진단</a></li>
-                <li><a href="/dictionary/home">식물 도감</a></li>
+                <li><a href="/diary" id="diaryLink">Diary</a></li>
+                <li><a href="/predict" id="predictLink">병충해 진단</a></li>
+                <li><a href="/dictionary/home" id="dictionaryLink">식물 도감</a></li>
                 <li>
                     <form id="myPageForm" action="/myPage/info" method="post">
                         <a href="#" onclick="document.getElementById('myPageForm').submit(); return false;">마이페이지</a>
@@ -143,5 +143,32 @@
             <a href="/plusPost"><button type="button">글쓰기</button></a>
         </div>
     </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const headerText = document.querySelector('.headerText');
+            const currentPath = window.location.pathname;
+
+            if (currentPath !== '/board/freeList') {
+                headerText.style.display = 'none';
+            }
+
+            const links = {
+                '/': 'homeLink',
+                '/board/freeList': 'freeListLink',
+                '/board/bragList': 'bragListLink',
+                '/board/hot': 'hotListLink',
+                '/board/queslist': 'quesListLink',
+                '/diary': 'diaryLink',
+                '/predict': 'predictLink',
+                '/dictionary/home': 'dictionaryLink'
+            };
+
+            const activeLinkId = links[currentPath];
+            if (activeLinkId) {
+                document.getElementById(activeLinkId).classList.add('active');
+            }
+        });
+    </script>
 </body>
 </html>
