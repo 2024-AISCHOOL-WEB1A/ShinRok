@@ -88,20 +88,21 @@ body{
 /* ----------------------------- freeList.html 부분의 자유게시판 ----------------------------------- */
 .headerText{
     text-align: center;
-    padding: 0.5% 0 3% 0;
+    padding: 0.5% 0 0 0;
     /* border-top: solid 2px #afa8a8; */
     display: flex;
     flex-direction: row;
     /* align-items: center; */
     justify-content: center;
+    width: 100%;
 }
-.headerText h1{
+.headerText #headerTitle{
     margin-left: 1%;
-    margin-right: 5%;
+    margin-right: 1%;
     /* border-bottom: dotted 3px #eea8a8; */
     padding-top: 2%;
 }
-.headerText img{
+.headerText #headerImage{
     height: 80px;
 }
 

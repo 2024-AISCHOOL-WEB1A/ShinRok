@@ -78,17 +78,17 @@
 
 				<section class="changePost">
 					<header class="major, postList">
-						<a href="/board/bragPost"><i class="fa-regular fa-face-smile"></i>
-							<h3>자랑하기</h3>
-						</a>
-						<a href="/board/freePost"><i class="fa-regular fa-pen-to-square"></i>
-							<h3>자유게시판</h3>
-						</a>
 						<a href="/"><i class="fa-regular fa-bell"></i>
 							<h3>전체글보기</h3>
 						</a>
 						<a href="/board/hotPost"><i class="fa-regular fa-heart"></i>
 							<h3>인기글</h3>
+						</a>
+						<a href="/board/freePost"><i class="fa-regular fa-pen-to-square"></i>
+							<h3>자유게시판</h3>
+						</a>
+						<a href="/board/bragPost"><i class="fa-regular fa-face-smile"></i>
+							<h3>자랑하기</h3>
 						</a>
 						<a href="/board/quesPost"><i class="fa-regular fa-comments"></i>
 							<h3>질문게시판</h3>
@@ -103,8 +103,10 @@
 								<th class="postTitle">제목</th>
 								<th>작성자</th>
 								<th>작성날짜</th>
-								<th>조회수</th>
 
+								<th>조회</th>
+
+								<th>추천</th>
 								<th></th>
 							</tr>
 
@@ -115,8 +117,9 @@
 								<td>{{ i.BOARD_CATE }}</td>
 								<td class="content">{{ i.BOARD_TITLE }} ({{ i.COMMENT_COUNT }})</td>
 								<td>{{ i.USER_NICK }}</td>
-								<td>{{ i.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}</td>
+								<td>{{ i.BOARD_DATE | date("MM-DD HH:mm") }}</td>
 								<td>{{ i.BOARD_COUNT }}</td>
+								<td>{{i.BOARD_RECOMMEND}}</td>
 								<td>
 									<input type="hidden" value="{{ i.BOARD_IDX }}">
 								</td>

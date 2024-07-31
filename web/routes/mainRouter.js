@@ -25,6 +25,7 @@ router.get('/', (req, res) => {
                         B.BOARD_DATE,
                         B.BOARD_IMG,
                         B.BOARD_CATE,
+                        B.BOARD_RECOMMEND,
                         COUNT(C.CMNT_CONTENT) AS COMMENT_COUNT
                     FROM 
                         SR_USER U
@@ -42,6 +43,7 @@ router.get('/', (req, res) => {
                         B.BOARD_COUNT, 
                         B.BOARD_DATE, 
                         B.BOARD_IMG
+                        
                     ORDER BY B.BOARD_DATE DESC
                     LIMIT ?, ?`;
 

@@ -46,9 +46,6 @@
                 <!-- <h2>오늘의 식물 <br/></h2> -->
                 <img class="murukLogo" src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/board/63f25f8a5b4f5ebf2c08e948eaa4ded2" alt="">
             </header>
-            <!-- <ul class="actions">
-                <li><a href="#">자세히 보러가기 <i class="fa-solid fa-right-long"></i></a></li>
-            </ul> -->
         </div>
     </section>
         
@@ -96,19 +93,20 @@
                 <th class="postTitle">제목</th>
                 <th>작성자</th>
                 <th>작성날짜</th>
-                <th>조회수</th>
+                <th>조회</th>
                 <th>추천</th>
                 <th></th>
             </tr>
-    
+            
             {% for i in boardFree %}
                 <tr class="contentBody" onclick="location.href='/board/detailPost?idx={{ i.BOARD_IDX }}'">
                     <td>{{ loop.index }}</td>
                     <td>{{i.BOARD_CATE}}</td>
                     <td class="content">{{ i.BOARD_TITLE }} ({{ i.COMMENT_COUNT }})</td>
                     <td>{{ i.USER_NICK }}</td>
-                    <td>{{ i.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}</td>
+                    <td>{{ i.BOARD_DATE | date("MM-DD HH:mm") }}</td>
                     <td>{{ i.BOARD_COUNT }}</td>
+                    <td>{{i.BOARD_RECOMMEND}}</td>
                     <td></td>
                    
                     <td>
@@ -153,12 +151,10 @@
 
             const banners = {
                 '/board/freeList': {
-                    img: 'https://jsh-1.s3.ap-northeast-2.amazonaws.com/board/ea19dc2fdaa60a4fdba06844ddd3bc5b',
-                    title: '자유게시판'
+                    img: 'https://jsh-1.s3.ap-northeast-2.amazonaws.com/board/dd1d2f1de32038ed1179237e055037f1',
                 },
                 '/board/hot': {
-                    img: 'https://jsh-1.s3.ap-northeast-2.amazonaws.com/board/aa59dfbc14f09a7c7022d22368998709',
-                    title: '인기글'
+                    img: 'https://jsh-1.s3.ap-northeast-2.amazonaws.com/board/5f3c87c14e4e101dfbf037eb894ee822',
                 }
             };
 
