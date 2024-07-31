@@ -30,7 +30,12 @@
 										<strong>MURUK </strong> <span>by ShinRok</span></a>
 									<ul class="icons">
 										<li><a href="#">내소식 </a></li>
-										<li><a href="/myPage/info">마이페이지</a></li>
+										<li>
+											<form id="myPageForm" action="/myPage/info" method="post">
+												<a href="#" onclick="document.getElementById('myPageForm').submit(); return false;">마이페이지</a>
+											</form>
+											<!-- <a href="/myPage/info">마이페이지</a> -->
+										</li>
 										{% if user %}
 										<div class="kakaoLogout">
 											<a href="/user/logout">로그아웃<img src=""></a>
