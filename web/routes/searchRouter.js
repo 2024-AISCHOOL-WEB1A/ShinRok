@@ -107,7 +107,7 @@ router.get('/plant', async (req, res) => {
             console.error('DB Count Error: ', err);
             return res.status(500).json({ error: 'DB Count Error' });
         }
-        console.log('dataresult',dataresult)
+       
         res.render('dictionarySearch', {
             searchResults: dataresult,
             currentPage: page,
