@@ -22,16 +22,17 @@
 
 
 /* ------- 상단 배너 이미지 크기 조절 ---------- */
-#banner header{
+#Banner header{
     text-align: center;
 }
-#banner .murukLogo{
+#Banner .murukLogo{
     width: 75vw;
     margin-bottom: 1vw;
-    margin-left: 12%;
+    margin-left: 18%;
 }
-
-
+#Banner img{
+    width: 80%;
+}
 /* ------------ 왼쪽 사이드바 ----------------------------- */
 .leftSidebar{
     width: 13%;
@@ -41,6 +42,7 @@
     top: 0;
     bottom: 0;
 }
+
 .leftSidebar nav ul{
     list-style-type: none;
     padding-left: 0;
@@ -53,19 +55,19 @@
     color: #34495e;
     text-decoration: none;
     display: block;
-    /* padding: 10px 0; */
+    padding: 10px 0;
     padding: 5%;
     font-family: 'GmarketSansMedium';
 
 }
-.leftSidebar nav ul li a:hover{
+.leftSidebar .topsidebar ul li a:hover{
     background-color: #f67878;
     color: #f5f6f7;
 }
 
 #pointLi a{
     background-color: #f67878;
-    color: #f5f6f7;
+    font-style: #f5f6f7;
 }
 
 .underSidebar a{
@@ -80,6 +82,7 @@
     margin-bottom: 15%;
     margin-top: 10%;
 }
+
 
   /* Header */
   #header {
@@ -120,7 +123,6 @@
       font-family: 'GmarketSansMedium';
       color: #f56a6a;
       text-decoration: none;
-      width: 6vw;
     }
     #header .logo strong{
       font-size: 1em;
@@ -152,6 +154,7 @@
           right: -0.5em;
           top: 0; } 
     }
+    
 
 /* Icons */
 ul.icons {
@@ -170,6 +173,9 @@ ul.icons {
         color: inherit; }
         ul.icons li .icon:before {
           font-size: 1.25em; }
+  .active {
+    background-color: #f67878;
+}
 
 /* ------------------------------------------------------------------------- */
 
@@ -179,7 +185,7 @@ html{
 
 header{
     display: flex;
-    border-bottom: solid 5px #f56a6a;
+    /* border-bottom: solid 1px #afa8a8; */
     width: 100%;
 }
 
@@ -210,20 +216,44 @@ header{
 
 
 #container{
-    width: 70%;
+    width: 76%;
     /* height: 100vh; */
     height: fit-content;
     position: relative;
     padding: 2%;
     background-color: rgb(246, 246, 246);
     display: flex;
-    margin: 2% 0% 10% 20%;
     flex-direction: row;
+    margin-left: 18%;
+    margin-top: 2%;
+    margin-bottom: 8%;
+    border: 3px solid #afa8a8;
+    /* font-family: 'Pretendard-Regular'; */
+}
+#container #right #sebu, #care{
+    font-weight: bold;
+    color: green;
+    font-size: large;
+}
+#container #left div{
+    font-family: 'Pretendard-Regular';
+    display: flex;
+    /* align-items: center; */
+    justify-content: center;
+}
+#container #right div{
+    font-family: 'Pretendard-Regular';
 }
 
 #left{
     width: 30%;
     height: 90%;
+}
+#left #pict{
+    margin-top: 10%;
+}
+#left #pict img{
+    border-radius: 15px;
 }
 
 #right{
@@ -231,12 +261,17 @@ header{
     height: 90%;
     margin-left: 3%;
     padding: 0% 3% 3% 3%;
-    border-left: 1px solid #f56a6a;
+    border-left: 2px dotted #afa8a8;
     line-height: 1.5;
 }
 
-#bottom{
-    height: 10%;
+#bottom #btn{
+    background-color: #fff1f1;
+    font-style: #f5f6f7;
+}
+#bottom #btn:hover{
+    background-color: #ffa4a4;
+    color: #f5f6f7;
 }
 
 #btn{
@@ -267,6 +302,7 @@ header{
 #sebu{
     height: 60%;
     margin-bottom: 3%;
+    margin-top: 3%;
 }
 
 
