@@ -49,10 +49,10 @@
             {% if user %}
             <input type="hidden" name="user_idx" value="{{user.idx}}">
             {% endif %}
-            
-              
+
+
             <!-- 게시물 제목부분 -->
-            <tr> 
+            <tr>
                 <td colspan="4">
                     <h4 id="category">카테고리>{{question.BOARD_CATE}} </h4>
                 </td>
@@ -86,6 +86,7 @@
                 </td>
             </tr>
             <!-- ------------------- 게시물 내용이 보이는 부분 ----------------- -->
+            <!-- 질문자 내용-->
             <tr class="but">
                 {% if user %}
                 <input type="hidden" name="idx" value={{user.idx}}>
@@ -101,39 +102,6 @@
             </tr>
 
 
-                {%for i in answer%}   
-
-                <tr id="spaceTitle1">
-
-                    <td rowspan="2" id="profilePic1"><img src='{{answer.USER_PICTURE}}'></td>
-                    <td id="userNick1"> {{ answer.USER_NICK }}</td>
-                    <tr class="titleList1">
-                        <td id="titleDate1">{{ answer.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}
-                            <input type="hidden" name="board_idx" value="{{answer.BOARD_IDX}}">
-                        </td>
-                        <td id="titleTd1">조회수<span>: {{ answer.BOARD_COUNT }}</span></td>
-                        <td id="titleTd1" colspan="2"><i class="fa-regular fa-comment-dots">답변 수</i><span>: {{ commentCount
-                                }}</span></td>
-                    </tr>
-                </tr>
-
-                
-            <tr class="but">
-                {% if user %}
-                <input type="hidden" name="idx" value={{user.idx}}>
-                {% endif %}
-                <td class="addImage" colspan="5">
-                    <!-- 이미지 혹은 내용을 넣을 공간 -->
-                    {% if answer.BOARD_IMG %}
-                    <img src="{{ answer.BOARD_IMG }}" alt="게시글 이미지" id="postImg">
-                    {% endif %}
-                    <br> <br>
-                    <span>{{ answer.BOARD_CONTENT }}</span>
-                </td>
-            </tr>
-               {%endfor%}
-
-
             <!-- 게시글 작성한 유저가 접속시 수정하기 버튼 생성 -->
             <tr>
                 <td id="answer">
@@ -144,12 +112,47 @@
                 </td>
             </tr>
 
-           
+
             </div>
             </td>
             </tr>
         </table>
     </form>
+    <!-- 답변자 내용-->
+
+    {%for i in answer%}
+     <table>
+    <tr id="spaceTitle1">
+
+        <td rowspan="2" id="profilePic1"><img src='{{answer.USER_PICTURE}}'></td>
+        <td id="userNick1"> {{ answer.USER_NICK }}</td>
+    <tr class="titleList1">
+        <td id="titleDate1">{{ answer.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}
+            <input type="hidden" name="board_idx" value="{{answer.BOARD_IDX}}">
+        </td>
+        <td id="titleTd1">조회수<span>: {{ answer.BOARD_COUNT }}</span></td>
+        <td id="titleTd1" colspan="2"><i class="fa-regular fa-comment-dots">답변 수</i><span>: {{ commentCount
+                }}</span></td>
+    </tr>
+    </tr>
+
+
+    <tr class="but">
+        {% if user %}
+        <input type="hidden" name="idx" value={{user.idx}}>
+        {% endif %}
+        <td class="addImage" colspan="5">
+            <!-- 이미지 혹은 내용을 넣을 공간 -->
+            {% if answer.BOARD_IMG %}
+            <img src="{{ answer.BOARD_IMG }}" alt="게시글 이미지" id="postImg">
+            {% endif %}
+            <br> <br>
+            <span>{{ answer.BOARD_CONTENT }}</span>
+        </td>
+    </tr>
+    {%endfor%}
+</table>
+
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
