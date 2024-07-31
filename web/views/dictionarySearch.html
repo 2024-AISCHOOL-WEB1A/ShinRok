@@ -27,12 +27,7 @@
 
         <a href="/" id="logo"><img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/test/KakaoTalk_20240722_111546767_01.png" alt=""></a>
 
-        <section id="search" class="alt">
-            <form action="/search/plant" method="get" class="detailForm">
-                <input type="text" name="q" placeholder="식물 검색" />
-                <button id="searchbtn"> 검색 </button>
-            </form>
-        </section>
+        
 
     </header>
 
@@ -90,6 +85,12 @@
             </div>
             {% endfor %}
 
+            <section id="search" class="alt">
+                <form action="/search/plant" method="get" class="detailForm">
+                    <input type="text" name="q" placeholder="식물 검색" />
+                    <button id="searchbtn"> 검색 </button>
+                </form>
+            </section>
 
             <div></div>
             <!-- 페이징 컨트롤 추가 -->

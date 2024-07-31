@@ -103,6 +103,13 @@
             </div>
             {% endfor %}
 
+            <section id="search" class="alt">
+                <form action="/search/plant" method="get" class="detailForm">
+                    <input type="text" name="q" placeholder="식물 검색" />
+                    <button id="searchbtn"> 검색 </button>
+                </form>
+            </section>
+
             <div class="pagination">
                 {% if currentPage > 1 %} 
                 <a href="/dictionary?page={{ currentPage - 1 }}"><button>Previous</button></a>
