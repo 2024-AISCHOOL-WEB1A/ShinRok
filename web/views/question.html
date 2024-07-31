@@ -73,9 +73,8 @@
                 <td id="titleDate">{{ question.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}
                     <input type="hidden" name="board_idx" value="{{question.BOARD_IDX}}">
                 </td>
-                <td id="titleTd">조회수<span>: {{ question.BOARD_COUNT }}</span></td>
-                <td id="titleTd" colspan="2"><i class="fa-regular fa-comment-dots">답변 수</i><span>: {{ commentCount
-                        }}</span></td>
+                <td id="titleTd">조회수 <span>: {{ question.BOARD_COUNT }}</span></td>
+
             </tr>
             </tr>
 

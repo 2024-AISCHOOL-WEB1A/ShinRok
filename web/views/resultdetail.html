@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../public/result.css">
+</head>
+<body>
+
+    <div id="top">
+        <div class="result">
+            진단 결과
+        </div>
+    </div>
+    {% for i in res %}
+    <div id="container">
+        <div id="left">
+            <div class="plantImage"><img src="{{ i.DSS_IMG }}" alt=""></div>
+        </div>
+
+        <div id="right">
+            <div class="diseaseSymptom">질병 증상 {{ i.DSS_STATE }} : {{ i.DSS_DISC }} </div>
+            <div class="controlMethod">방제법 : {{ i.DSS_PREV }} </div>
+        </div>
+    </div>
+    {% endfor %}
+    <div class="button">
+        <button class="retry" onclick="window.location.href='/'">메인 페이지</button>
+        <button class="goMypage" onclick="redirectToMypage()">마이 페이지로 이동하기</button>
+    </div>
+
+    <script>
+        function redirectToMypage() {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/mypage/info';
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+    </script>
+
+</body>
+</html>

@@ -50,18 +50,14 @@
             <div class="diagnosis-records">
                 <h2 id="myListTop2">병충해 진단 기록</h2>
                 <table class="mybugList">
-
-                    
-
                     <tr id="bugListTr">
                         <td>작물명</td>
                         <td>병명</td>
                         <td>증상</td>
                         <td id="lasttd">시간</td>    
-
                     </tr>
                     {% for i in dssData %}
-                    <tr class="bugUnderList">
+                    <tr class="bugUnderList" onclick="submitPostRequest('{{ user.idx }}', '{{ i.DSS_IDX }}')">
                         <td>{{i.DSS_PLANT}}</td>
                         <td>{{i.DSS_STATE}}</td>
                         <td>{{i.DSS_DISC}}</td>
@@ -88,10 +84,10 @@
     </div>
 
     <script>
-        document.getElementById("mainBack").addEventListener("click",(e)=>{
-            e.preventDefault(); 
-            window.location.href="/"
-        })
+        document.getElementById("mainBack").addEventListener("click", (e) => {
+            e.preventDefault();
+            window.location.href = "/";
+        });
 
         // 모달 요소 가져오기
         var modal = document.getElementById("myModal");
@@ -111,6 +107,28 @@
             if (event.target == modal) {
                 modal.style.display = "none";
             }
+        }
+
+        // POST 요청을 보내는 함수
+        function submitPostRequest(userIdx, dssIdx) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/mypage/resultdetail';
+
+            const userField = document.createElement('input');
+            userField.type = 'hidden';
+            userField.name = 'user_idx';
+            userField.value = userIdx;
+
+            const dssField = document.createElement('input');
+            dssField.type = 'hidden';
+            dssField.name = 'dss_idx';
+            dssField.value = dssIdx;
+
+            form.appendChild(userField);
+            form.appendChild(dssField);
+            document.body.appendChild(form);
+            form.submit();
         }
     </script>
 </body>
