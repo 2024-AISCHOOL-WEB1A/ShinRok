@@ -31,7 +31,8 @@ router.post('/upload', upload.single('image'), async (req, res) => {
                 return res.status(500).json({ error: 'DB Insert Error' })
             }
             console.log('게시글 작성 완료')
-            res.redirect('/')
+            // 새로 작성된 게시글의 ID를 사용하여 해당 게시글 페이지로 리다이렉트
+            res.redirect(`/board/detailPost?idx=${result.insertId}`)
         })
     } catch (err) {
         res.status(500).json({ error: err.message })
@@ -62,7 +63,6 @@ router.get('/freePost', (req, res) => {
                         B.BOARD_DATE,
                         B.BOARD_IMG,
                         B.BOARD_CATE,
-                        B.BOARD_RECOMMEND,
                         COUNT(C.CMNT_CONTENT) AS COMMENT_COUNT
                     FROM 
                         SR_USER U
@@ -121,7 +121,6 @@ router.get('/bragPost', (req, res) => {
                         B.BOARD_DATE,
                         B.BOARD_IMG,
                         B.BOARD_CATE,
-                        B.BOARD_RECOMMEND,
                         COUNT(C.CMNT_CONTENT) AS COMMENT_COUNT
                     FROM 
                         SR_USER U
@@ -171,34 +170,34 @@ router.get('/bragList', (req, res) => {
 
     const countSql = `SELECT COUNT(*) AS total FROM SR_BOARD WHERE BOARD_CATE = '자랑'`;
     const sql = `SELECT 
-                    U.USER_IDX,
-                    U.USER_NICK,
-                    U.USER_PICTURE,
-                    B.BOARD_IDX,
-                    B.BOARD_TITLE,
-                    B.BOARD_CONTENT,
-                    B.BOARD_COUNT,
-                    B.BOARD_DATE,
-                    B.BOARD_IMG,
-                    B.BOARD_CATE,
-                    B.BOARD_RECOMMEND,
-                    COUNT(C.CMNT_CONTENT) AS COMMENT_COUNT
-                FROM 
-                    SR_USER U
-                    JOIN SR_BOARD B ON U.USER_IDX = B.USER_IDX
-                    LEFT JOIN SR_CMNT C ON B.BOARD_IDX = C.BOARD_IDX
-                WHERE 
-                    B.BOARD_CATE = '자랑'
-                GROUP BY 
-                    B.BOARD_IDX, 
-                    U.USER_IDX, 
-                    U.USER_NICK, 
-                    U.USER_PICTURE, 
-                    B.BOARD_TITLE, 
-                    B.BOARD_CONTENT, 
-                    B.BOARD_COUNT, 
-                    B.BOARD_DATE, 
-                    B.BOARD_IMG`
+                U.USER_IDX,
+                U.USER_NICK,
+                U.USER_PICTURE,
+                B.BOARD_IDX,
+                B.BOARD_TITLE,
+                B.BOARD_CONTENT,
+                B.BOARD_COUNT,
+                B.BOARD_DATE,
+                B.BOARD_IMG,
+                B.BOARD_CATE,
+                COUNT(C.CMNT_CONTENT) AS COMMENT_COUNT
+            FROM 
+                SR_USER U
+                JOIN SR_BOARD B ON U.USER_IDX = B.USER_IDX
+                LEFT JOIN SR_CMNT C ON B.BOARD_IDX = C.BOARD_IDX
+            WHERE 
+                B.BOARD_CATE = '자랑'
+            GROUP BY 
+                B.BOARD_IDX, 
+                U.USER_IDX, 
+                U.USER_NICK, 
+                U.USER_PICTURE, 
+                B.BOARD_TITLE, 
+                B.BOARD_CONTENT, 
+                B.BOARD_COUNT, 
+                B.BOARD_DATE, 
+                B.BOARD_IMG
+            ORDER BY B.BOARD_DATE DESC`
 
     conn.query(countSql, (err, countResult) => {
         if (err) {
@@ -297,7 +296,6 @@ router.get('/quesPost', (req, res) => {
                         B.BOARD_DATE,
                         B.BOARD_IMG,
                         B.BOARD_CATE,
-                        B.BOARD_RECOMMEND,
                         COUNT(C.CMNT_CONTENT) AS COMMENT_COUNT
                     FROM 
                         SR_USER U
@@ -343,7 +341,7 @@ router.get('/quesList', (req, res) => {
     const offset = (page - 1) * limit;
 
     const countSql = `SELECT COUNT(*) AS total FROM SR_BOARD WHERE BOARD_CATE = '질문'`;
-    const sql = `SELECT 
+    const dataSql = `SELECT 
                     U.USER_IDX,
                     U.USER_NICK,
                     U.USER_PICTURE,
@@ -354,8 +352,7 @@ router.get('/quesList', (req, res) => {
                     B.BOARD_DATE,
                     B.BOARD_IMG,
                     B.BOARD_CATE,
-                    B.BOARD_RECOMMEND,
-                    COUNT(C.CMNT_CONTENT) AS COMMENT_COUNT
+                    COUNT(DISTINCT C.CMNT_IDX) AS COMMENT_COUNT
                 FROM 
                     SR_USER U
                     JOIN SR_BOARD B ON U.USER_IDX = B.USER_IDX
@@ -371,7 +368,9 @@ router.get('/quesList', (req, res) => {
                     B.BOARD_CONTENT, 
                     B.BOARD_COUNT, 
                     B.BOARD_DATE, 
-                    B.BOARD_IMG`
+                    B.BOARD_IMG
+                ORDER BY B.BOARD_DATE DESC
+                LIMIT ?, ?`;
 
     conn.query(countSql, (err, countResult) => {
         if (err) {
@@ -382,13 +381,19 @@ router.get('/quesList', (req, res) => {
         const totalPosts = countResult[0].total;
         const totalPages = Math.ceil(totalPosts / limit);
 
-        conn.query(sql, [offset, limit], (err, dataResult) => {
+        conn.query(dataSql, [offset, limit], (err, dataResult) => {
             if (err) {
                 console.error('DB Query Error: ', err);
                 return res.status(500).json({ error: 'DB Query Error' });
             }
-            res.render('quesList', { quesList: dataResult, currentPage: page, totalPages: totalPages,user: req.session.user })
-        })
+            
+            res.render('quesPost', { 
+                quesPost: dataResult, 
+                currentPage: page, 
+                totalPages: totalPages, 
+                user: req.session.user 
+            });
+        });
     })
 })
 
@@ -460,7 +465,7 @@ function quest(postId, req, res) {
         if (postResult.length === 0) {
             return res.status(404).json({ error: 'Post not found' })
         }
-        console.log('질문', postResult[0])
+        
         const post = postResult
 
         // 답변목록
@@ -469,7 +474,7 @@ function quest(postId, req, res) {
                 console.error('DB Query Error: ', err)
                 return res.status(500).json({ error: 'DB Query Error' })
             }
-            console.log('답변', r)
+            
             
             res.render('question', { question: postResult[0], answer: r, user: req.session.user })
         })
@@ -489,12 +494,12 @@ router.get('/answerUpload', async (req, res) => {
         // 데이터베이스에 답변 정보 저장
         const sql = `INSERT INTO SR_ANSWER (ANSWER_CONTENT, BOARD_IDX, USER_IDX) 
                     VALUES (?, ?, ?)`
-
-        const values = [content, board_idx, user_idx]
+                    const values = [content, board_idx, user_idx]
+                    
         conn.query(sql, values, (err, result) => {
             if (err) {
                 console.error('DB Insert Error: ', err);
-                return res.status(500).json({ error: 'DB Insert Error' })
+                return res.status(500).json({ error: 'DB Insert Error or 세션 오류' })
             }
             console.log('답변 작성 완료')
             res.redirect(`/board/question?idx=${board_idx}`)
@@ -750,7 +755,6 @@ router.get('/freeList', (req, res) => {
                         B.BOARD_DATE,
                         B.BOARD_IMG,
                         B.BOARD_CATE,
-                        B.BOARD_RECOMMEND,
                         COUNT(C.CMNT_CONTENT) AS COMMENT_COUNT
                     FROM 
                         SR_USER U
@@ -886,7 +890,6 @@ router.get('/hotPost', (req, res) => {
                         B.BOARD_IMG,
                         B.BOARD_CATE,
                         B.BOARD_RECOMMEND,
-                        B.BOARD_RECOMMEND,
                         COUNT(C.CMNT_IDX) AS COMMENT_COUNT
                     FROM 
                         SR_BOARD B
@@ -920,7 +923,7 @@ router.get('/hotPost', (req, res) => {
     });
 });
 
-// 인기글의 전체 목록을 가져옴
+// 자유게시판의 전체 목록을 가져옴
 router.get('/hot', (req, res) => {
     const page = parseInt(req.query.page) || 1; // 현재 페이지 번호 (기본값: 1)
     const limit = 15; // 페이지 당 게시글 수
@@ -950,7 +953,7 @@ router.get('/hot', (req, res) => {
                         B.BOARD_IDX, U.USER_IDX, U.USER_NICK, U.USER_PICTURE,
                         B.BOARD_TITLE, B.BOARD_CONTENT, B.BOARD_COUNT,
                         B.BOARD_DATE, B.BOARD_IMG, B.BOARD_CATE
-                    ORDER BY B.BOARD_RECOMMEND DESC
+                    ORDER BY B.BOARD_DATE DESC
                     LIMIT ?, ?`;                    
 
     conn.query(countSql, (err, countResult) => {
@@ -975,8 +978,21 @@ router.get('/hot', (req, res) => {
 router.post('/recommend', async (req, res) => {
     const { idx: board_idx } = req.body;
     const user_idx = req.session.user.idx;
-
+            console.log(user_idx)
     try {
+          // 게시글 작성자 확인
+          const [postResult] = await conn.promise().query(
+            'SELECT USER_IDX FROM SR_BOARD WHERE BOARD_IDX = ?',
+            [board_idx]
+        );
+        console.log('postResult', postResult)
+        if (postResult.length === 0) {
+            return res.json({ success: false, message: "게시글을 찾을 수 없습니다." });
+        }
+
+        if (postResult[0].USER_IDX === user_idx) {
+            return res.json({ success: false, message: "자신의 게시글은 추천할 수 없습니다." });
+        }
         // 이미 추천했는지 확인
         const [checkResult] = await conn.promise().query(
             'SELECT * FROM SR_RECOMMEND WHERE USER_IDX = ? AND BOARD_IDX = ?',
@@ -1055,3 +1071,5 @@ function getPost(postId, req, res) {
 
 
 module.exports = router;
+
+
