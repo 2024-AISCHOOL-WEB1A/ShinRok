@@ -49,40 +49,13 @@
         <div class="question-section">
             <table class="table">
 
-    <form action="/board/answer" id="quesDetailForm" class="quesdetailForm" method="POST">
         <!-- 게시글 상세페이지 -->
         <table class="table">
             {% if user %}
             <input type="hidden" name="user_idx" value="{{user.idx}}">
             {% endif %}
 
-
-            <!-- 게시물 제목부분 -->
-            <tr>
-                <td colspan="4">
-                    <h4 id="category">카테고리>{{question.BOARD_CATE}} </h4>
-                </td>
-            </tr>
-
-            <!-- 타이틀 제목 -->
-            <tr>
-                <td colspan="4">
-                    <h2 id="titleName">{{ question.BOARD_TITLE }}</h2>
-                </td>
-            </tr>
-
-            <tr id="spaceTitle">
-
-                <td rowspan="2" id="profilePic"><img src='{{question.USER_PICTURE}}'></td>
-                <td id="userNick"> {{ question.USER_NICK }}</td>
-            <tr class="titleList">
-                <td id="titleDate">{{ question.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}
-                    <input type="hidden" name="board_idx" value="{{question.BOARD_IDX}}">
-                </td>
-                <td id="titleTd">조회수 <span>: {{ question.BOARD_COUNT }}</span></td>
-
-            </tr>
-            </tr>
+           
 
             <!-- 가로선 추가 -->
             <tr>
@@ -152,12 +125,15 @@
         </div>
 
         <!-- 답변 작성 폼 -->
-        <form action="/board/answerUpload" id="quesDetailForm" class="quesdetailForm" method="POST">
+        <form action="/board/answerUpload" id="answerForm" class="answerForm" method="POST">
             <div class="answer-section">
                 <h3>답변 작성</h3>
                 <textarea placeholder="답변을 입력하세요" name="content"></textarea>
                 <button type="submit">답변하기</button>
             </div>
+            <input type="hidden" name="board_idx" value="{{question.BOARD_IDX}}">
+            <input type="hidden" name="user_idx" value="{{user.idx}}">
+            <input type="hidden" name="board_idx" value="{{question.BOARD_IDX}}">
         </form>
 
         <!-- 답변 목록 -->
