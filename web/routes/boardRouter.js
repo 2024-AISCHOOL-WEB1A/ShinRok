@@ -511,7 +511,7 @@ router.post('/answerUpload', upload.single('image'), async (req, res) => {
     console.log('idx', idx)
     try {
         if (filePath) {
-            imageUrl = await uploadImage(filePath, 'answer'); // 폴더명을 'ans'로 지정
+            imageUrl = await uploadImage(filePath, 'answer'); // 
         }
 
         // 데이터베이스에 게시물 정보와 이미지 URL 저장
@@ -546,18 +546,12 @@ router.post('/answerUpload', upload.single('image'), async (req, res) => {
             return res.status(500).json({ error: 'Select sql Error' })
         }
         console.log('result', result[0])
-        res.render('question', { answer: result[0] })
+        res.render('question', { answers: result[0] })
     })
 
 
 })
-router.post('/answer', (req, res) => {
-    console.log('board_idx', req.body.board_idx)
-    console.log('바디', req.body)
 
-    res.render('answer', { answer: req.body })
-
-})
 
 
 //질문답변 페이지화인가?
@@ -861,55 +855,7 @@ router.get('/delete', (req, res) => {
     })
 })
 
-//게시글 추천 기능
-router.post('/recommend', async (req, res) => {
-    const { idx: board_idx } = req.body;
-    const user_idx = req.session.user.idx;
 
-    try {
-        // 이미 추천했는지 확인
-        const [checkResult] = await conn.promise().query(
-            'SELECT * FROM SR_RECOMMEND WHERE USER_IDX = ? AND BOARD_IDX = ?',
-            [user_idx, board_idx]
-        );
-
-        if (checkResult.length > 0) {
-            return res.json({ success: false, message: "이미 추천한 게시글입니다." });
-        }
-
-        await conn.promise().beginTransaction();
-
-        // 추천 수 증가
-        await conn.promise().query(
-            'UPDATE SR_BOARD SET BOARD_RECOMMEND = BOARD_RECOMMEND + 1 WHERE BOARD_IDX = ?',
-            [board_idx]
-        );
-
-        // 추천 기록 저장
-        await conn.promise().query(
-            'INSERT INTO SR_RECOMMEND (USER_IDX, BOARD_IDX) VALUES (?, ?)',
-            [user_idx, board_idx]
-        );
-
-        // 최신 추천 수 조회
-        const [recommendResult] = await conn.promise().query(
-            'SELECT board_recommend FROM SR_BOARD WHERE board_idx = ?',
-            [board_idx]
-        );
-
-        await conn.promise().commit();
-
-        res.json({
-            success: true,
-            message: '추천이 완료되었습니다.',
-            recommendCount: recommendResult[0].board_recommend
-        });
-    } catch (error) {
-        await conn.promise().rollback();
-        console.error('추천 처리 중 오류 발생:', error);
-        res.status(500).json({ success: false, message: "서버 오류가 발생했습니다." });
-    }
-});
 
 function getPost(postId, req, res) {
     const postSql = `SELECT 

@@ -105,13 +105,13 @@
 
 
             <div></div>
-            <!-- 페이징 컨트롤 추가 -->
+            <!-- 페이징 컨트롤 수정 -->
             <div class="pagination">
                 {% if current_page > 1 %}
                 <a href="?page={{ current_page - 1 }}">&laquo; 이전</a>
                 {% endif %}
                 
-                {% for page in range(1, total_pages + 1) %}
+                {% for page in range(first_page, last_page + 1) %}
                 <a href="?page={{ page }}" {% if page == current_page %}class="active"{% endif %}>{{ page }}</a>
                 {% endfor %}
                 
@@ -120,11 +120,6 @@
                 {% endif %}
             </div>
             <div></div>
-        </div>
-
-
-
-    </div>
 
     <script src="../assets/js/dictionary.js"></script>
 </body>

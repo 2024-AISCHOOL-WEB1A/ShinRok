@@ -6,15 +6,11 @@ const conn = require('../config/db'); // 데이터베이스 연결 설정 파일
 
 // /dictionary 엔드포인트에 대한 GET 요청 처리
 router.get('/home', (req, res) => {
-    
     const page = parseInt(req.query.page) || 1;
-    const itemsPerPage = 12; // 페이지당 표시할 항목 수
+    const itemsPerPage = 12;
     const offset = (page - 1) * itemsPerPage;
 
-    // 전체 항목 수를 가져오는 쿼리
     const countSql = 'SELECT COUNT(*) as total FROM SR_PLANT';
-    
-    // 페이지에 해당하는 항목을 가져오는 쿼리
     const sql = 'SELECT * FROM SR_PLANT LIMIT ? OFFSET ?';
 
     conn.query(countSql, (err, countResult) => {
@@ -26,6 +22,11 @@ router.get('/home', (req, res) => {
         const totalItems = countResult[0].total;
         const totalPages = Math.ceil(totalItems / itemsPerPage);
 
+        // 페이징 그룹 계산
+        const pageGroup = Math.ceil(page / 10);
+        const lastPage = pageGroup * 10;
+        const firstPage = lastPage - 9;
+
         conn.query(sql, [itemsPerPage, offset], (err, results) => {
             if (err) {
                 console.error(err);
@@ -36,7 +37,9 @@ router.get('/home', (req, res) => {
                 user: req.session.user,
                 specificPlant: results,
                 current_page: page,
-                total_pages: totalPages
+                total_pages: totalPages,
+                first_page: firstPage,
+                last_page: lastPage > totalPages ? totalPages : lastPage
             });
         });
     });
