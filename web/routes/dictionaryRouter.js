@@ -31,8 +31,9 @@ router.get('/home', (req, res) => {
                 console.error(err);
                 return res.status(500).send('서버 오류');
             }
-
+            console.log('식물도감',req.session.user)
             res.render('dictionary', {
+                user: req.session.user,
                 specificPlant: results,
                 current_page: page,
                 total_pages: totalPages
@@ -57,7 +58,8 @@ router.get('/detail', async (req, res) => {
         
         res.render('dictDetail',{ 
         
-            plantData:plantData
+            plantData:plantData,
+            user: req.session.user
         })
         
     })

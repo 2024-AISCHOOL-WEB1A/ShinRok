@@ -266,7 +266,7 @@ router.get('/bragList', (req, res) => {
                 console.error('DB Query Error: ', err);
                 return res.status(500).json({ error: 'DB Query Error' });
             }
-            res.render('bragList', { bragList: dataResult, currentPage: page, totalPages: totalPages })
+            res.render('bragList', { bragList: dataResult, currentPage: page, totalPages: totalPages, user: req.session.user })
         })
     })
 })
@@ -435,7 +435,7 @@ router.get('/quesList', (req, res) => {
                 console.error('DB Query Error: ', err);
                 return res.status(500).json({ error: 'DB Query Error' });
             }
-            res.render('quesList', { quesList: dataResult, currentPage: page, totalPages: totalPages })
+            res.render('quesList', { quesList: dataResult, currentPage: page, totalPages: totalPages,user: req.session.user })
         })
     })
 })
@@ -838,7 +838,7 @@ router.get('/freeList', (req, res) => {
                 console.error('DB Query Error: ', err);
                 return res.status(500).json({ error: 'DB Query Error' });
             }
-            res.render('freeList', { boardFree: dataResult, currentPage: page, totalPages: totalPages });
+            res.render('freeList', { boardFree: dataResult, currentPage: page, totalPages: totalPages, user: req.session.user });
         });
     });
 });
@@ -991,6 +991,58 @@ router.get('/hotPost', (req, res) => {
                 return res.status(500).json({ error: 'DB Query Error' });
             }
             res.render('recommend', { data: dataResult, currentPage: page, totalPages: totalPages, user: req.session.user });
+        });
+    });
+});
+
+// 자유게시판의 전체 목록을 가져옴
+router.get('/hot', (req, res) => {
+    const page = parseInt(req.query.page) || 1; // 현재 페이지 번호 (기본값: 1)
+    const limit = 15; // 페이지 당 게시글 수
+    const offset = (page - 1) * limit;
+
+    const countSql = `SELECT COUNT(*) AS total FROM SR_BOARD WHERE BOARD_RECOMMEND >= 3;`
+    const dataSql = `SELECT 
+                        U.USER_IDX,
+                        U.USER_NICK,
+                        U.USER_PICTURE,
+                        B.BOARD_IDX,
+                        B.BOARD_TITLE,
+                        B.BOARD_CONTENT,
+                        B.BOARD_COUNT,
+                        B.BOARD_DATE,
+                        B.BOARD_IMG,
+                        B.BOARD_CATE,
+                        B.BOARD_RECOMMEND,
+                        COUNT(C.CMNT_IDX) AS COMMENT_COUNT
+                    FROM 
+                        SR_BOARD B
+                        JOIN SR_USER U ON B.USER_IDX = U.USER_IDX
+                        LEFT JOIN SR_CMNT C ON B.BOARD_IDX = C.BOARD_IDX
+                    WHERE 
+                        B.BOARD_RECOMMEND >= 3
+                    GROUP BY
+                        B.BOARD_IDX, U.USER_IDX, U.USER_NICK, U.USER_PICTURE,
+                        B.BOARD_TITLE, B.BOARD_CONTENT, B.BOARD_COUNT,
+                        B.BOARD_DATE, B.BOARD_IMG, B.BOARD_CATE
+                    ORDER BY B.BOARD_DATE DESC
+                    LIMIT ?, ?`;                    
+
+    conn.query(countSql, (err, countResult) => {
+        if (err) {
+            console.error('DB Count Error: ', err);
+            return res.status(500).json({ error: 'DB Count Error' });
+        }
+
+        const totalPosts = countResult[0].total;
+        const totalPages = Math.ceil(totalPosts / limit);
+
+        conn.query(dataSql, [offset, limit], (err, dataResult) => {
+            if (err) {
+                console.error('DB Query Error: ', err);
+                return res.status(500).json({ error: 'DB Query Error' });
+            }
+            res.render('freeList', { boardFree: dataResult, currentPage: page, totalPages: totalPages,user: req.session.user });
         });
     });
 });
