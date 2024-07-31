@@ -159,62 +159,7 @@ router.get('/bragPost', (req, res) => {
     });
 });
 
-// 인기글
-router.get('/recommed', (req, res) => {
-    const page = parseInt(req.query.page) || 1; // 현재 페이지 번호 (기본값: 1)
-    const limit = 15; // 페이지 당 게시글 수
-    const offset = (page - 1) * limit;
 
-    const countSql = `SELECT COUNT(*) AS total FROM SR_BOARD WHERE BOARD_CATE = '자유'`;
-    const dataSql = `SELECT 
-                        U.USER_IDX,
-                        U.USER_NICK,
-                        U.USER_PICTURE,
-                        B.BOARD_IDX,
-                        B.BOARD_TITLE,
-                        B.BOARD_CONTENT,
-                        B.BOARD_COUNT,
-                        B.BOARD_DATE,
-                        B.BOARD_IMG,
-                        B.BOARD_CATE,
-                        COUNT(C.CMNT_CONTENT) AS COMMENT_COUNT
-                    FROM 
-                        SR_USER U
-                        JOIN SR_BOARD B ON U.USER_IDX = B.USER_IDX
-                        LEFT JOIN SR_CMNT C ON B.BOARD_IDX = C.BOARD_IDX
-                    WHERE 
-                        B.BOARD_CATE = '자유'
-                    GROUP BY 
-                        B.BOARD_IDX, 
-                        U.USER_IDX, 
-                        U.USER_NICK, 
-                        U.USER_PICTURE, 
-                        B.BOARD_TITLE, 
-                        B.BOARD_CONTENT, 
-                        B.BOARD_COUNT, 
-                        B.BOARD_DATE, 
-                        B.BOARD_IMG
-                    ORDER BY B.BOARD_DATE DESC
-                    LIMIT ?, ?`;
-
-    conn.query(countSql, (err, countResult) => {
-        if (err) {
-            console.error('DB Count Error: ', err);
-            return res.status(500).json({ error: 'DB Count Error' });
-        }
-
-        const totalPosts = countResult[0].total;
-        const totalPages = Math.ceil(totalPosts / limit);
-
-        conn.query(dataSql, [offset, limit], (err, dataResult) => {
-            if (err) {
-                console.error('DB Query Error: ', err);
-                return res.status(500).json({ error: 'DB Query Error' });
-            }
-            res.render('freePost', { boardFree: dataResult, currentPage: page, totalPages: totalPages, user: req.session.user });
-        });
-    });
-});
 
 // 세부 목록페이지 (+그림포함, 사이드바 통해서)
 router.get('/bragList', (req, res) => {
@@ -505,20 +450,19 @@ router.post('/answerUpload', upload.single('image'), async (req, res) => {
     console.log('바디', req.body)
     console.log('board_idx', req.body.board_idx)
     console.log('user_idx', req.body.user_idx)
-    const { content, image, idx } = req.body
+    const { content, board_idx, user_idx } = req.body
     let imageUrl = null
     const filePath = req.file ? req.file.path : null
-    console.log('idx', idx)
     try {
         if (filePath) {
             imageUrl = await uploadImage(filePath, 'answer'); // 
         }
 
         // 데이터베이스에 게시물 정보와 이미지 URL 저장
-        const sql = `INSERT INTO SR_BOARD ( USER_IDX, BOARD_TITLE, BOARD_IMG, BOARD_CATE, BOARD_CONTENT,BOARD_ANSWER) 
-                    VALUES (?, '답변', ?, '답변', ?, ?)`
+        const sql = `INSERT INTO SR_ANSWER ( ANSWER_CONTENT,BOARD_IDX,USER_IDX) 
+                    VALUES (?, ?, ?)`
 
-        const values = [req.body.user_idx, req.body.image, req.body.content, req.body.board_idx]
+        const values = [req.body.content, req.body.board_idx, req.body.user_idx]
         conn.query(sql, values, (err, result) => {
             if (err) {
                 console.error('DB Insert Error: ', err);
@@ -534,11 +478,7 @@ router.post('/answerUpload', upload.single('image'), async (req, res) => {
             fs.unlinkSync(filePath)
         }
     }
-    selectsql = `SELECT B.USER_IDX, B.BOARD_TITLE, B.BOARD_IMG, B.BOARD_CONTENT,
-                U.USER_PICTURE, U.USER_NICK
-            FROM SR_BOARD B
-            JOIN SR_USER U ON B.USER_IDX = U.USER_IDX
-            WHERE B.BOARD_ANSWER = ?`
+    selectsql = `SELECT * FROM SR_ANSWER WHERE BOARD_IDX = ?`
 
     conn.query(selectsql, req.body.board_idx, (err, result) => {
         if (err) {
@@ -546,6 +486,7 @@ router.post('/answerUpload', upload.single('image'), async (req, res) => {
             return res.status(500).json({ error: 'Select sql Error' })
         }
         console.log('result', result[0])
+        console.log('question으로 전송완료')
         res.render('question', { answers: result[0] })
     })
 
