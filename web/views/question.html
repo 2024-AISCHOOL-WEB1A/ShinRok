@@ -159,6 +159,13 @@
                         {% endif %}
                         <br> <br>
                         <span>{{ question.BOARD_CONTENT }}</span>
+                        <div id="chochunIcons">
+                            <div id="chochunText" onclick="recommendPost('{{ question.BOARD_IDX }}')">
+                                <img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/board/ca3c268ca229e08abeed21f39e37bae9" alt="">
+                                <h4><strong>추천하기</strong></h4>
+                                <h4 id="recommendCount">{{post.BOARD_RECOMMEND}}</h4>
+                            </div>
+                        </div>
                     </td>
                 </tr>
                 
@@ -228,6 +235,21 @@
                         window.location.href = '/';
                     } else {
                         alert('게시글 삭제에 실패했습니다.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+           //게시글 추천 함수
+           function recommendPost(boardIdx) {
+            axios.post('/board/recommend', { idx: boardIdx })
+                .then(response => {
+                    if (response.data.success) {
+                        alert(response.data.message);
+                        document.getElementById('recommendCount').innerText = response.data.recommendCount;
+                    } else {
+                        alert(response.data.message);
                     }
                 })
                 .catch(error => {
