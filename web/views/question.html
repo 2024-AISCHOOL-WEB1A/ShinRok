@@ -174,11 +174,12 @@
                     <!-- 답변 목록 -->
                     <div class="answers-section">
                         <h3>답변 목록</h3>
-                        {% for answer in answers %}
+                        {{answers}}
+                        {% for i in post %}
                         <div class="answer">
                             <table>
                                 <tr>
-                                    <td rowspan="2" class="profilePic"><img src='{{answers.USER_PICTURE}}' alt="프로필 사진"></td>
+                                    <td rowspan="2" class="profilePic"><img src='{{i.USER_PICTURE}}' alt="프로필 사진"></td>
                                     <td class="userNick">{{ answers.USER_NICK }}</td>
                                 </tr>
                                 <tr>
@@ -189,7 +190,7 @@
                                         {% if answers.BOARD_IMG %}
                                         <img src="{{ answers.BOARD_IMG }}" alt="답변 이미지" class="answerImg">
                                         {% endif %}
-                                        <p>{{ answers.BOARD_CONTENT }}</p>
+                                        <p>{{ answer.ANSWER_CONTENT }}</p>
                                     </td>
                                 </tr>
                             </table>
