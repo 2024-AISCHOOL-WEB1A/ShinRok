@@ -388,7 +388,8 @@ router.get('/quesList', (req, res) => {
 })
 
 router.get('/question', (req, res) => {
-    console.log('쿼리', req.query)
+    console.log('쿼리', req.query, ',', req.session.user.idx)
+    
 
     const postId = req.query.idx
 
@@ -409,9 +410,11 @@ router.get('/question', (req, res) => {
             }
 
             quest(postId, req, res)
+            answerQues(postId, req, res)
         })
     } else {
         quest(postId, req, res)
+        answerQues(postId, req, res)
     }
 });
 
@@ -433,6 +436,8 @@ function quest(postId, req, res) {
                     WHERE 
                         B.BOARD_IDX = ?`
 
+         const answerSql = `SELECT * FROM SR_ANSWER WHERE BOARD_IDX = ?`
+
     conn.query(postSql, [postId], (err, postResult) => {
         if (err) {
             console.error('DB Query Error: ', err)
@@ -441,20 +446,38 @@ function quest(postId, req, res) {
         if (postResult.length === 0) {
             return res.status(404).json({ error: 'Post not found' })
         }
-        console.log('포스트', postResult[0])
-        const post = postResult[0]
-        res.render('question', { question: post, user: req.session.user })
+        
+        const post = postResult
+
+        // 답변목록
+        conn.query(answerSql, [postId], (err, r) => {
+            if (err) {
+                console.error('DB Query Error: ', err)
+                return res.status(500).json({ error: 'DB Query Error' })
+            }
+            console.log('답변', r)
+            log('게시판', post[0])
+            res.render('question', { answers: postResult, post: r, user: req.session.user })
+        })
     })
+
+}
+
+function answerQues(postId, req, res) {
+    const postSql = `SELECT * FROM SR_ANSWER WHERE BOARD_IDX = ?`
+
+   
 }
 
 
-router.post('/answerUpload', upload.single('image'), async (req, res) => {
-    console.log('바디', req.body)
-    console.log('board_idx', req.body.board_idx)
-    console.log('user_idx', req.body.user_idx)
+router.post('/answerUpload', async (req, res) => {
+    // console.log('바디', req.body)
+    // console.log('board_idx', req.body.board_idx)
+    // console.log('user_idx', req.body.user_idx)
     const { content, board_idx, user_idx } = req.body
     let imageUrl = null
     const filePath = req.file ? req.file.path : null
+    console.log('게시팜ㄴㅇㅎㅁㄴㅇㅎㅁㄴㅇ', req.body)
     try {
         if (filePath) {
             imageUrl = await uploadImage(filePath, 'answer'); // 
@@ -464,13 +487,14 @@ router.post('/answerUpload', upload.single('image'), async (req, res) => {
         const sql = `INSERT INTO SR_ANSWER ( ANSWER_CONTENT,BOARD_IDX,USER_IDX) 
                     VALUES (?, ?, ?)`
 
-        const values = [req.body.content, req.body.board_idx, req.body.user_idx]
+        const values = [content, board_idx, user_idx]
         conn.query(sql, values, (err, result) => {
             if (err) {
                 console.error('DB Insert Error: ', err);
                 return res.status(500).json({ error: 'DB Insert Error' })
             }
             console.log('게시글 작성 완료')
+            res.redirect(`/board/question?idx=&{BOARD_IDX}`)
         })
     } catch (err) {
         res.status(500).json({ error: err.message })
@@ -480,17 +504,18 @@ router.post('/answerUpload', upload.single('image'), async (req, res) => {
             fs.unlinkSync(filePath)
         }
     }
-    selectsql = `SELECT * FROM SR_ANSWER WHERE BOARD_IDX = ?`
+    // selectsql = `SELECT * FROM SR_ANSWER WHERE BOARD_IDX = ?`
 
-    conn.query(selectsql, req.body.board_idx, (err, result) => {
-        if (err) {
-            console.error('DB Select Error: ', err);
-            return res.status(500).json({ error: 'Select sql Error' })
-        }
-        console.log('result', result[0])
-        console.log('question으로 전송완료')
-        res.render('question', { answers: result[0] })
-    })
+    // conn.query(selectsql, req.body.board_idx, (err, result) => {
+    //     if (err) {
+    //         console.error('DB Select Error: ', err);
+    //         return res.status(500).json({ error: 'Select sql Error' })
+    //     }
+    //     console.log('result', result)
+    //     console.log('question으로 전송완료')
+        
+    //     // res.render('question', { answers: result })
+    // })
 
 
 })

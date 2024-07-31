@@ -22,23 +22,46 @@
     <!-- ----------------------헤더----------------------------------- -->
     
     
-    <header>
-        
-        <a href="/" id="logo"><img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/test/KakaoTalk_20240722_111546767_01.png" alt=""></a>
-        
-        <section id="search" class="alt">
-            
-            <form action="/search/plant" method="get" class="detailForm">
-                <input type="text" name="q" placeholder="식물 검색" />
-                <button id="searchbtn"> 검색 </button>
+<!-- Header -->
+<header id="header">
+    <a href="/" class="logo"><img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/test/KakaoTalk_20240722_163631321_07.png" alt="무럭이">
+        <strong>MURUK </strong> <span>by ShinRok</span></a>
+    <ul class="icons">
+        {% if user %}
+        <li><a href="#">{{user.nick}}님 환영합니다.</a></li>
+        {% else %}
+        <li><a href="#">로그인 후 이용해주세요.</a></li>
+        {% endif %}
+        <li>
+            <form id="myPageForm" action="/myPage/info" method="post">
+                <a href="#" onclick="document.getElementById('myPageForm').submit(); return false;">마이페이지</a>
             </form>
-            
-        </section>
-        
-    </header>
+            <!-- <li><a href="/myPage/info" id="myPageLink">마이페이지</a></li> --> 
+        </li>
+        {% if user %}
+        <div class="kakaoLogout">
+            <a href="/user/logout">로그아웃<img src=""></a>
+        </div>
+        {% else %}
+        <div class="kakaoLogin">
+            <a href="/user/login"><img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/test/kakao_login_small+(1).png"></a>
+        </div>
+        {% endif %}
+    </ul>
+</header>
 
-    <div id="con">
-
+<!-- ------------------- 최상단 배너 ----------------------- -->
+<section id="banner">
+    <div class="content">
+        <header>
+            <!-- <h2>오늘의 식물 <br/></h2> -->
+            <img class="murukLogo" src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/board/0f124f526ead2c6d041a0e16c5439fa5" alt="">
+        </header>
+        <!-- <ul class="actions">
+            <li><a href="#">자세히 보러가기 <i class="fa-solid fa-right-long"></i></a></li>
+        </ul> -->
+    </div>
+</section>
 <!-- ----------------------------------사이드바---------------------------------- -->
 
 
@@ -75,7 +98,7 @@
 
         <div id="dictionary">
             <div></div>
-            <div id="text"><h2>식물도감</h2></div>
+            <div id="text"></div>
             <div></div>
 
 
@@ -104,7 +127,6 @@
          
 
 
-            <div></div>
             <!-- 페이징 컨트롤 수정 -->
             <div class="pagination">
                 {% if current_page > 1 %}
