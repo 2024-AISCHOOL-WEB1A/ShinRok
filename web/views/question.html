@@ -97,7 +97,6 @@
                 </td>
             </tr>
 
-    <form action="/board/answer" id="quesDetailForm" class="quesdetailForm" method="POST">
 
 
             <!-- ------------------- 게시물 내용이 보이는 부분 ----------------- -->
@@ -170,7 +169,7 @@
             </div>
             <input type="hidden" name="board_idx" value="{{question.BOARD_IDX}}">
             <input type="hidden" name="user_idx" value="{{user.idx}}">
-            <input type="hidden" name="board_idx" value="{{question.BOARD_IDX}}">
+        
         </form>
 
         <!-- 답변 목록 -->
@@ -180,18 +179,18 @@
             <div class="answer">
                 <table>
                     <tr>
-                        <td rowspan="2" class="profilePic"><img src='{{answer.USER_PICTURE}}' alt="프로필 사진"></td>
-                        <td class="userNick">{{ answer.USER_NICK }}</td>
+                        <td rowspan="2" class="profilePic"><img src='{{answers.USER_PICTURE}}' alt="프로필 사진"></td>
+                        <td class="userNick">{{ answers.USER_NICK }}</td>
                     </tr>
                     <tr>
-                        <td class="answerDate">{{ answer.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}</td>
+                        <td class="answerDate">{{ answers.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}</td>
                     </tr>
                     <tr>
                         <td colspan="2" class="answerContent">
-                            {% if answer.BOARD_IMG %}
-                            <img src="{{ answer.BOARD_IMG }}" alt="답변 이미지" class="answerImg">
+                            {% if answers.BOARD_IMG %}
+                            <img src="{{ answers.BOARD_IMG }}" alt="답변 이미지" class="answerImg">
                             {% endif %}
-                            <p>{{ answer.BOARD_CONTENT }}</p>
+                            <p>{{ answers.BOARD_CONTENT }}</p>
                         </td>
                     </tr>
                 </table>
