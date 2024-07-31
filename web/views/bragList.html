@@ -90,24 +90,28 @@
             
                 <div class="board-item" onclick="location.href='/board/detailPost?idx={{ i.BOARD_IDX }}'">
                     <input type="hidden" name="idx" value="{{bragList.idx}}">
-                    <div class="info-section">
-                        <span>{{ i.USER_NICK }}</span>
-                        <span>{{ i.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}</span>
-                        <span>조회수: {{i.BOARD_COUNT}}</span>
-                        <span><i class="fa-regular fa-comment-dots"></i> 댓글 수: {{commentCount}}</span>
+                    
+                    <div class="table">
+                        <div class="imgList">
+                            {% if i.BOARD_IMG %}
+                            <div class="addImage">
+                                <img src="{{i.BOARD_IMG}}" alt="자랑 이미지">
+                            </div>
+                            {% else %}
+                            <div class="addImage">
+                                <img src="https://lh3.googleusercontent.com/proxy/LQnL6JlEVEhIS8cRyOat6q2WqV8gSZtHHiPqSRImmbUwHksuEz_QxsCvp5sitI0g_28UcQ6KWNXoEPv3ixL9hRQSmB4qPT5Fz3FANL9GmZ2ja9UWNegDA3k6rxnQIfdr6bVpRISaonLEU9oJUrP_VHbWy5EI7u_j4UUQiKqyECn6oIaUFCM4rTL3xYDYDBVG_n-pBO3Bnzc5" alt="자랑 이미지">
+                            </div>
+                            {% endif %}
+                        </div>
                     </div>
-                    <table class="table">
-                        <tr class="imgList">
-                            <td class="addImage">
-                                {% if i.BOARD_IMG %}
-                                    <img src="{{i.BOARD_IMG}}" alt="자랑 이미지">
-                                {% endif %}
-                            </td>
-                            
-                        </tr>
-                    </table>
                     <h2 class="post-title">제목: {{i.BOARD_TITLE}}</h2>
                     <p>내용: {{i.BOARD_CONTENT}}</p>
+                    <div class="info-section">
+                        <!-- <span>{{ i.USER_NICK }}</span> -->
+                        <span>{{ i.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}</span>
+                        <span><i class="fa-solid fa-eye"></i> {{i.BOARD_COUNT}}</span>
+                        <span><i class="fa-regular fa-comment-dots"></i> {{i.COMMENT_COUNT}}</span>
+                    </div>
                 </div>
             {% endfor %}
         </div>
