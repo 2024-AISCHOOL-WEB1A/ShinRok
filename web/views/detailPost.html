@@ -62,7 +62,12 @@
                 <li><a href="/diary">Diary</a></li>
                 <li><a href="/predict">병충해 진단</a></li>
                 <li><a href="/dictionary/home">식물 도감</a></li>
-                <li><a href="/myPage/info">마이페이지</a></li>
+                <li>
+                    <form id="myPageForm" action="/myPage/info" method="post">
+                        <a href="#" onclick="document.getElementById('myPageForm').submit(); return false;">마이페이지</a>
+                    </form>
+                    <!-- <a href="/myPage/info">마이페이지</a> -->
+                </li>
             </ul>
         </nav>
     </aside>
@@ -232,6 +237,7 @@
         }
 
         function deletePost(boardIdx) {
+            console.log("Attempting to delete post with board_idx:", boardIdx); // 디버그용 로그 추가
             axios.get(`http://localhost:3000/board/delete?idx=${boardIdx}`)
                 .then(response => {
                     if (response.data.success) {
@@ -244,6 +250,7 @@
                 })
                 .catch(error => {
                     console.error('Error:', error);
+                    alert('게시글 삭제 중 오류가 발생했습니다.');
                 });
         }
         //게시글 추천 함수
@@ -261,31 +268,6 @@
                     console.error('Error:', error);
                 });
         }
-        
-
-        $(document).ready(function() {
-            $('#recommendButton').on('click', function() {
-                const boardIdx = $(this).data('board-idx');
-
-                $.ajax({
-                    url: '/recommend',
-                    method: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify({ idx: boardIdx }),
-                    success: function(response) {
-                        if (response.success) {
-                            $('#recommendCount').text(response.recommendCount);
-                            alert(response.message);
-                        } else {
-                            alert(response.message);
-                        }
-                    },
-                    error: function() {
-                        alert('서버 오류가 발생했습니다.');
-                    }
-                });
-            });
-        });
 
         // 페이지 로드 시 댓글 목록 로드
         const boardIdx = "{{ post.BOARD_IDX }}"; // 템플릿 변수 사용

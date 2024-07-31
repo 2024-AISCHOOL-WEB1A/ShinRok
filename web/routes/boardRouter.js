@@ -781,23 +781,48 @@ router.get('/freeList', (req, res) => {
     });
 });
 
-// 게시글 삭제 기능
 router.get('/delete', (req, res) => {
     const board_idx = req.query.idx;
-    log(board_idx);
-    const sql = `DELETE FROM SR_BOARD WHERE BOARD_IDX = ?`
+    const deleteRecommendationsSql = `DELETE FROM SR_RECOMMEND WHERE BOARD_IDX = ?`;
+    const deleteBoardSql = `DELETE FROM SR_BOARD WHERE BOARD_IDX = ?`;
 
-    conn.query(sql, [board_idx], (e, r) => {
-        if (e) {
-            log(e);
-            return res.status(500).json({ error: "DB 쿼리 에러" })
-        } else if (r.affectedRows === 0) {
-            return res.status(404).json({ error: "페이지 없음" })
-        } else {
-            res.json({ success: true, message: '게시글이 성공적으로 삭제되었습니다.', board_idx: board_idx })
+    conn.beginTransaction((err) => {
+        if (err) {
+            log(err);
+            return res.status(500).json({ error: "트랜잭션 시작 오류" });
         }
-    })
-})
+
+        conn.query(deleteRecommendationsSql, [board_idx], (err, results) => {
+            if (err) {
+                log(err);
+                return conn.rollback(() => {
+                    res.status(500).json({ error: "추천 데이터 삭제 오류" });
+                });
+            }
+
+            conn.query(deleteBoardSql, [board_idx], (err, results) => {
+                if (err) {
+                    log(err);
+                    return conn.rollback(() => {
+                        res.status(500).json({ error: "게시글 삭제 오류" });
+                    });
+                }
+
+                conn.commit((err) => {
+                    if (err) {
+                        log(err);
+                        return conn.rollback(() => {
+                            res.status(500).json({ error: "트랜잭션 커밋 오류" });
+                        });
+                    }
+
+                    res.json({ success: true, message: '게시글이 성공적으로 삭제되었습니다.', board_idx: board_idx });
+                });
+            });
+        });
+    });
+});
+
 
 
 
@@ -936,6 +961,87 @@ router.get('/hot', (req, res) => {
         });
     });
 });
+
+router.post('/recommend', async (req, res) => {
+    const { idx: board_idx } = req.body;
+    const user_idx = req.session.user.idx;
+
+    try {
+        // 이미 추천했는지 확인
+        const [checkResult] = await conn.promise().query(
+            'SELECT * FROM SR_RECOMMEND WHERE USER_IDX = ? AND BOARD_IDX = ?',
+            [user_idx, board_idx]
+        );
+
+        if (checkResult.length > 0) {
+            return res.json({ success: false, message: "이미 추천한 게시글입니다." });
+        }
+
+        await conn.promise().beginTransaction();
+
+        // 추천 수 증가
+        await conn.promise().query(
+            'UPDATE SR_BOARD SET BOARD_RECOMMEND = BOARD_RECOMMEND + 1 WHERE BOARD_IDX = ?',
+            [board_idx]
+        );
+
+        // 추천 기록 저장
+        await conn.promise().query(
+            'INSERT INTO SR_RECOMMEND (USER_IDX, BOARD_IDX) VALUES (?, ?)',
+            [user_idx, board_idx]
+        );
+
+        // 최신 추천 수 조회
+        const [recommendResult] = await conn.promise().query(
+            'SELECT board_recommend FROM SR_BOARD WHERE board_idx = ?',
+            [board_idx]
+        );
+
+        await conn.promise().commit();
+
+        res.json({
+            success: true,
+            message: '추천이 완료되었습니다.',
+            recommendCount: recommendResult[0].board_recommend
+        });
+    } catch (error) {
+        await conn.promise().rollback();
+        console.error('추천 처리 중 오류 발생:', error);
+        res.status(500).json({ success: false, message: "서버 오류가 발생했습니다." });
+    }
+});
+
+function getPost(postId, req, res) {
+    const postSql = `SELECT 
+                        U.USER_IDX,
+                        U.USER_NICK,
+                        U.USER_PICTURE,
+                        B.BOARD_IDX,
+                        B.BOARD_TITLE,
+                        B.BOARD_CONTENT,
+                        B.BOARD_COUNT,
+                        B.BOARD_DATE,
+                        B.BOARD_IMG,
+                        B.BOARD_CATE,
+                        B.BOARD_RECOMMEND
+                    FROM 
+                        SR_USER U
+                        JOIN SR_BOARD B ON U.USER_IDX = B.USER_IDX
+                    WHERE 
+                        B.BOARD_IDX = ?`
+
+    conn.query(postSql, [postId], (err, postResult) => {
+        if (err) {
+            console.error('DB Query Error: ', err)
+            return res.status(500).json({ error: 'DB Query Error' })
+        }
+        if (postResult.length === 0) {
+            return res.status(404).json({ error: 'Post not found' })
+        }
+        const post = postResult[0]
+        res.render('detailPost', { post: post, user: req.session.user })
+    })
+}
 
 
 module.exports = router;
