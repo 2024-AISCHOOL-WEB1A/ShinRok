@@ -267,31 +267,6 @@
                 });
         }
         
-
-        $(document).ready(function() {
-            $('#recommendButton').on('click', function() {
-                const boardIdx = $(this).data('board-idx');
-
-                $.ajax({
-                    url: '/recommend',
-                    method: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify({ idx: boardIdx }),
-                    success: function(response) {
-                        if (response.success) {
-                            $('#recommendCount').text(response.recommendCount);
-                            alert(response.message);
-                        } else {
-                            alert(response.message);
-                        }
-                    },
-                    error: function() {
-                        alert('서버 오류가 발생했습니다.');
-                    }
-                });
-            });
-        });
-
         // 페이지 로드 시 댓글 목록 로드
         const boardIdx = "{{ post.BOARD_IDX }}"; // 템플릿 변수 사용
         loadComments(boardIdx); // 해당 게시글 ID로 호출
