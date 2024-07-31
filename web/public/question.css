@@ -72,11 +72,12 @@ body{
 }
 #titleTd{
     text-align: center;
-    width: 12%;
+    width: 5vw;
 }
 #titleDate{
     color: #7e7979;
     font-size: small;
+    padding: 0;
 }
 .horizontal-line {
     text-align: center;
@@ -455,13 +456,26 @@ ul.icons {
     border-top: 1px solid #7e7979;
     width: 100%;
     padding-top: 2%;
-    margin-bottom: 10%;
+    margin-bottom: 4%;
 }
 
 .profilePic img{
     border-radius: 90px;
     width: 5vw;
 }
+.answerdate{
+    width: 100%;
+    color: #7e7979;
+    font-size: smaller;
+    padding: 0;
+}
+.usernick{
+    width: 100%;
+    color: #312f2f;
+    font-weight: bold;
+    padding: 0;
+}
+
 
 textarea{
     border: 2px solid #7e7979;
@@ -491,3 +505,7 @@ textarea{
     align-items: center;
 }
 
+.answerContent{
+    border-bottom: 1px solid #afa8a8;
+    margin-bottom: 5%;
+}
