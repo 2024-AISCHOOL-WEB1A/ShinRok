@@ -63,7 +63,8 @@ router.get('/freePost', (req, res) => {
                         B.BOARD_DATE,
                         B.BOARD_IMG,
                         B.BOARD_CATE,
-                        COUNT(C.CMNT_CONTENT) AS COMMENT_COUNT
+                        COUNT(C.CMNT_CONTENT) AS COMMENT_COUNT,
+                        B.BOARD_RECOMMEND
                     FROM 
                         SR_USER U
                         JOIN SR_BOARD B ON U.USER_IDX = B.USER_IDX
@@ -758,7 +759,8 @@ router.get('/freeList', (req, res) => {
                         B.BOARD_DATE,
                         B.BOARD_IMG,
                         B.BOARD_CATE,
-                        COUNT(C.CMNT_CONTENT) AS COMMENT_COUNT
+                        COUNT(C.CMNT_CONTENT) AS COMMENT_COUNT,
+                        B.BOARD_RECOMMEND
                     FROM 
                         SR_USER U
                         JOIN SR_BOARD B ON U.USER_IDX = B.USER_IDX
@@ -981,14 +983,14 @@ router.get('/hot', (req, res) => {
 router.post('/recommend', async (req, res) => {
     const { idx: board_idx } = req.body;
     const user_idx = req.session.user.idx;
-            console.log(user_idx)
+            
     try {
           // 게시글 작성자 확인
           const [postResult] = await conn.promise().query(
             'SELECT USER_IDX FROM SR_BOARD WHERE BOARD_IDX = ?',
             [board_idx]
         );
-        console.log('postResult', postResult)
+        
         if (postResult.length === 0) {
             return res.json({ success: false, message: "게시글을 찾을 수 없습니다." });
         }
