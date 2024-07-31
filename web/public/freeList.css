@@ -266,6 +266,7 @@ body{
           right: -0.5em;
           top: 0; } 
     }
+    
 
 /* Icons */
 ul.icons {
@@ -284,4 +285,6 @@ ul.icons {
         color: inherit; }
         ul.icons li .icon:before {
           font-size: 1.25em; }
-  
+  .active {
+    background-color: #f67878;
+}
