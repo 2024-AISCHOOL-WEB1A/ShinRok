@@ -62,6 +62,7 @@ router.get('/freePost', (req, res) => {
                         B.BOARD_DATE,
                         B.BOARD_IMG,
                         B.BOARD_CATE,
+                        B.BOARD_RECOMMEND,
                         COUNT(C.CMNT_CONTENT) AS COMMENT_COUNT
                     FROM 
                         SR_USER U
@@ -120,6 +121,7 @@ router.get('/bragPost', (req, res) => {
                         B.BOARD_DATE,
                         B.BOARD_IMG,
                         B.BOARD_CATE,
+                        B.BOARD_RECOMMEND,
                         COUNT(C.CMNT_CONTENT) AS COMMENT_COUNT
                     FROM 
                         SR_USER U
@@ -179,6 +181,7 @@ router.get('/bragList', (req, res) => {
                     B.BOARD_DATE,
                     B.BOARD_IMG,
                     B.BOARD_CATE,
+                    B.BOARD_RECOMMEND,
                     COUNT(C.CMNT_CONTENT) AS COMMENT_COUNT
                 FROM 
                     SR_USER U
@@ -294,6 +297,7 @@ router.get('/quesPost', (req, res) => {
                         B.BOARD_DATE,
                         B.BOARD_IMG,
                         B.BOARD_CATE,
+                        B.BOARD_RECOMMEND,
                         COUNT(C.CMNT_CONTENT) AS COMMENT_COUNT
                     FROM 
                         SR_USER U
@@ -350,6 +354,7 @@ router.get('/quesList', (req, res) => {
                     B.BOARD_DATE,
                     B.BOARD_IMG,
                     B.BOARD_CATE,
+                    B.BOARD_RECOMMEND,
                     COUNT(C.CMNT_CONTENT) AS COMMENT_COUNT
                 FROM 
                     SR_USER U
@@ -745,6 +750,7 @@ router.get('/freeList', (req, res) => {
                         B.BOARD_DATE,
                         B.BOARD_IMG,
                         B.BOARD_CATE,
+                        B.BOARD_RECOMMEND,
                         COUNT(C.CMNT_CONTENT) AS COMMENT_COUNT
                     FROM 
                         SR_USER U
@@ -880,6 +886,7 @@ router.get('/hotPost', (req, res) => {
                         B.BOARD_IMG,
                         B.BOARD_CATE,
                         B.BOARD_RECOMMEND,
+                        B.BOARD_RECOMMEND,
                         COUNT(C.CMNT_IDX) AS COMMENT_COUNT
                     FROM 
                         SR_BOARD B
@@ -913,7 +920,7 @@ router.get('/hotPost', (req, res) => {
     });
 });
 
-// 자유게시판의 전체 목록을 가져옴
+// 인기글의 전체 목록을 가져옴
 router.get('/hot', (req, res) => {
     const page = parseInt(req.query.page) || 1; // 현재 페이지 번호 (기본값: 1)
     const limit = 15; // 페이지 당 게시글 수
@@ -943,7 +950,7 @@ router.get('/hot', (req, res) => {
                         B.BOARD_IDX, U.USER_IDX, U.USER_NICK, U.USER_PICTURE,
                         B.BOARD_TITLE, B.BOARD_CONTENT, B.BOARD_COUNT,
                         B.BOARD_DATE, B.BOARD_IMG, B.BOARD_CATE
-                    ORDER BY B.BOARD_DATE DESC
+                    ORDER BY B.BOARD_RECOMMEND DESC
                     LIMIT ?, ?`;                    
 
     conn.query(countSql, (err, countResult) => {
