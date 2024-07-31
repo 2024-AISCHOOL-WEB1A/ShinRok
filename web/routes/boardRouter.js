@@ -105,7 +105,7 @@ router.get('/freePost', (req, res) => {
 
 router.get('/bragPost', (req, res) => {
     const page = parseInt(req.query.page) || 1; // 현재 페이지 번호 (기본값: 1)
-    const limit = 15; // 페이지 당 게시글 수
+    const limit = 12; // 페이지 당 게시글 수
     const offset = (page - 1) * limit;
 
     const countSql = `SELECT COUNT(*) AS total FROM SR_BOARD WHERE BOARD_CATE = '자랑'`;
@@ -266,69 +266,69 @@ router.get('/bragList', (req, res) => {
                 console.error('DB Query Error: ', err);
                 return res.status(500).json({ error: 'DB Query Error' });
             }
-            res.render('bragList', { bragList: dataResult, currentPage: page, totalPages: totalPages })
+            res.render('bragList', { bragList: dataResult, currentPage: page, totalPages: totalPages, user: req.session.user })
         })
     })
 })
 
-router.get('/bragdetailPost', (req, res) => {
-    const postId = req.query.idx
+// router.get('/bragdetailPost', (req, res) => {
+//     const postId = req.query.idx
 
-    // 세션에 조회한 게시글 ID 저장
-    if (!req.session.viewedPosts) {
-        req.session.viewedPosts = {}
-    }
+//     // 세션에 조회한 게시글 ID 저장
+//     if (!req.session.viewedPosts) {
+//         req.session.viewedPosts = {}
+//     }
 
-    if (!req.session.viewedPosts[postId]) {
-        req.session.viewedPosts[postId] = true;
+//     if (!req.session.viewedPosts[postId]) {
+//         req.session.viewedPosts[postId] = true;
 
-        const updateCountSql = `UPDATE SR_BOARD SET BOARD_COUNT = BOARD_COUNT + 1 WHERE BOARD_IDX = ?`
+//         const updateCountSql = `UPDATE SR_BOARD SET BOARD_COUNT = BOARD_COUNT + 1 WHERE BOARD_IDX = ?`
 
-        conn.query(updateCountSql, [postId], (err, result) => {
-            if (err) {
-                console.error('DB Update Error: ', err)
-                return res.status(500).json({ error: 'DB Update Error' })
-            }
+//         conn.query(updateCountSql, [postId], (err, result) => {
+//             if (err) {
+//                 console.error('DB Update Error: ', err)
+//                 return res.status(500).json({ error: 'DB Update Error' })
+//             }
 
-            bragPost(postId, req, res)
-        })
-    } else {
-        bragPost(postId, req, res)
-    }
-});
+//             bragPost(postId, req, res)
+//         })
+//     } else {
+//         bragPost(postId, req, res)
+//     }
+// });
 
-function bragPost(postId, req, res) {
-    const postSql = `SELECT 
-                        U.USER_IDX,
-                        U.USER_NICK,
-                        U.USER_PICTURE,
-                        B.BOARD_IDX,
-                        B.BOARD_TITLE,
-                        B.BOARD_CONTENT,
-                        B.BOARD_COUNT,
-                        B.BOARD_DATE,
-                        B.BOARD_IMG,
-                        B.BOARD_CATE
-                    FROM 
-                        SR_USER U
-                        JOIN SR_BOARD B ON U.USER_IDX = B.USER_IDX
-                    WHERE 
-                        B.BOARD_IDX = ?`
+// function bragPost(postId, req, res) {
+//     const postSql = `SELECT 
+//                         U.USER_IDX,
+//                         U.USER_NICK,
+//                         U.USER_PICTURE,
+//                         B.BOARD_IDX,
+//                         B.BOARD_TITLE,
+//                         B.BOARD_CONTENT,
+//                         B.BOARD_COUNT,
+//                         B.BOARD_DATE,
+//                         B.BOARD_IMG,
+//                         B.BOARD_CATE
+//                     FROM 
+//                         SR_USER U
+//                         JOIN SR_BOARD B ON U.USER_IDX = B.USER_IDX
+//                     WHERE 
+//                         B.BOARD_IDX = ?`
 
-    conn.query(postSql, [postId], (err, postResult) => {
-        if (err) {
-            console.error('DB Query Error: ', err)
-            return res.status(500).json({ error: 'DB Query Error' })
-        }
-        if (postResult.length === 0) {
-            return res.status(404).json({ error: 'Post not found' })
-        }
+//     conn.query(postSql, [postId], (err, postResult) => {
+//         if (err) {
+//             console.error('DB Query Error: ', err)
+//             return res.status(500).json({ error: 'DB Query Error' })
+//         }
+//         if (postResult.length === 0) {
+//             return res.status(404).json({ error: 'Post not found' })
+//         }
 
-        const post = postResult[0]
-        res.render('bragdetailPost', { bragdetailPost: post, user: req.session.user })
-    })
-}
-//d
+//         const post = postResult[0]
+//         res.render('bragdetailPost', { bragdetailPost: post, user: req.session.user })
+//     })
+// }
+
 // 질문 게시판
 router.get('/quesPost', (req, res) => {
     const page = parseInt(req.query.page) || 1; // 현재 페이지 번호 (기본값: 1)
@@ -435,7 +435,7 @@ router.get('/quesList', (req, res) => {
                 console.error('DB Query Error: ', err);
                 return res.status(500).json({ error: 'DB Query Error' });
             }
-            res.render('quesList', { quesList: dataResult, currentPage: page, totalPages: totalPages })
+            res.render('quesList', { quesList: dataResult, currentPage: page, totalPages: totalPages,user: req.session.user })
         })
     })
 })
@@ -832,7 +832,7 @@ router.get('/freeList', (req, res) => {
                 console.error('DB Query Error: ', err);
                 return res.status(500).json({ error: 'DB Query Error' });
             }
-            res.render('freeList', { boardFree: dataResult, currentPage: page, totalPages: totalPages });
+            res.render('freeList', { boardFree: dataResult, currentPage: page, totalPages: totalPages, user: req.session.user });
         });
     });
 });
@@ -937,6 +937,58 @@ router.get('/hotPost', (req, res) => {
                 return res.status(500).json({ error: 'DB Query Error' });
             }
             res.render('recommend', { data: dataResult, currentPage: page, totalPages: totalPages, user: req.session.user });
+        });
+    });
+});
+
+// 자유게시판의 전체 목록을 가져옴
+router.get('/hot', (req, res) => {
+    const page = parseInt(req.query.page) || 1; // 현재 페이지 번호 (기본값: 1)
+    const limit = 15; // 페이지 당 게시글 수
+    const offset = (page - 1) * limit;
+
+    const countSql = `SELECT COUNT(*) AS total FROM SR_BOARD WHERE BOARD_RECOMMEND >= 3;`
+    const dataSql = `SELECT 
+                        U.USER_IDX,
+                        U.USER_NICK,
+                        U.USER_PICTURE,
+                        B.BOARD_IDX,
+                        B.BOARD_TITLE,
+                        B.BOARD_CONTENT,
+                        B.BOARD_COUNT,
+                        B.BOARD_DATE,
+                        B.BOARD_IMG,
+                        B.BOARD_CATE,
+                        B.BOARD_RECOMMEND,
+                        COUNT(C.CMNT_IDX) AS COMMENT_COUNT
+                    FROM 
+                        SR_BOARD B
+                        JOIN SR_USER U ON B.USER_IDX = U.USER_IDX
+                        LEFT JOIN SR_CMNT C ON B.BOARD_IDX = C.BOARD_IDX
+                    WHERE 
+                        B.BOARD_RECOMMEND >= 3
+                    GROUP BY
+                        B.BOARD_IDX, U.USER_IDX, U.USER_NICK, U.USER_PICTURE,
+                        B.BOARD_TITLE, B.BOARD_CONTENT, B.BOARD_COUNT,
+                        B.BOARD_DATE, B.BOARD_IMG, B.BOARD_CATE
+                    ORDER BY B.BOARD_DATE DESC
+                    LIMIT ?, ?`;                    
+
+    conn.query(countSql, (err, countResult) => {
+        if (err) {
+            console.error('DB Count Error: ', err);
+            return res.status(500).json({ error: 'DB Count Error' });
+        }
+
+        const totalPosts = countResult[0].total;
+        const totalPages = Math.ceil(totalPosts / limit);
+
+        conn.query(dataSql, [offset, limit], (err, dataResult) => {
+            if (err) {
+                console.error('DB Query Error: ', err);
+                return res.status(500).json({ error: 'DB Query Error' });
+            }
+            res.render('freeList', { boardFree: dataResult, currentPage: page, totalPages: totalPages,user: req.session.user });
         });
     });
 });

@@ -30,7 +30,7 @@
 										<strong>MURUK </strong> <span>by ShinRok</span></a>
 									<ul class="icons">
 										<li><a href="#">내소식 </a></li>
-										<li><a href="/myPage">마이페이지</a></li>
+										<li><a href="/myPage/info">마이페이지</a></li>
 										{% if user %}
 										<div class="kakaoLogout">
 											<a href="/user/logout">로그아웃<img src=""></a>
@@ -61,8 +61,8 @@
 								<header class="major, postList">
 									<a href="/board/bragPost"><i class="fa-regular fa-face-smile"></i><h3>자랑하기</h3></a>
 									<a href="/board/freePost"><i class="fa-regular fa-pen-to-square"></i><h3>자유게시판</h3></a>
-									<a href="#"><i class="fa-regular fa-heart"></i> <h3>인기글</h3></a>
-									<a href="#"><i class="fa-regular fa-comments"></i> <h3>질문게시판</h3></a>
+									<a href="/board/hotPost"><i class="fa-regular fa-heart"></i> <h3>인기글</h3></a>
+									<a href="/board/queslist"><i class="fa-regular fa-comments"></i> <h3>질문게시판</h3></a>
 								</header>
 								{% block content %}
 								<section id="freeSection">
@@ -151,7 +151,7 @@
 										<li><a href="/diary">Diary</a></li>
 										<li><a href="/dictionary/home">Plant BOOK</a></li>
 										<li><a href="/predict">병충해 진단🦠</a></li>
-										<li><a href="#">Another Site</a></li>
+										<!-- <li><a href="#">Another Site</a></li> -->
 									</ul>
 								</nav>
 

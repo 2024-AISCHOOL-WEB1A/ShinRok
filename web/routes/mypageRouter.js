@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const conn = require('../config/db'); // 데이터베이스 연결 설정 파일
+const {log} = require('console')
 
 // 회원 정보 보기 기능 router
 router.post('/info', (req, res) => {
     // 사용자 인증 확인
-    console.log('요청 바디:', req.session.user.idx);
+    // console.log('요청 바디:', req.session.user.idx);
     
     if (!req.session.user) {
         return res.status(401).json({ error: '세션이 존재하지 않습니다.' });
@@ -31,7 +32,7 @@ router.post('/info', (req, res) => {
         if (userRows.length === 0) {
             return res.status(404).json({ error: '데이터를 찾을 수 없습니다.' });
         }
-        console.log('userRows', userRows);
+        // console.log('userRows', userRows);
         
         const boardSql = `
             SELECT 
@@ -68,7 +69,8 @@ router.post('/info', (req, res) => {
                 res.render('myPage', {
                     userData: userRows[0],  // 첫 번째 결과만 전달
                     boardData: boardRows || [],
-                    dssData: dssRows || []
+                    dssData: dssRows || [],
+                    user: req.session.user
                 });
             });
         });
@@ -77,15 +79,29 @@ router.post('/info', (req, res) => {
 
 
 //진단기록 보기 기능
-router.post('/diagnosis',(req,res)=>{
-    console.log('진단기록 보기 기능 요청 바디:', req.body);
-    const idx = req.body.idx;
-     const dssSql= `SELECT DSS 
-                    `
+router.post('/resultdetail',(req,res)=>{
+    // log(req.body)
+    const { user_idx, dss_idx } = req.body
+    // log(user_idx)
 
-    res.render('myPage',{
-
+    const sql = ` SELECT *
+                    FROM SR_DSS
+                    WHERE DSS_IDX = ?
+                      AND USER_IDX = ?
+        `
+    conn.query(sql, [dss_idx, user_idx], (e, r) => {
+        if(e) {
+            console.error('DB 쿼리 에러', e)
+            return res.status(500).json({error : 'DB 쿼리 에러'})
+        } else if(r.length === 0) {
+            return res.status(404).json({error : 'Post not found'})
+        } else {
+           
+            log(r)
+            res.render('resultdetail', {res : r, user: req.session.user})
+        }
     })
+    
 })
 
 

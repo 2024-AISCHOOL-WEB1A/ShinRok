@@ -72,7 +72,7 @@ router.get('/result', (req, res) => {
             return res.status(500).json({error : 'DB쿼리 에러'})
         } else {
             log(r)
-            res.render('result', {res : r})
+            res.render('result', {res : r, user: req.session.user})
         }
     })            
 

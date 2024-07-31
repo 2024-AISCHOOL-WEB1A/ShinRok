@@ -10,10 +10,42 @@
 </head>
 <body>
 <form action="/diary/submit" method="post" enctype="multipart/form-data" class="diaryForm" id="diaryForm">
-    <header>
-        <a href="/" id="logo"><img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/test/KakaoTalk_20240722_111546767_01.png" alt=""></a>
-        <input name="query" id="diaryName" type="text" placeholder="다이어리 이름을 설정하세요.">
+
+
+
+
+    <!-- Header -->
+    <header id="header">
+        <a href="/" class="logo"><img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/test/KakaoTalk_20240722_163631321_07.png" alt="무럭이">
+            <strong>MURUK </strong> <span>by ShinRok</span></a>
+        <ul class="icons">
+            {% if user %}
+            <li><a href="#">{{user.nick}}님 환영합니다.</a></li>
+            {% else %}
+            <li><a href="#">로그인 후 이용해주세요.</a></li>
+            {% endif %}
+            <li>
+                <form id="myPageForm" action="/myPage/info" method="post">
+                    <a href="#" onclick="document.getElementById('myPageForm').submit(); return false;">마이페이지</a>
+                </form>
+                <!-- <li><a href="/myPage/info" id="myPageLink">마이페이지</a></li> --> 
+            </li>
+            {% if user %}
+            <div class="kakaoLogout">
+                <a href="/user/logout">로그아웃<img src=""></a>
+            </div>
+            {% else %}
+            <div class="kakaoLogin">
+                <a href="/user/login"><img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/test/kakao_login_small+(1).png"></a>
+            </div>
+            {% endif %}
+        </ul>
     </header>
+
+
+
+
+
     <div id="container">
         {% if user %}
         <input type="hidden" name="idx" value="{{ user.idx }}">
@@ -22,9 +54,9 @@
             <nav class="topsidebar">
                 <ul>
                     <li><a href="/">HOME</a></li>
-                    <li><a href="/freeList">자유게시판</a></li>
-                    <li><a href="#">자랑하기</a></li>
-                    <li><a href="#">인기글</a></li>
+                    <li><a href="/board/freeList">자유게시판</a></li>
+                    <li><a href="/board/bragPost">자랑하기</a></li>
+                    <li><a href="/board/hot">인기글</a></li>
                     <li><a href="/board/queslist">질문게시판</a></li>
                 </ul>
             </nav>
@@ -34,7 +66,7 @@
                     <li id="pointLi"><a href="/diary">Diary</a></li>
                     <li><a href="/predict">병충해 진단</a></li>
                     <li><a href="/dictionary/home">식물 도감</a></li>
-                    <li><a href="/myPage">마이페이지</a></li>
+                    <li><a href="/myPage/info">마이페이지</a></li>
                 </ul>
             </nav>
         </aside>
