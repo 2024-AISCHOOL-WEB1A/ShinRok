@@ -458,6 +458,11 @@ ul.icons {
     margin-bottom: 10%;
 }
 
+.profilePic img{
+    border-radius: 90px;
+    width: 5vw;
+}
+
 textarea{
     border: 2px solid #7e7979;
     width: 90%;
@@ -485,3 +490,4 @@ textarea{
     flex-direction:row;
     align-items: center;
 }
+

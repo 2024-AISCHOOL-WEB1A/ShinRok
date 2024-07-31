@@ -135,6 +135,7 @@ ul.icons {
     list-style-type: none;
     padding-left: 0;
     text-align: center;
+    margin-top: 8vh;
 }
 .leftSidebar nav ul li{
     margin: 20px 0;
@@ -159,7 +160,6 @@ ul.icons {
 }
 
 .underSidebar a{
-    font-size: smaller;
     margin-top: 5%;
 }
 .underSidebar li{

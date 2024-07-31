@@ -51,15 +51,12 @@
 </header>
 
 <!-- ------------------- 최상단 배너 ----------------------- -->
-<section id="banner">
+<section id="Banner">
     <div class="content">
         <header>
             <!-- <h2>오늘의 식물 <br/></h2> -->
             <img class="murukLogo" src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/board/0f124f526ead2c6d041a0e16c5439fa5" alt="">
         </header>
-        <!-- <ul class="actions">
-            <li><a href="#">자세히 보러가기 <i class="fa-solid fa-right-long"></i></a></li>
-        </ul> -->
     </div>
 </section>
 <!-- ----------------------------------사이드바---------------------------------- -->
@@ -97,11 +94,6 @@
 <!-- ----------------------도감----------------------------------- -->
 
         <div id="dictionary">
-            <div></div>
-            <div id="text"></div>
-            <div></div>
-
-
             {% for i in specificPlant %} 
             <div class="item">
                 <a href="/dictionary/detail?idx={{i.PLANT_IDX}}">

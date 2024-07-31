@@ -177,23 +177,21 @@
                         
                         {% for i in answer %}
                         <div class="answer">
-                            <table>
-                                <tr>
-                                    <td rowspan="2" class="profilePic"><img src='{{i.USER_PICTURE}}' alt="프로필 사진"></td>
-                                    <td class="userNick">{{ i.USER_NICK }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="answerDate">{{ i.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="4" class="answerContent">
-                                        {% if i.BOARD_IMG %}
-                                        <img src="{{ i.BOARD_IMG }}" alt="답변 이미지" class="answerImg">
-                                        {% endif %}
-                                        <p>{{ i.ANSWER_CONTENT }}</p>
-                                    </td>
-                                </tr>
-                            </table>
+                            <tr>
+                                <td rowspan="2" class="profilePic"><img src='{{i.USER_PICTURE}}' alt="프로필 사진"></td>
+                            </tr>
+                            <tr>
+                                <td class="userNick">{{ i.USER_NICK }}</td>
+                                <td class="answerDate">{{ i.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="answerContent">
+                                    {% if i.BOARD_IMG %}
+                                    <img src="{{ i.BOARD_IMG }}" alt="답변 이미지" class="answerImg">
+                                    {% endif %}
+                                    <p>{{ i.ANSWER_CONTENT }}</p>
+                                </td>
+                            </tr>
                         </div>
                         {% endfor %}
                     </div>
