@@ -99,18 +99,18 @@
                             </div>
                             {% else %}
                             <div class="addImage">
-                                <img src="https://lh3.googleusercontent.com/proxy/LQnL6JlEVEhIS8cRyOat6q2WqV8gSZtHHiPqSRImmbUwHksuEz_QxsCvp5sitI0g_28UcQ6KWNXoEPv3ixL9hRQSmB4qPT5Fz3FANL9GmZ2ja9UWNegDA3k6rxnQIfdr6bVpRISaonLEU9oJUrP_VHbWy5EI7u_j4UUQiKqyECn6oIaUFCM4rTL3xYDYDBVG_n-pBO3Bnzc5" alt="자랑 이미지">
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARwAAACxCAMAAAAh3/JWAAAAgVBMVEXv7+/19fXz8/P39/fu7u4vLy8nJycsLCzg4ODp6el7e3uZmZlERERKSkrj4+OoqKg0NDSBgYFYWFhOTk4iIiI7OzuJiYm6urrY2NjPz885OTmioqI/Pz////+Hh4fR0dFtbW2bm5saGhrFxcVUVFRkZGSzs7NwcHALCwu/v7+RkZEoMv5yAAAEs0lEQVR4nO3Zi26jOBQGYGxjDAkEQriHhpDrhPd/wD2GcEu6alfaaor0fxo1KTio/mMOtscwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOAXMs3hLRfs7bTjvB1inzTrL/Z64LNLLgrn3Svzr2vRHqBDvDvqBH/sts+TCG9hI4bf2IRgfHZd+pceu0vSuYmf7tH/hpnntGqTYGu51T2xsycKxHEtCsfgbd+F7qHB92o1hGPH3kSg25q2zbsX+pxv3aktt72Z99H4O7GzZyl13VB/xDrQ4YijZUVRZKk/dLALhzWX8GmXsb0cwuF2udPK0tMvsQ7HjmI9NGxLmTQYu7a2Pnvpm+0WEg6vpFzVYXAxx3BWwaqu63WpNv3IYYlL3zd1jX5kYhKOwT+0fRAn7Rt9J9mqZPpFSpNGTte2a5YUxbFvtgQiDGq6Wa6SSsMQjnoIzkQ8hkN1VYiHun4IRmem4bTXqGKvLM7PY89wDFsGYziEGWt5OcqDsZiKwzPlGe342fFJOKkeAcUkHN0mVdeuto7hmG01SkuV+qq4dYVWhyOonM/C4cz2L6qszIu6+DZbxsjhN7UV+mHuFRl/CSd+Cecmr1w/s2Yjx8n8UClfsLVSoZ85bThuXuXVIwiMPhzWuMqSiUN1v5GRcveLSIceULX+vkUo8y/CEevCbQvpNBzWnCx5z/Sn8qO0TjUz9ciJdEF3x5HD8zC5OXo8ceHcDmG2jHAaudfhfITy/NXIuZbUxpiHwzfbmy3arnKW+VuHt7eVT+piDMfZOI6zeXK0v9Lb/4jVsp2kiUvwxcjhWeDGes4yC8fk44yufW92NYcmRZOaI66nqB1MSlntm9O8ov9SVGWP+u904mLzWpDn4eijF/lgs3BE2PU6srpOR6ej+ORpxfxEaxI3XjVa4i/ivnJkTPNZQcV2+ihPaR7MZuGIVHr8oWKbzcJpVp2yvHdvaqYL8nOeMxTkfoLtKbtbRiwiG4Md5NERlSspjyEcuc+qqpqGI/KAWrBt4OaCTwuyEB/UaVHKTLS6gkyvYjOf59DD/Oy7RX3eLCQZzdnJ2AvkgY0z5Hug9C1SRM9waBGxD2SiO3mXqpnPkM9+TkW4lBXv16e2VbYLqHIyQzZYdZWnk2WdTvK4jGeVxs3Gc0Nf0BTmGQ6/7Tu1048cx7OStvCKdVzN5jniEDV0D6pTPvTY3vXLsCEck1cqWD2yzSZL70FsLyUdysTUk7NxbUV3gF5+051h9OHw6sa6XQvmzJcPIpFrOpWmm/GSk52JfuSIQ3D40Et/mugcpb+YFcSoD2dq2LIYD72GU3+Ip/eNmiGcJFjRaZoEMnFdZjj1v4Yz9RJOcE0G3SbYZDvwuWVhGnahwv0jzx/7i1zMds6UaKK3yVm3EzjD99F9DGdrSaulaIbnvX6c7U9dW25v3W5G5NES6wf++B+X5W8PEjM/v+0LZ+lYfY1hVdB6bcpz/9HeQzR9drJzmp4zZwmT4+/65Gvm3//qed/WNMaNafic+f4fFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8C3/AFJnTQ/OGedyAAAAAElFTkSuQmCC" alt="자랑 이미지">
                             </div>
                             {% endif %}
                         </div>
                     </div>
-                    <h2 class="post-title">제목: {{i.BOARD_TITLE}}</h2>
-                    <p>내용: {{i.BOARD_CONTENT}}</p>
+                    <h2 class="post-title">{{i.BOARD_TITLE}}</h2>
+                    <p>{{i.BOARD_CONTENT}}</p>
                     <div class="info-section">
-                        <!-- <span>{{ i.USER_NICK }}</span> -->
-                        <span>{{ i.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}</span>
-                        <span><i class="fa-solid fa-eye"></i> {{i.BOARD_COUNT}}</span>
+                        <div class="nick"><span>{{ i.USER_NICK }}</span></div>
                         <span><i class="fa-regular fa-comment-dots"></i> {{i.COMMENT_COUNT}}</span>
+                        <span><i class="fa-solid fa-eye"></i> {{i.BOARD_COUNT}}</span>
+                        <span>{{ i.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}</span>
                     </div>
                 </div>
             {% endfor %}
