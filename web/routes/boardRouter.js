@@ -211,6 +211,8 @@ router.get('/bragList', (req, res) => {
                 console.error('DB Query Error: ', err);
                 return res.status(500).json({ error: 'DB Query Error' });
             }
+
+            console.log(dataResult);
             res.render('bragList', { bragList: dataResult, currentPage: page, totalPages: totalPages, user: req.session.user })
         })
     })

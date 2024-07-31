@@ -19,6 +19,11 @@
 
 html{
     height:100%;
+    width: 100%;
+    max-width: 100vw; /* 뷰포트 너비로 최대 너비 제한 */
+    max-height: 100vh; /* 뷰포트 높이로 최대 높이 제한 */
+    overflow-x: hidden; /* 수평 스크롤 방지 */
+    overflow-y: auto; /* 수직 스크롤 허용 */
 }
 /* ------- 상단 배너 이미지 크기 조절 ---------- */
 #banner header{
@@ -61,15 +66,17 @@ body {
 }
 
 .post-container{
-    flex: 1;
-    display: grid;
-    padding-bottom: 80px;
-    grid-template-columns: repeat(2, 1fr);
+    /* flex: 1; */
+    /* display: grid; */
+    /* grid-template-columns: repeat(3, 1fr); */
+    display: flex;
+    flex-wrap: wrap;
     grid-gap: 10px;
     padding: 20px;
     padding-bottom: 80px;
     /* width: 75%; */
     margin-left: 17.2%;
+    gap: 20px;
 }
 
 .board-item {
@@ -83,7 +90,9 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 100%;
+    height: 550px;
+    width: 30%;
+    text-align: center;
 }
 
 .board-item:hover{
@@ -112,22 +121,24 @@ body {
 }
 
 .imgList{
-    width: 30vw;
+    /* width: 30vw; */
 }
 .addImage {
-    text-align: center;
+    /* text-align: center; */
     /* margin-bottom: 10px; */
-    flex: 1;
+    /* flex: 1; */
     /* width: 100%;
     height: 100%; */
-    display: flex;
+    /* display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center; */
+    height: 300px;
     overflow: hidden; /* 이미지가 컨테이너를 넘지 않도록 설정 */
 }
 .addImage img {
-    max-width: 100%;
-    max-height: 100%;
+    width: 100%;
+    /* height: 100px; */
+    /* object-fit: contain; */
 }
 
 h2#titleName {

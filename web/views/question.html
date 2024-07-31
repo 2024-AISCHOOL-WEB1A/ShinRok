@@ -92,7 +92,7 @@
 
             <!-- 가로선 추가 -->
             <tr>
-                <td colspan="6">
+                <td colspan="4">
                     <div class="horizontal-line"></div>
                 </td>
             </tr>
@@ -131,8 +131,6 @@
                         <input type="hidden" name="board_idx" value="{{question.BOARD_IDX}}">
                     </td>
                     <td id="titleTd">조회수<span>: {{ question.BOARD_COUNT }}</span></td>
-                    <td id="titleTd" colspan="2"><i class="fa-regular fa-comment-dots">답변 수</i><span>: {{ commentCount
-                            }}</span></td>
                 </tr>
                 </tr>
 
@@ -158,13 +156,15 @@
                     </td>
                 </tr>
 
-                <tr><td>
+                <tr><td colspan="6">
                     <!-- 답변 작성 폼 -->
-                    <form action="/board/answerUpload" id="answerForm" class="answerForm" method="POST">
+                    <form action="/board/answerUpload" class="answerForm" method="POST">
                         <div class="answer-section">
-                            <h3>답변 작성</h3>
-                            <textarea placeholder="답변을 입력하세요" name="content"></textarea>
-                            <button type="submit">답변하기</button>
+                            <h3><span>📝</span>답변 작성</h3>
+                            <div id="questionBtn">
+                                <textarea placeholder="답변을 입력하세요" name="content" id="areacontent"></textarea>
+                                <button type="submit">답변하기</button>
+                            </div>
                         </div>
                         <input type="hidden" name="board_idx" value="{{question.BOARD_IDX}}">
                         <input type="hidden" name="user_idx" value="{{user.idx}}">
@@ -186,7 +186,7 @@
                                     <td class="answerDate">{{ answers.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}</td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2" class="answerContent">
+                                    <td colspan="4" class="answerContent">
                                         {% if answers.BOARD_IMG %}
                                         <img src="{{ answers.BOARD_IMG }}" alt="답변 이미지" class="answerImg">
                                         {% endif %}
