@@ -80,7 +80,10 @@
         <!-- 질문 내용 -->
         <div class="question-section">
             <table class="table">
-                
+
+
+        <!-- 게시글 상세페이지 -->
+        <table class="table">
             {% if user %}
             <input type="hidden" name="user_idx" value="{{user.idx}}">
             {% endif %}
@@ -120,14 +123,16 @@
                 </tr>
 
                 <tr id="spaceTitle">
+
                     <td rowspan="2" id="profilePic"><img src='{{question.USER_PICTURE}}'></td>
                     <td id="userNick"> {{ question.USER_NICK }}</td>
-                </tr>
                 <tr class="titleList">
-                    <td id="titleDate">{{ question.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}</td>
+                    <td id="titleDate">{{ question.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}
+                        
+                    </td>
                     <td id="titleTd">조회수<span>: {{ question.BOARD_COUNT }}</span></td>
                 </tr>
-                
+                </tr>
 
                 <!-- 가로선 추가 -->
                 <tr>
@@ -151,7 +156,7 @@
                     </td>
                 </tr>
 
-                <tr><td colspan="6" id="commentListForm">
+                <tr><td colspan="6">
                     <!-- 답변 작성 폼 -->
                     <form action="/board/answerUpload" class="answerForm" method="GET">
                         <div class="answer-section">
@@ -172,21 +177,23 @@
                         
                         {% for i in answer %}
                         <div class="answer">
-                            <tr>
-                                <td rowspan="2" class="profilePic"><img src='{{i.USER_PICTURE}}' alt="프로필 사진"></td>
-                                <td class="usernick">{{ i.USER_NICK }}</td>
-                            </tr>
-                            <tr>
-                                <td class="answerdate">{{ i.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="4" class="answerContent">
-                                    {% if i.BOARD_IMG %}
-                                    <img src="{{ i.BOARD_IMG }}" alt="답변 이미지" class="answerImg">
-                                    {% endif %}
-                                    <p>{{ i.ANSWER_CONTENT }}</p>
-                                </td>
-                            </tr>
+                            <table>
+                                <tr>
+                                    <td rowspan="2" class="profilePic"><img src='{{i.USER_PICTURE}}' alt="프로필 사진"></td>
+                                    <td class="userNick">{{ i.USER_NICK }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="answerDate">{{ i.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" class="answerContent">
+                                        {% if i.BOARD_IMG %}
+                                        <img src="{{ i.BOARD_IMG }}" alt="답변 이미지" class="answerImg">
+                                        {% endif %}
+                                        <p>{{ i.ANSWER_CONTENT }}</p>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                         {% endfor %}
                     </div>
