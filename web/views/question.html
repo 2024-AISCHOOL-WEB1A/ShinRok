@@ -80,7 +80,10 @@
         <!-- 질문 내용 -->
         <div class="question-section">
             <table class="table">
-                
+
+
+        <!-- 게시글 상세페이지 -->
+        <table class="table">
             {% if user %}
             <input type="hidden" name="user_idx" value="{{user.idx}}">
             {% endif %}
@@ -120,6 +123,7 @@
                 </tr>
 
                 <tr id="spaceTitle">
+
                     <td rowspan="2" id="profilePic"><img src='{{question.USER_PICTURE}}'></td>
                     <td id="userNick"> {{ question.USER_NICK }}</td>
                     <tr class="titleList">
@@ -127,8 +131,6 @@
                     </tr>
                     <td></td>
                 </tr>
-                
-                
 
                 <!-- 가로선 추가 -->
                 <tr>
@@ -151,8 +153,6 @@
                         <span>{{ question.BOARD_CONTENT }}</span>
                     </td>
                 </tr>
-                
-
                 
                 <tr><td colspan="6" >
                 <div id="commentListForm">
