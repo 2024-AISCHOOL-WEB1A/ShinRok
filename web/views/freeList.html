@@ -86,8 +86,8 @@
     <!-- -------------------------- 자유게시판 목록 ---------------------------------------------- -->
     <section id="freeSection">
         <div class="headerText">
-            <img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/board/ea19dc2fdaa60a4fdba06844ddd3bc5b" alt="">
-            <h1>자유게시판</h1>
+            <img id="headerImage" src="" alt="">
+            <h1 id="headerTitle"></h1>
         </div>
         <table class="freetable">
             <tr class="postHead">
@@ -147,9 +147,26 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const headerText = document.querySelector('.headerText');
+            const headerImage = document.getElementById('headerImage');
+            const headerTitle = document.getElementById('headerTitle');
             const currentPath = window.location.pathname;
 
-            if (currentPath !== '/board/freeList') {
+            const banners = {
+                '/board/freeList': {
+                    img: 'https://jsh-1.s3.ap-northeast-2.amazonaws.com/board/ea19dc2fdaa60a4fdba06844ddd3bc5b',
+                    title: '자유게시판'
+                },
+                '/board/hot': {
+                    img: 'https://jsh-1.s3.ap-northeast-2.amazonaws.com/board/aa59dfbc14f09a7c7022d22368998709',
+                    title: '인기글'
+                }
+            };
+
+            if (banners[currentPath]) {
+                headerImage.src = banners[currentPath].img;
+                headerTitle.textContent = banners[currentPath].title;
+                headerText.style.display = 'block';
+            } else {
                 headerText.style.display = 'none';
             }
 

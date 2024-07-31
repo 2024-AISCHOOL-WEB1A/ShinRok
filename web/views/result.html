@@ -9,27 +9,31 @@
 <body>
 
     <div id="top">
-        <div class="result">
-            진단 결과
-            <!-- <img src="" alt=""> -->
-        </div>
+        <img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/board/189cb7476b08bcdc1d2cc904291f7b3c" alt="">
+        
     </div>
     {% for i in res %}
-
     <div id="container">
-        <div id="left">
-            <div class="plantImage"><img src="{{i.DSS_IMG}}" alt=""></div> <!-- i.DSS_IMG -->
-        </div>
+        <div id="title">
+            <div id="left">
+                <div class="plantImage"><img src="{{ i.DSS_IMG }}" alt=""></div>
+            </div>
 
-        <div id="right">
-            <div class="diseaseSymptom">질병 증상 {{i.DSS_STATE}} : {{i.DSS_DISC}} </div>
-            <div class="controlMethod">방제법 : {{i.DSS_PREV}} </div>
+            <div id="right">
+                <div class="diseaseSymptom">
+                    <h4>🐛 질병 : {{ i.DSS_STATE }}</h4>
+                    <h5>증상 : {{ i.DSS_DISC }}</h5>
+                </div>
+            </div>
         </div>
+        <div class="controlMethod">방제법 : {{ i.DSS_PREV }} </div>
     </div>
+    
+
     {% endfor %}
     <div class="button">
-        <button class="retry" onclick="window.location.href='/predict'">한번 더 진단 받기</button>
-        <button class="goMypage" onclick="redirectToMypage()">마이 페이지로 이동하기</button>
+        <button class="retry" onclick="window.location.href='/'">MainPage</button>
+        <button class="goMypage" onclick="redirectToMypage()">MyPage</button>
     </div>
 
     <script>

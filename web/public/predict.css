@@ -81,6 +81,14 @@
     margin-top: 10%;
 }
 
+#myPageForm{
+    width: 100%;
+}
+
+#myPageForm a{
+    width: 100%;
+}
+
   /* Header */
   #header {
     display: -moz-flex;
