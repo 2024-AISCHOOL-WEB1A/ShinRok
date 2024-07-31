@@ -235,6 +235,19 @@
 			}
 		}
 	</script>
+	<script>
+		window.onload = function() {
+			const urlParams = new URLSearchParams(window.location.search);
+			const message = urlParams.get('message');
+			const error = urlParams.get('error');
+		
+			if (message) {
+				alert(message);
+			} else if (error) {
+				alert(error);
+			}
+		}
+		</script>
 
 </body>
 

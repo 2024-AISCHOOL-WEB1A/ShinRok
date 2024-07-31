@@ -123,15 +123,12 @@ router.post('/update', (req, res) => {
             // 수정 성공
             req.session.user.nick = newNickname; // 세션 업데이트
 
-            res.json({
-                success: true,
-                message: '닉네임 변경이 완료되었습니다.',
-                newNickname:newNickname
-            });
+             // 리다이렉트 URL에 성공 메시지를 쿼리 파라미터로 추가
+             res.redirect('/?message=닉네임 변경이 완료되었습니다. 새로고침 해주세요.');
             
         } else {
             // 수정 실패
-            res.status(400).json({ success: false, message: '닉네임 업데이트에 실패했습니다.' });
+            res.redirect('/?error=닉네임 업데이트에 실패했습니다.');
         }
     });
 });

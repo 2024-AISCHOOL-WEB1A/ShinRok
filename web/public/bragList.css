@@ -158,45 +158,24 @@ p {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-/* 페이지 변환하는 칸 */
-.pagination{
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    /* position: fixed ; */
+/* 하단 페이징 */
+.bragPaging {
     display: flex;
+    flex-direction: row;
     justify-content: center;
-    padding: 10px 0;
+    margin-right: 5%;
+    margin-left: 15%;
 }
 
-.pagination .pagination-btn {
-    margin: 0 5px;
-    padding: 5px 10px;
-    border: 1px solid #000;
-    background-color: #fff;
-    cursor: pointer;
-}
-.pagination .pagination-btn.active {
-    font-weight: bold;
-    background-color: #ddd;
-}
-.pagination .pagination-btn.disabled {
-    cursor: not-allowed;
-    color: #999;
-}
-
-.pagination a {
-    margin: 0 5px;
-    padding: 8px 16px;
+.bragPaging a, span{
+    margin-left: 1%;
+    font-size: 15px;
     text-decoration: none;
-    color: #007BFF;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    color: #34495e;
 }
 
-.pagination a:hover {
-    background-color: #007BFF;
-    color: white;
+.bragPaging a:hover{
+    color: #f56a6a;
 }
 
 
