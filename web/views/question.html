@@ -54,7 +54,7 @@
                 <li><a href="/">HOME</a></li>
                 <li><a href="/board/freeList">자유게시판</a></li>
                 <li><a href="/board/bragList">자랑하기</a></li>
-                <li><a href="/board/hotPo">인기글</a></li>
+                <li><a href="/board/hotPost">인기글</a></li>
                 <li id="pointLi"><a href="/board/queslist">질문게시판</a></li>
 
             </ul>
@@ -80,7 +80,10 @@
         <!-- 질문 내용 -->
         <div class="question-section">
             <table class="table">
-                
+
+
+        <!-- 게시글 상세페이지 -->
+        <table class="table">
             {% if user %}
             <input type="hidden" name="user_idx" value="{{user.idx}}">
             {% endif %}
@@ -120,14 +123,14 @@
                 </tr>
 
                 <tr id="spaceTitle">
+
                     <td rowspan="2" id="profilePic"><img src='{{question.USER_PICTURE}}'></td>
                     <td id="userNick"> {{ question.USER_NICK }}</td>
+                    <tr class="titleList">
+                        <td id="titleDate" rowspan="2">{{ question.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}</td>
+                    </tr>
+                    <td></td>
                 </tr>
-                <tr class="titleList">
-                    <td id="titleDate">{{ question.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}</td>
-                    <td id="titleTd">조회수<span>: {{ question.BOARD_COUNT }}</span></td>
-                </tr>
-                
 
                 <!-- 가로선 추가 -->
                 <tr>
@@ -150,8 +153,9 @@
                         <span>{{ question.BOARD_CONTENT }}</span>
                     </td>
                 </tr>
-
-                <tr><td colspan="6" id="commentListForm">
+                
+                <tr><td colspan="6" >
+                <div id="commentListForm">
                     <!-- 답변 작성 폼 -->
                     <form action="/board/answerUpload" class="answerForm" method="GET">
                         <div class="answer-section">
@@ -170,6 +174,7 @@
                     <div class="answers-section">
                         <h3>답변 목록</h3>
                         
+                        <td>
                         {% for i in answer %}
                         <div class="answer">
                             <tr>
@@ -187,10 +192,12 @@
                                     <p>{{ i.ANSWER_CONTENT }}</p>
                                 </td>
                             </tr>
-                        </div>
+                        </div></td>
                         {% endfor %}
                     </div>
+                </div>
                 </td></tr>
+                
 
 
             </table>

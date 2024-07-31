@@ -1055,5 +1055,3 @@ function getPost(postId, req, res) {
 
 
 module.exports = router;
-
-
