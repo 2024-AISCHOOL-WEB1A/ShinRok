@@ -50,9 +50,9 @@
         <nav class="topsidebar">
             <ul>
                 <li><a href="/">HOME</a></li>
-                <li id="pointLi"><a href="/board/freeList">자유게시판</a></li>
+                <li id="pointLi"><a href="/freeList">자유게시판</a></li>
                 <li><a href="/board/bragList">자랑하기</a></li>
-                <li><a href="/board/hot">인기글</a></li>
+                <li><a href="#">인기글</a></li>
                 <li><a href="/board/queslist">질문게시판</a></li>
             </ul>
         </nav>
@@ -237,7 +237,6 @@
         }
 
         function deletePost(boardIdx) {
-            console.log("Attempting to delete post with board_idx:", boardIdx); // 디버그용 로그 추가
             axios.get(`http://localhost:3000/board/delete?idx=${boardIdx}`)
                 .then(response => {
                     if (response.data.success) {
@@ -250,7 +249,6 @@
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('게시글 삭제 중 오류가 발생했습니다.');
                 });
         }
         //게시글 추천 함수
@@ -268,6 +266,31 @@
                     console.error('Error:', error);
                 });
         }
+        
+
+        $(document).ready(function() {
+            $('#recommendButton').on('click', function() {
+                const boardIdx = $(this).data('board-idx');
+
+                $.ajax({
+                    url: '/recommend',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ idx: boardIdx }),
+                    success: function(response) {
+                        if (response.success) {
+                            $('#recommendCount').text(response.recommendCount);
+                            alert(response.message);
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function() {
+                        alert('서버 오류가 발생했습니다.');
+                    }
+                });
+            });
+        });
 
         // 페이지 로드 시 댓글 목록 로드
         const boardIdx = "{{ post.BOARD_IDX }}"; // 템플릿 변수 사용
