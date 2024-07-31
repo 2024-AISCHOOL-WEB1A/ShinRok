@@ -120,8 +120,8 @@ body {
     text-align: center;
 }
 
-.imgList{
-    /* width: 30vw; */
+.nick{
+    text-align: right;
 }
 .addImage {
     /* text-align: center; */

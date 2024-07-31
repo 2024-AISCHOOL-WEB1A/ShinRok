@@ -128,7 +128,7 @@
                     <td id="userNick"> {{ question.USER_NICK }}</td>
                 <tr class="titleList">
                     <td id="titleDate">{{ question.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}
-                        <input type="hidden" name="board_idx" value="{{question.BOARD_IDX}}">
+                        
                     </td>
                     <td id="titleTd">조회수<span>: {{ question.BOARD_COUNT }}</span></td>
                 </tr>
@@ -158,7 +158,7 @@
 
                 <tr><td colspan="6">
                     <!-- 답변 작성 폼 -->
-                    <form action="/board/answerUpload" class="answerForm" method="POST">
+                    <form action="/board/answerUpload" class="answerForm" method="GET">
                         <div class="answer-section">
                             <h3><span>📝</span>답변 작성</h3>
                             <div id="questionBtn">
@@ -174,23 +174,23 @@
                     <!-- 답변 목록 -->
                     <div class="answers-section">
                         <h3>답변 목록</h3>
-                        {{answers}}
-                        {% for i in post %}
+                        
+                        {% for i in answer %}
                         <div class="answer">
                             <table>
                                 <tr>
                                     <td rowspan="2" class="profilePic"><img src='{{i.USER_PICTURE}}' alt="프로필 사진"></td>
-                                    <td class="userNick">{{ answers.USER_NICK }}</td>
+                                    <td class="userNick">{{ i.USER_NICK }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="answerDate">{{ answers.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}</td>
+                                    <td class="answerDate">{{ i.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}</td>
                                 </tr>
                                 <tr>
                                     <td colspan="4" class="answerContent">
-                                        {% if answers.BOARD_IMG %}
-                                        <img src="{{ answers.BOARD_IMG }}" alt="답변 이미지" class="answerImg">
+                                        {% if i.BOARD_IMG %}
+                                        <img src="{{ i.BOARD_IMG }}" alt="답변 이미지" class="answerImg">
                                         {% endif %}
-                                        <p>{{ answer.ANSWER_CONTENT }}</p>
+                                        <p>{{ i.ANSWER_CONTENT }}</p>
                                     </td>
                                 </tr>
                             </table>
