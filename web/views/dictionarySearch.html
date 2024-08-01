@@ -19,63 +19,78 @@
 
 
 
+<!-- Header -->
+<header id="header">
+    <a href="/" class="logo"><img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/test/KakaoTalk_20240722_163631321_07.png" alt="무럭이">
+        <strong>MURUK </strong> <span>by ShinRok</span></a>
+    <ul class="icons">
+        {% if user %}
+        <li><a href="#">{{user.nick}}님 환영합니다.</a></li>
+        {% else %}
+        <li><a href="#">로그인 후 이용해주세요.</a></li>
+        {% endif %}
+        <li>
+            <form id="myPageForm" action="/myPage/info" method="post">
+                <a href="#" onclick="document.getElementById('myPageForm').submit(); return false;">마이페이지</a>
+            </form>
+            <!-- <li><a href="/myPage/info" id="myPageLink">마이페이지</a></li> --> 
+        </li>
+        {% if user %}
+        <div class="kakaoLogout">
+            <a href="/user/logout">로그아웃<img src=""></a>
+        </div>
+        {% else %}
+        <div class="kakaoLogin">
+            <a href="/user/login"><img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/test/kakao_login_small+(1).png"></a>
+        </div>
+        {% endif %}
+    </ul>
+</header>
 
-<!-- ----------------------헤더----------------------------------- -->
-
-
-    <header>
-
-        <a href="/" id="logo"><img src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/test/KakaoTalk_20240722_111546767_01.png" alt=""></a>
-
-        
-
-    </header>
-
-    <div id="con">
-
+<!-- ------------------- 최상단 배너 ----------------------- -->
+<section id="Banner">
+    <div class="content">
+        <header>
+            <!-- <h2>오늘의 식물 <br/></h2> -->
+            <img class="murukLogo" src="https://jsh-1.s3.ap-northeast-2.amazonaws.com/board/0f124f526ead2c6d041a0e16c5439fa5" alt="">
+        </header>
+    </div>
+</section>
 <!-- ----------------------------------사이드바---------------------------------- -->
 
 
-        <aside class="leftSidebar">
-            <nav>
-                <ul>
-                    <!-- <li><a href="/plusPost"><button id="postingBtn"><i class="fa-solid fa-pen-to-square"></i> 게시글쓰기</button></a></li> -->
-                    <!-- 메인으로 돌아가는 버튼 -->
-                    <li><a href="/">HOME</a></li>
-                    <li><a href="/board/freePost">자유게시판</a></li>
-                    <li><a href="/board/bragPost">자랑하기</a></li>
-                    <li><a href="/board/hot">인기글</a></li>
-                    <li><a href="/board/queslist">질문게시판</a></li>
-                </ul>
-            </nav>
-
-            <!-- ----------------- 아래쪽 사이드바(페이지 이동) ----------------- -->
-            <nav>
-                <ul>
-                    <li><a href="/diary">Diary</a></li>
-                    <li><a href="/predict">병충해 진단</a></li>
-                    <li><a href="/dictionary/home">식물 도감</a></li>
-                    <li>
-                        <form id="myPageForm" action="/myPage/info" method="post">
-                            <a href="#" onclick="document.getElementById('myPageForm').submit(); return false;">마이페이지</a>
-                        </form>
-                        <!-- <a href="/myPage/info">마이페이지</a> -->
-                    </li>
-                </ul>
-            </nav>
-            
-        </aside>
+    <!-- 왼쪽 사이드바 -->
+    <aside class="leftSidebar">
+        <nav class="topsidebar">
+            <ul>
+                <li><a href="/">HOME</a></li>
+                <li><a href="/board/freeList">자유게시판</a></li>
+                <li><a href="/board/bragList">자랑하기</a></li>
+                <li><a href="/board/hot">인기글</a></li>
+                <li><a href="/board/queslist">질문게시판</a></li>
+            </ul>
+        </nav>
+        <!-- 아래쪽 사이드바(페이지 이동) -->
+        <nav class="underSidebar">
+            <ul>
+                <li><a href="/diary">Diary</a></li>
+                <li><a href="/predict">병충해 진단</a></li>
+                <li id="pointLi"><a href="/dictionary/home">식물 도감</a></li>
+                <li>
+                    <form id="myPageForm" action="/myPage/info" method="post">
+                        <a href="#" onclick="document.getElementById('myPageForm').submit(); return false;">마이페이지</a>
+                    </form>
+                    <!-- <a href="/myPage/info">마이페이지</a> -->
+                </li>
+            </ul>
+        </nav>
+    </aside>
 
 
 
 <!-- ----------------------도감----------------------------------- -->
 
         <div id="dictionary">
-            <div></div>
-            <div id="text"><h2>식물도감</h2></div>
-            <div></div>
-
-
             {% for i in searchResults %} 
             <div class="item">
                 <a href="/dictionary/detail?idx{{i.PLANT_IDX}}">
@@ -85,14 +100,7 @@
             </div>
             {% endfor %}
 
-            <section id="search" class="alt">
-                <form action="/search/plant" method="get" class="detailForm">
-                    <input type="text" name="q" placeholder="식물 검색" />
-                    <button id="searchbtn"> 검색 </button>
-                </form>
-            </section>
-
-            <div></div>
+            <div class="pagination"></div>
             <!-- 페이징 컨트롤 추가 -->
             <div class="pagination">
                 {% if current_page > 1 %}
@@ -107,13 +115,20 @@
                 <a href="?page={{ current_page + 1 }}">다음 &raquo;</a>
                 {% endif %}
             </div>
-            <div></div>
+            <div>
         </div>
-
+        
 
 
     </div>
-
+    <section id="search" class="alt">
+        <form action="/search/plant" method="get" class="detailForm">
+            <div class="searchFooter">
+                <input type="text" name="q" placeholder="식물 검색" />
+                <button id="searchbtn"> 검색 </button>
+            </div>
+        </form>
+    </section>
 
     <script src="../assets/js/dictionary.js"></script>
 </body>
