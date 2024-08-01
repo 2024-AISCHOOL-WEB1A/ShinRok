@@ -181,6 +181,7 @@ body{
     display: flex;
     justify-content: flex-end;
     margin-bottom: 0px;
+    cursor: pointer;
 }
 #changeBtn button{
     margin-top: 5%;
@@ -207,12 +208,13 @@ body{
     outline: 1.5px #f56a6a solid;
     border-radius: 5px;
     padding-left: 10px;
-    margin-bottom: 10%  ;
+    margin-bottom: 10% ;
     background-color: rgb(255, 150, 150);
+    cursor: pointer;
 }
 
 /* 수정버튼 클릭 시 이벤트 */
-#changeBtn button:active {
+#changeBtn button:hover {
     width: 100px;
     height: 40px;
     font-size: 15px;
@@ -511,4 +513,25 @@ textarea{
 .answerContent{
     border-bottom: 1px solid #afa8a8;
     margin-bottom: 5%;
+}
+
+
+/* #deleteBtn{
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+} */
+#deleteBtn button{
+    border: 1px solid #bababa;
+    border-radius: 5px;
+    width: 10vh;
+    height: 4.5vh;
+    cursor: pointer;
+    margin-left: 1.5%;
+    margin-bottom: 1%;
+    background-color: #dad8d8;
+}
+#deleteBtn button:hover{
+    background-color: #f56a6a;
+    border: 1px solid #f56a6a;
 }

@@ -92,7 +92,7 @@
 
             <!-- 가로선 추가 -->
             <tr>
-                <td colspan="4">
+                <td colspan="6">
                     <div class="horizontal-line"></div>
                 </td>
             </tr>
@@ -110,7 +110,7 @@
 
                 <!-- 게시물 제목부분 -->
                 <tr>
-                    <td colspan="4">
+                    <td colspan="6">
                         <h4 id="category">카테고리>{{question.BOARD_CATE}} </h4>
                     </td>
                 </tr>
@@ -124,12 +124,13 @@
 
                 <tr id="spaceTitle">
 
-                    <td rowspan="2" id="profilePic"><img src='{{question.USER_PICTURE}}'></td>
+                    <td rowspan="3" id="profilePic"><img src='{{question.USER_PICTURE}}'></td>
                     <td id="userNick"> {{ question.USER_NICK }}</td>
                     <tr class="titleList">
                         <td id="titleDate" rowspan="2">{{ question.BOARD_DATE | date("YYYY-MM-DD HH:mm") }}</td>
                     </tr>
-                    <td>{% if user.idx == question.USER_IDX %}
+                    <td>
+                        {% if user.idx == question.USER_IDX %}
                         <td id="changeBtn"><a href="/board/changePost?board_idx={{ question.BOARD_IDX }}" class="change_post">
                             <button type="button">수정하기</button></a></td>
                         {% endif %}
@@ -137,7 +138,8 @@
                         <td id="deleteBtn">
                             <button type="button" onclick="deletePost('{{ question.BOARD_IDX }}')">삭제하기</button>
                         </td>
-                        {% endif %}</td>
+                        {% endif %}
+                    </td>
                 </tr>
 
                 <!-- 가로선 추가 -->

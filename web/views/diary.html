@@ -9,10 +9,6 @@
     <link rel="stylesheet" href="../public/main.css">
 </head>
 <body>
-<form action="/diary/submit" method="post" enctype="multipart/form-data" class="diaryForm" id="diaryForm">
-
-
-
 
     <!-- Header -->
     <header id="header">
@@ -28,7 +24,6 @@
                 <form id="myPageForm" action="/myPage/info" method="post">
                     <a href="#" onclick="document.getElementById('myPageForm').submit(); return false;">마이페이지</a>
                 </form>
-                <!-- <li><a href="/myPage/info" id="myPageLink">마이페이지</a></li> --> 
             </li>
             {% if user %}
             <div class="kakaoLogout">
@@ -41,11 +36,7 @@
             {% endif %}
         </ul>
     </header>
-
-
-
-
-
+    <form action="/diary/submit" method="post" enctype="multipart/form-data" class="diaryForm" id="diaryForm">    
     <div id="container">
         {% if user %}
         <input type="hidden" name="idx" value="{{ user.idx }}">
@@ -60,7 +51,6 @@
                     <li><a href="/board/queslist">질문게시판</a></li>
                 </ul>
             </nav>
-            <!-- 아래쪽 사이드바(페이지 이동) -->
             <nav class="underSidebar">
                 <ul>
                     <li id="pointLi"><a href="/diary">Diary</a></li>
@@ -70,16 +60,12 @@
                         <form id="myPageForm" action="/myPage/info" method="post">
                             <a href="#" onclick="document.getElementById('myPageForm').submit(); return false;">마이페이지</a>
                         </form>
-                        <!-- <a href="/myPage/info">마이페이지</a> -->
                     </li>
                 </ul>
             </nav>
         </aside>
-
         <section class="calendarForm">
             <div id='calendar'></div>
-
-            <!-- 빈 날짜 모달 -->
             <div id="myModal" class="modal">
                 <div class="modal-content">
                     <span class="close">&times;</span>
@@ -136,7 +122,7 @@
                             <div id="change" class="custom-radio">식물변화<br>
                                 <div class="radio-container">
                                     <input type="radio" id="balah" name="change" value="balah" class="radio-button">
-                                    <label for="balah"><img src="https://url.kr/pvzbge" alt="발아" class="sticker"></label>
+                                    <label for="balah"><img src="https://url.kr/pvzbge" alt="발아" class="st커icker"></label>
                                 </div>
                                 <div class="radio-container">
                                     <input type="radio" id="ssak" name="change" value="ssak" class="radio-button">
@@ -167,114 +153,111 @@
                     </div>
                 </div>
             </div>
-
-
-            <!-- 일정이 있는 날짜 모달 -->
             <div id="eventModal" class="modal">
                 <div class="modal-content">
                     <span class="close event-close">&times;</span>
                     <p id="event-modal-text"></p>
                     <input type="hidden" name="modalText" id="eventModalText">
                     <p><input type="text" placeholder="제목" name="title" id="eventTitle" size="100%" readonly></p>
-                    <textarea name="content" id="eventContent" placeholder="내용" readonly style="resize: none;" ></textarea>
-                    <div id="pictureArea"></div> <!-- 이미지칸 -->
-                    <div id="eventModalBottom">
-                    </div>
+                    <textarea name="content" id="eventContent" placeholder="내용" readonly style="resize: none;"></textarea>
+                    <div id="pictureArea"></div>
+                    <div id="eventModalBottom"></div>
                 </div>
             </div>
-            <!-- 모달 끝 -->
         </section>
     </div>
 </form>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-      var calendarEl = document.getElementById('calendar');
-      var calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: 'dayGridMonth',
-          events: async function(info, successCallback, failureCallback){
-              const eventResult = await axios({
-                  method: "GET",
-                  url: "/diaryJson"
-              });
-  
-              console.log("조회된 다이어리 데이터:", eventResult.data);
-  
-              const eventData = eventResult.data.diarys;
-              const eventArray = [];
-  
-              eventData.forEach((res) => {
-                  eventArray.push({
-                      title: res.DIARY_TITLE,
-                      start: res.DIARY_DATE,
-                      description: res.DIARY_CONTENT,
-                      imageUrl: res.DIARY_IMG // 이미지 URL 추가
-                  });
-              });
-  
-              successCallback(eventArray);
-          },
-          dateClick: function(info) {
-              var modal = document.getElementById("myModal");
-              var span = document.getElementsByClassName("close")[0];
-  
-              modal.style.display = "block";
-              document.getElementById("modalText").value = info.dateStr;
-              document.getElementById("modal-text").innerText = info.dateStr;
-              document.getElementById("title").value = ""; // Reset title
-              document.getElementById("content").value = ""; // Reset content
-  
-              span.onclick = function() {
-                  modal.style.display = "none";
-              }
-  
-              window.onclick = function(event) {
-                  if (event.target == modal) {
-                      modal.style.display = "none";
-                  }
-              }
-          },
-          eventClick: function(info) {
-              var modal = document.getElementById("eventModal");
-              var span = document.getElementsByClassName("event-close")[0];
-  
-              modal.style.display = "block";
-              document.getElementById("eventModalText").value = info.event.startStr;
-              <!-- document.getElementById("event-modal-text").innerText = info.event.startStr; -->
-              document.getElementById("eventTitle").value = info.event.title;
-              document.getElementById("eventContent").value = info.event.extendedProps.description;
-  
-              // 이미지 경로를 추가
-              var pictureArea = document.getElementById("pictureArea");
-              pictureArea.innerHTML = ""; // 기존 이미지를 초기화
-  
-              if (info.event.extendedProps.imageUrl) {
-                  var img = document.createElement("img");
-                  img.src = info.event.extendedProps.imageUrl;
-                  img.alt = "Event Image";
-                  img.style.width = "100%";
-                  pictureArea.appendChild(img);
-              }
-  
-              span.onclick = function() {
-                  modal.style.display = "none";
-              }
-  
-              window.onclick = function(event) {
-                  if (event.target == modal) {
-                      modal.style.display = "none";
-                  }
-              }
-          },
-          displayEventTime: false // 이벤트 시간 표시 비활성화
-      });
-  
-      calendar.render();
-  });
-  </script>
-  
-  
-
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            events: async function(info, successCallback, failureCallback){
+                const eventResult = await axios({
+                    method: "GET",
+                    url: "/diaryJson"
+                });
+    
+                console.log("조회된 다이어리 데이터:", eventResult.data);
+    
+                const eventData = eventResult.data.diarys;
+                const eventArray = [];
+    
+                eventData.forEach((res) => {
+                    eventArray.push({
+                        title: res.DIARY_TITLE,
+                        start: res.DIARY_DATE,
+                        description: res.DIARY_CONTENT,
+                        imageUrl: res.DIARY_IMG,
+                        allDay: true // 시간 표시 없이 하루 종일 이벤트로 표시
+                    });
+                });
+    
+                successCallback(eventArray);
+            },
+            dateClick: function(info) {
+                var modal = document.getElementById("myModal");
+                var span = document.getElementsByClassName("close")[0];
+                modal.style.display = "block";
+                document.getElementById("modalText").value = info.dateStr;
+                document.getElementById("modal-text").innerText = info.dateStr;
+                document.getElementById("title").value = "";
+                document.getElementById("content").value = "";
+                span.onclick = function() {
+                    modal.style.display = "none";
+                }
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+            },
+            eventClick: function(info) {
+                var modal = document.getElementById("eventModal");
+                var span = document.getElementsByClassName("event-close")[0];
+                modal.style.display = "block";
+                document.getElementById("eventModalText").value = info.event.startStr;
+                document.getElementById("eventTitle").value = info.event.title;
+                document.getElementById("eventContent").value = info.event.extendedProps.description;
+                var pictureArea = document.getElementById("pictureArea");
+                pictureArea.innerHTML = "";
+                if (info.event.extendedProps.imageUrl) {
+                    var img = document.createElement("img");
+                    img.src = info.event.extendedProps.imageUrl;
+                    img.alt = "Event Image";
+                    img.style.width = "100%";
+                    pictureArea.appendChild(img);
+                }
+                span.onclick = function() {
+                    modal.style.display = "none";
+                }
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+            },
+            displayEventTime: false, // 이벤트 시간 표시 비활성화
+            eventDisplay: 'block' // 이벤트가 블록으로 표시되도록 설정
+        });
+        calendar.render();
+    
+        document.getElementById('diaryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+    
+            axios.post('/diary/submit', formData)
+                .then(response => {
+                    console.log('Form submission successful:', response);
+                    window.location.reload();
+                })
+                .catch(error => {
+                    console.error('Form submission error:', error);
+                });
+        });
+    });
+</script>
 <script src="../assets/js/diary.js"></script>
 </body>
 </html>
