@@ -112,7 +112,8 @@ router.get('/plant', async (req, res) => {
             searchResults: dataresult,
             currentPage: page,
             totalPages: totalPages,
-            searchQuery: searchQuery
+            searchQuery: searchQuery,
+            user: req.session.user 
         });
     })
     })
