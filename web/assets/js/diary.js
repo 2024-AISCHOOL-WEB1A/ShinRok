@@ -107,4 +107,4 @@ function loadFile(input) {
     let container = document.getElementById('image-show');
     container.appendChild(newImage);
 }
-	
+   
