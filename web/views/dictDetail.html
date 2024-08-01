@@ -100,9 +100,9 @@
             
             <div id="right">
                 <div id="sebu">[ 설명 ]</div>
-                <div>{{plantData.PLANT_EXPL}}</div><br>
+                <div>{% if plantData.PLANT_EXPL %}{{plantData.PLANT_EXPL}}{% else %}자료 준비 중입니다{% endif %}</div><br>
                 <div id="care">[ 관리 ]</div>
-                <div>{{plantData.PLANT_CARE}}</div><br>
+                <div>{% if plantData.PLANT_CARE %}{{plantData.PLANT_CARE}}{% else %}자료 준비 중입니다{% endif %}</div><br>
             </div>
             <div id="bottom"><button id="btn"><a href="/dictionary/home">목록</a></button></div> 
         </div>
